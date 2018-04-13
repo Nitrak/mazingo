@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 81363871198538978}
   - component: {fileID: 114547441677836040}
   - component: {fileID: 124113967104273308}
+  - component: {fileID: 114638351733759294}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -55,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1672207781451500}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
-  m_LocalPosition: {x: 1.23, y: 8.48, z: 2.35}
+  m_LocalPosition: {x: 0.26215845, y: 1.15, z: -5.1324267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4316218691570148}
@@ -250,6 +251,21 @@ MonoBehaviour:
   rigidbodyFirstPersonController: {fileID: 114502953458513966}
   StrideInterval: 4
   RunningStrideLengthen: 0.722
+--- !u!114 &114638351733759294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791958834221888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6344ffd32a494e4ba9368ece8cb6b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 5
+  interactKey: 101
+  carryingDistance: 3
+  pickupGraceDelay: 200
 --- !u!124 &124113967104273308
 Behaviour:
   m_ObjectHideFlags: 1
