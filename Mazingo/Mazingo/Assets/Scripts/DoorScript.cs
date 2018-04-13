@@ -36,7 +36,8 @@ public class DoorScript : MonoBehaviour
             movingTime = 1;
         if (movingTime < 0)
             movingTime = 0;
-        transform.position = Vector3.Lerp(closedPosition, openPosition.position, movingTime);
+        if(movingTime>0 && movingTime<1)
+            transform.position = Vector3.Lerp(closedPosition, openPosition.position, movingTime);
     }
 
 
