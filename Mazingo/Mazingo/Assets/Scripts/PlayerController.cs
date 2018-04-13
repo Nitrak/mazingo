@@ -7,7 +7,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : MonoBehaviour {
     private List<object> Inventory;
 
-    private Component CarriedObject;
+    private Rigidbody CarriedObject;
 
     private bool interactPressed = false;
 
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     public float carryingDistance = 2f;
     
     public int pickupGraceDelay = 200;
+    private Quaternion CarriedInitialRotation;
 
     // Use this for initialization
     void Start () {
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour {
         this.CarryingItem = false;
         this.CarriedObject = null;
         this.pickupGracePeriod = false;
-        this.objectMask = LayerMask.GetMask("Object");
+        this.objectMask = LayerMask.GetMask("Objects");
 	}
  
     // Update is called once per frame
@@ -57,13 +58,13 @@ public class PlayerController : MonoBehaviour {
     private void dropItem() {
         startGracePeriod();
 
-        CarryingItem = false;
+        this.CarryingItem = false;
         Debug.Log("dropped item");
-        CarriedObject = null;
-        this.CarriedObject.transform.parent = this.CarriedInitialParent;
+        //this.CarriedObject.transform.parent = this.CarriedInitialParent;
+        this.CarriedObject = null;
     }
 
-    private void pickItemUp(Component item)
+    private void pickItemUp(Rigidbody item)
     {
         startGracePeriod();
         CarryingItem = true;
@@ -71,7 +72,8 @@ public class PlayerController : MonoBehaviour {
         Debug.Log("Picked item up");
         this.CarriedObject = item;
         this.CarriedInitialParent = item.transform.parent;
-        this.CarriedObject.transform.parent = this.transform;
+        this.CarriedInitialRotation = item.transform.rotation;
+        //this.CarriedObject.transform.parent = this.transform;
         UpdateCarriedItemPosition();
     }
 
@@ -91,13 +93,13 @@ public class PlayerController : MonoBehaviour {
     {
         RaycastHit ray;
         Debug.Log("cast");
-        bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength);
+        bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength, objectMask);
         //Debug.DrawRay(transform.position, transform.rotation * Vector3.forward, Color.red, rayLength);
         if (hit)
         {
             Debug.Log("hit");
             //interaction
-            var d = ray.collider.gameObject.GetComponent<Component>();
+            var d = ray.collider.gameObject.GetComponent<Rigidbody>();
             if (d != null)
             {
                 if (interactPressed && !CarryingItem)
@@ -117,10 +119,16 @@ public class PlayerController : MonoBehaviour {
     private void UpdateCarriedItemPosition() {
         //RaycastHit ray;
         //bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength);
-        this.CarriedObject.transform.position = this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance));
 
-        //this.CarriedObject.transform.rotation = LookAt(this.CarriedObject.transform.position, this.transform.position) * CarriedInitialRotation;
-        
+        this.CarriedObject.MovePosition(this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance)));
+
+        //var rot = Quaternion.AngleAxis(transform.rotation.y, Vector3.up) * Quaternion.Inverse(CarriedInitialRotation);
+        var rot = LookAt(CarriedObject.transform.position, transform.position) * Quaternion.Inverse(CarriedInitialRotation);
+        //this.CarriedObject.MoveRotation(Quaternion.rot);
+        //this.CarriedObject.transform.rotation = rot;
+        //this.CarriedObject.transform.Rotate(transform.position,Space.World);
+        //this.CarriedObject.transform.rotation = LookAt(CarriedObject.transform.position, transform.position) * transform.rotation;// CarriedInitialRotation * this.transform.rotation;
+
         //this.CarriedObject.transform.rotation = this.CarriedObject.transform.RotateAround()
     }
 
