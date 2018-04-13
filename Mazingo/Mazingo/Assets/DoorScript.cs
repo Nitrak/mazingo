@@ -39,8 +39,11 @@ public class DoorScript : MonoBehaviour
         transform.position = Vector3.Lerp(closedPosition, openPosition.position, movingTime);
     }
 
-    private void OnTriggerEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log("enter");
+
         if (collision.gameObject.tag == "Player")
         {
             if ((requireKey && hasKey) || !requireKey)
@@ -51,8 +54,9 @@ public class DoorScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
+        Debug.Log("exit");
         if (collision.gameObject.tag == "Player")
         {
             closeDoor = true;
