@@ -123,8 +123,9 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject.MovePosition(this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance)));
 
         //var rot = Quaternion.AngleAxis(transform.rotation.y, Vector3.up) * Quaternion.Inverse(CarriedInitialRotation);
-        var rot = LookAt(CarriedObject.transform.position, transform.position) * Quaternion.Inverse(CarriedInitialRotation);
-        //this.CarriedObject.MoveRotation(Quaternion.rot);
+        //var rot = LookAt(CarriedObject.transform.position, transform.position) * Quaternion.Inverse(CarriedInitialRotation);
+        var rot = Quaternion.FromToRotation(Vector3.left, new Vector3(0,0, 1.5f));
+        this.CarriedObject.MoveRotation(rot);
         //this.CarriedObject.transform.rotation = rot;
         //this.CarriedObject.transform.Rotate(transform.position,Space.World);
         //this.CarriedObject.transform.rotation = LookAt(CarriedObject.transform.position, transform.position) * transform.rotation;// CarriedInitialRotation * this.transform.rotation;
