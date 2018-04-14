@@ -23,10 +23,10 @@ namespace Assets.Scripts
 
     public enum Direction
     {
-        North = 1,
-        South = 2,
-        West = 3,
-        East = 4
+        North = 0,
+        South = 1,
+        West = 2,
+        East = 3
     }
 
     public class MazeTile
@@ -34,13 +34,21 @@ namespace Assets.Scripts
         //Used for the first tile of a floor. Subsequent calls must be the second constructor
         public MazeTile(TileSpecial special, int floor, ref Maze maze)
         {
+            maze.Floors[floor] = maze.Floors[floor] == null ? new Floor() : maze.Floors[floor];
             SpecialProperty = special;
             Location = new Location(0, 0);
+            Floor = floor;
+            
             maze.Floors[floor].Tiles.Add(Location, this);
         }
 
         public MazeTile(TileSpecial special, Direction growDirection, ref MazeTile tileBackwards, ref Maze maze)
         {
+            if (tileBackwards == null)
+            {
+                throw new ArgumentNullException("tileBackwards");
+            }
+            maze.Floors[tileBackwards.Floor] = maze.Floors[tileBackwards.Floor] == null ? new Floor() : maze.Floors[tileBackwards.Floor];
             Location newLocation;
 
             switch (growDirection)
@@ -80,7 +88,6 @@ namespace Assets.Scripts
 
         public TileSpecial SpecialProperty;
         public Location Location;
-
         public int Floor;
 
         //null is a wall, otherwise contains (a pointer to) the tile it leads to
@@ -123,10 +130,11 @@ namespace Assets.Scripts
             var rng = new Random();
             var maze = new Maze();
 
+            maze.Floors.AddRange(Enumerable.Repeat<Floor>(null, Floors).ToList());
+
             for (int floor = 0; floor < Floors; ++floor)
             {
                 var previousTile = new MazeTile(TileSpecial.Nothing, floor, ref maze);
-                maze.Floors[floor].Tiles.Add(previousTile.Location, previousTile);
 
 
                 for (int tile = 0; tile < TilesPerFloor; ++tile)
@@ -165,7 +173,6 @@ namespace Assets.Scripts
                     else
                     {
                         newTile = new MazeTile(TileSpecial.Nothing, nextDirection, ref previousTile, ref maze);
-                        maze.Floors[floor].Tiles.Add(previousTile.Location, newTile);
                     }
 
                     previousTile = newTile;
@@ -272,6 +279,7 @@ namespace Assets.Scripts
         // Use this for initialization
         void Start()
         {
+            var maze = GenerateNewMaze();
         }
 
         // Update is called once per frame
