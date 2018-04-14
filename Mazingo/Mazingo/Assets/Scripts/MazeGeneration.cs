@@ -211,6 +211,7 @@ namespace Assets.Scripts
     {
         public List<Floor> Floors = new List<Floor>();
         public MazeTile StartTile;
+        public int ShortestTilesFromKeyToBomb;
     }
 
     public static class HelperFunctions
@@ -220,6 +221,26 @@ namespace Assets.Scripts
 
     public class MazeGeneration : MonoBehaviour
     {
+        private class DijkstraInfo
+        {
+            public DijkstraInfo(MazeTile tile, int distance, DijkstraInfo previous)
+            {
+                Tile = tile;
+                Distance = distance;
+                Previous = previous;
+            }
+
+            public MazeTile Tile;
+            public int Distance;
+            public DijkstraInfo Previous;
+        }
+
+        private int FindDistance(ref Maze maze)
+        {
+
+            return 0;
+        }
+
         public Maze GenerateTutorialMaze()
         {
             var maze = new Maze();
@@ -391,6 +412,17 @@ namespace Assets.Scripts
                 }
             }
 
+            //Insert key and breaking point
+            var allTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).ToList();
+
+            var tileIndex = rng.Next(allTiles.Count - 1);
+            allTiles[tileIndex].SpecialProperty = TileSpecial.Key1;
+            allTiles.RemoveAt(tileIndex);
+
+            tileIndex = rng.Next(allTiles.Count - 1);
+            allTiles[tileIndex].SpecialProperty = TileSpecial.BreakingPoint1;
+            allTiles.RemoveAt(tileIndex);
+
             //Add a start position to a southern wall somewhere
             for (var i = 0; i < 3 /*Number of directions*/; ++i)
             {
@@ -405,16 +437,7 @@ namespace Assets.Scripts
                 break;
             }
 
-            //Insert key and breaking point
-            var allTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).ToList();
-
-            var tileIndex = rng.Next(allTiles.Count - 1);
-            allTiles[tileIndex].SpecialProperty = TileSpecial.Key1;
-            allTiles.RemoveAt(tileIndex);
-
-            tileIndex = rng.Next(allTiles.Count - 1);
-            allTiles[tileIndex].SpecialProperty = TileSpecial.BreakingPoint1;
-            allTiles.RemoveAt(tileIndex);
+            
 
             return maze;
         }
