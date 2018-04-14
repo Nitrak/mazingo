@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4176600873423166}
   - component: {fileID: 114556460150487260}
+  - component: {fileID: 114739067787351160}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -52,3 +53,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tick: 0.5
+--- !u!114 &114739067787351160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1088204044220172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762d995d169292444a6b2d1eb3598ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Floors: 1
+  TilesPerFloor: 30

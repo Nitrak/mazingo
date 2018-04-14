@@ -86,6 +86,7 @@ namespace Assets.Scripts.Engine
             }
             var prefabName = GetPrefabName(tile);
             var prefab = GameObject.Find(prefabName);
+            Resources.FindObjectsOfTypeAll(typeof(GameObject));
             var roomPos = new Vector3(tile.Location.X * RoomSize, 0, tile.Location.Z * RoomSize);
             return Instantiate(prefab, roomPos, Quaternion.identity);
         }
