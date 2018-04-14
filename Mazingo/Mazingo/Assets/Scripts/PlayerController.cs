@@ -56,11 +56,6 @@ public class PlayerController : MonoBehaviour {
         this.objectMask = LayerMask.GetMask("Objects");
 	}
 
-    void test()
-    {
-
-    }
- 
     // Update is called once per frame
     void Update()
     {
@@ -93,8 +88,8 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject.useGravity = true;
         var dropped = CarriedObject;
         this.CarriedObject = null;
-
-        OnDropped(this, new CarriedEventArgs(dropped));
+        if(OnDropped != null)
+            OnDropped(this, new CarriedEventArgs(dropped));
     }
 
     private void pickItemUp(Rigidbody item)
@@ -111,7 +106,8 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject.angularDrag = 100;
         //this.CarriedObject.transform.parent = this.transform;
         UpdateCarriedItemPosition();
-        OnPickedUp(this, new CarriedEventArgs(item));
+        if(OnPickedUp != null)
+            OnPickedUp(this, new CarriedEventArgs(item));
     }
 
     private void startGracePeriod()
