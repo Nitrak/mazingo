@@ -278,29 +278,25 @@ namespace Assets.Scripts
                             .TryGetValue(new Location(previousTile.Location.X + 1, previousTile.Location.Z),
                                 out newTile))
                     {
-                        previousTile.East = newTile;
-                        newTile.West = previousTile;
+                        previousTile.TieMazeTile(newTile, nextDirection);
                     }
                     else if (nextDirection == Direction.West && maze.Floors[floor].Tiles
                                  .TryGetValue(new Location(previousTile.Location.X - 1, previousTile.Location.Z),
                                      out newTile))
                     {
-                        previousTile.West = newTile;
-                        newTile.East = previousTile;
+                        previousTile.TieMazeTile(newTile, nextDirection);
                     }
                     else if (nextDirection == Direction.North && maze.Floors[floor].Tiles
                                  .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Z + 1),
                                      out newTile))
                     {
-                        previousTile.North = newTile;
-                        newTile.South = previousTile;
+                        previousTile.TieMazeTile(newTile, nextDirection);
                     }
                     else if (nextDirection == Direction.South && maze.Floors[floor].Tiles
                                  .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Z - 1),
                                      out newTile))
                     {
-                        previousTile.North = newTile;
-                        newTile.South = previousTile;
+                        previousTile.TieMazeTile(newTile, nextDirection);
                     }
                     else
                     {
@@ -401,6 +397,7 @@ namespace Assets.Scripts
                 var aValidTile = listOfValidStartTiles[rng.Next(listOfValidStartTiles.Count)];
 
                 maze.StartTile = new MazeTile(TileSpecial.PlayerSpawn, usingDirection, ref aValidTile, ref maze);
+                break;
             }
             return maze;
         }
