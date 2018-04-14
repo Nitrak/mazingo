@@ -257,7 +257,7 @@ namespace Assets.Scripts
 
         }
         
-        public Maze GenerateNewMaze(int[] tilesPerFloor, double pctChanceOfTrap)
+        public Maze GenerateNewMaze(int[] tilesPerFloor, double chanceOfTrap)
         {
             //Get optional params
             var Floors = tilesPerFloor.Length;
@@ -271,7 +271,7 @@ namespace Assets.Scripts
             for (int floor = 0; floor < Floors; ++floor)
             {
 
-                var previousTile = new MazeTile(GenerateRandomTrap(pctChanceOfTrap, ref rng), floor, ref maze);
+                var previousTile = new MazeTile(GenerateRandomTrap(chanceOfTrap, ref rng), floor, ref maze);
 
 
                 for (int tile = 0; tile < tilesPerFloor[floor]; ++tile)
@@ -305,7 +305,7 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        newTile = new MazeTile(GenerateRandomTrap(pctChanceOfTrap, ref rng), nextDirection, ref previousTile, ref maze);
+                        newTile = new MazeTile(GenerateRandomTrap(chanceOfTrap, ref rng), nextDirection, ref previousTile, ref maze);
                     }
 
                     previousTile = newTile;
