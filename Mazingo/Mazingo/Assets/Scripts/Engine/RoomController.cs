@@ -157,6 +157,8 @@ namespace Assets.Scripts.Engine
 
         private GameObject GetRoomKeyContent(MazeTile mazeTile)
         {
+            if (mazeTile.SpecialProperty == TileSpecial.Nothing) return null;
+
             var prefabName = string.Empty;
             switch (mazeTile.SpecialProperty)
             {
@@ -166,9 +168,13 @@ namespace Assets.Scripts.Engine
                 case TileSpecial.Key1:
                     prefabName = "BoomZingo";
                     break;
+                default:
+                    prefabName = Enum.GetName(typeof(TileSpecial), mazeTile.SpecialProperty);
+                    break;
             }
-            if (!string.IsNullOrEmpty(prefabName))
+            if (!string.IsNullOrEmpty(prefabName) && Prefabs.ContainsKey(prefabName))
             {
+                Debug.Log(string.Format("Loading prefab: {0}", prefabName));
                 return Prefabs[prefabName];
             }
             return null;
