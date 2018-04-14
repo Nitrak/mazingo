@@ -69,6 +69,8 @@ public class BombController : MonoBehaviour
         detonationTimeWhenCarried = explosionTimeWhenPlaced;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         pickedUp = true;
+        transform.GetChild(1).GetComponent<LineRenderer>().enabled = true;
+        transform.GetChild(1).transform.rotation = Quaternion.identity;
         return explosionTimeWhenPlaced;
     }
 
@@ -98,6 +100,11 @@ public class BombController : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         transform.gameObject.SetActive(false);
+    }
+
+    public float GetExplosionZone()
+    {
+        return deathDistance;
     }
 
 }
