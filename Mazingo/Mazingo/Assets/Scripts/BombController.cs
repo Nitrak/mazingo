@@ -5,7 +5,8 @@ using UnityEngine;
 public class BombController : MonoBehaviour
 {
     public float deathDistance;
-    public float detonationTimeWhenCarried = 5;
+    public float detonationTimeWhenCarried = 20;
+    public float explosionTimeWhenPlaced = 5;
     private float detonationTimer;
 
     public AudioClip explosionSound;
@@ -62,12 +63,13 @@ public class BombController : MonoBehaviour
         pickedUp = false;
     }
 
-    public void StartBomb()
+    public float StartBomb()
     {
         detonationTimer = 0;
-        detonationTimeWhenCarried = 5;
+        detonationTimeWhenCarried = explosionTimeWhenPlaced;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         pickedUp = true;
+        return explosionTimeWhenPlaced;
     }
 
     private void Explode()
