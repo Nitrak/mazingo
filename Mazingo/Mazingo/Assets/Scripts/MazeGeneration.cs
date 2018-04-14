@@ -14,8 +14,6 @@ namespace Assets.Scripts
         Lava = 3,
 
         Key1 = 1001,
-        Key2 = 1002,
-        Key3 = 1003,
 
 
         BreakingPoint1 = 2001
@@ -248,8 +246,18 @@ namespace Assets.Scripts
 
             return maze;
         }
+
+        private TileSpecial GenerateRandomTrap(double pctchance, ref Random rng)
+        {
+            //Traps are found in the enum from 1 to 1000
+            if (!(rng.NextDouble() <= pctchance)) return TileSpecial.Nothing;
+
+            var possibleTraps = Enum.GetValues(typeof(TileSpecial)).Cast<int>().Where(e => e > 0 && e < 1000).ToList();
+            return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count)];
+
+        }
         
-        public Maze GenerateNewMaze(int[] tilesPerFloor)
+        public Maze GenerateNewMaze(int[] tilesPerFloor, double pctChanceOfTrap)
         {
             //Get optional params
             var Floors = tilesPerFloor.Length;
@@ -262,7 +270,8 @@ namespace Assets.Scripts
 
             for (int floor = 0; floor < Floors; ++floor)
             {
-                var previousTile = new MazeTile(TileSpecial.Nothing, floor, ref maze);
+
+                var previousTile = new MazeTile(GenerateRandomTrap(pctChanceOfTrap, ref rng), floor, ref maze);
 
 
                 for (int tile = 0; tile < tilesPerFloor[floor]; ++tile)
@@ -296,7 +305,7 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        newTile = new MazeTile(TileSpecial.Nothing, nextDirection, ref previousTile, ref maze);
+                        newTile = new MazeTile(GenerateRandomTrap(pctChanceOfTrap, ref rng), nextDirection, ref previousTile, ref maze);
                     }
 
                     previousTile = newTile;
@@ -407,7 +416,7 @@ namespace Assets.Scripts
             {
                 try
                 {
-                    var maze = GenerateNewMaze(new []{30});
+                    var maze = GenerateNewMaze(new []{30}, 0.2);
                     break;
                 }
                 catch (Exception e)
