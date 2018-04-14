@@ -36,9 +36,6 @@ public class StrangerDangerScript : MonoBehaviour {
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
         controller = p.transform.GetChild(0).GetComponent<PlayerController>();
-
-        
-
         playerMoveSettings = tmp.movementSettings;
         player = p;
 
@@ -71,7 +68,8 @@ public class StrangerDangerScript : MonoBehaviour {
     void Update()
     {
         RaycastHit rayHit;
-        var hit = Physics.Raycast(transform.position, player.transform.position - transform.position, out rayHit, 5f);
+        var tmp = player.transform.position - transform.position;
+        var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position));
 
         Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
         

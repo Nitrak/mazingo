@@ -86,10 +86,8 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator Example()
     {
         Debug.Log("rip");
-        Debug.Log(Time.time);
-        yield return new WaitForSeconds(3);
-        Debug.Log(Time.time);
         deathScreen.SetActive(true);
+        yield return new WaitForSeconds(3);
         Destroy(this);
     }
 
