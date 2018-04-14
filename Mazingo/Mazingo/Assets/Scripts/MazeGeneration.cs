@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,25 +53,25 @@ namespace Assets.Scripts
             switch (growDirection)
             {
                 case Direction.East:
-                    newLocation = new Location(tileBackwards.Location.X + 1, tileBackwards.Location.Y);
+                    newLocation = new Location(tileBackwards.Location.X + 1, tileBackwards.Location.Z);
                     West = tileBackwards;
                     Location = newLocation;
                     tileBackwards.East = this;
                     break;
                 case Direction.North:
-                    newLocation = new Location(tileBackwards.Location.X, tileBackwards.Location.Y + 1);
+                    newLocation = new Location(tileBackwards.Location.X, tileBackwards.Location.Z + 1);
                     South = tileBackwards;
                     Location = newLocation;
                     tileBackwards.North = this;
                     break;
                 case Direction.South:
-                    newLocation = new Location(tileBackwards.Location.X, tileBackwards.Location.Y - 1);
+                    newLocation = new Location(tileBackwards.Location.X, tileBackwards.Location.Z - 1);
                     North = tileBackwards;
                     Location = newLocation;
                     tileBackwards.South = this;
                     break;
                 case Direction.West:
-                    newLocation = new Location(tileBackwards.Location.X - 1, tileBackwards.Location.Y);
+                    newLocation = new Location(tileBackwards.Location.X - 1, tileBackwards.Location.Z);
                     East = tileBackwards;
                     Location = newLocation;
                     tileBackwards.West = this;
@@ -126,25 +125,25 @@ namespace Assets.Scripts
     public struct Location
     {
         public int X;
-        public int Y;
+        public int Z;
 
-        public Location(int x, int y)
+        public Location(int x, int z)
         {
             X = x;
-            Y = y;
+            Z = z;
         }
     }
 
     public class Floor
     {
         public Dictionary<Location, MazeTile> Tiles = new Dictionary<Location, MazeTile>();
-        public int NumPortsToOtherFloors = 0;
+        public int NumPortsToOtherFloors;
     }
 
     public class Maze
     {
         public List<Floor> Floors = new List<Floor>();
-        public MazeTile StartTile = null;
+        public MazeTile StartTile;
     }
 
     public class MazeGeneration : MonoBehaviour
@@ -175,28 +174,28 @@ namespace Assets.Scripts
 
                     MazeTile newTile;
                     if (nextDirection == Direction.East && maze.Floors[floor].Tiles
-                            .TryGetValue(new Location(previousTile.Location.X + 1, previousTile.Location.Y),
+                            .TryGetValue(new Location(previousTile.Location.X + 1, previousTile.Location.Z),
                                 out newTile))
                     {
                         previousTile.East = newTile;
                         newTile.West = previousTile;
                     }
                     else if (nextDirection == Direction.West && maze.Floors[floor].Tiles
-                                 .TryGetValue(new Location(previousTile.Location.X - 1, previousTile.Location.Y),
+                                 .TryGetValue(new Location(previousTile.Location.X - 1, previousTile.Location.Z),
                                      out newTile))
                     {
                         previousTile.West = newTile;
                         newTile.East = previousTile;
                     }
                     else if (nextDirection == Direction.North && maze.Floors[floor].Tiles
-                                 .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Y + 1),
+                                 .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Z + 1),
                                      out newTile))
                     {
                         previousTile.North = newTile;
                         newTile.South = previousTile;
                     }
                     else if (nextDirection == Direction.South && maze.Floors[floor].Tiles
-                                 .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Y - 1),
+                                 .TryGetValue(new Location(previousTile.Location.X, previousTile.Location.Z - 1),
                                      out newTile))
                     {
                         previousTile.North = newTile;
@@ -238,9 +237,9 @@ namespace Assets.Scripts
                     var possibleDoorsOnOtherFloorSouth =
                         maze.Floors[floor].Tiles.Where(e => e.Value.South == null).ToList();
 
-                    int ToOtherFloors = maze.Floors[floor].NumPortsToOtherFloors == 0 ? rng.Next(1, 3) : rng.Next(0, 3);
+                    int toOtherFloors = maze.Floors[floor].NumPortsToOtherFloors == 0 ? rng.Next(1, 3) : rng.Next(0, 3);
 
-                    for (int portal = 0; portal < ToOtherFloors; ++portal)
+                    for (int portal = 0; portal < toOtherFloors; ++portal)
                     {
                         maze.Floors[floor].NumPortsToOtherFloors++;
                         maze.Floors[otherFloor].NumPortsToOtherFloors++;
@@ -316,6 +315,7 @@ namespace Assets.Scripts
         }
 
         // Use this for initialization
+        // ReSharper disable once UnusedMember.Local
         void Start()
         {
             var attempt = 5;
@@ -339,6 +339,7 @@ namespace Assets.Scripts
         }
 
         // Update is called once per frame
+        // ReSharper disable once UnusedMember.Local
         void Update()
         {
         }
