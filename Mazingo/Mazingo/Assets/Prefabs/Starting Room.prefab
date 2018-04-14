@@ -527,13 +527,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1506222339641512}
-  m_LocalRotation: {x: -0.122787856, y: -0.6963643, z: -0.122787856, w: 0.6963643}
-  m_LocalPosition: {x: 0.0026, y: 0.006, z: -0.0143}
+  m_LocalRotation: {x: -0.1106159, y: -0.69840115, z: -0.1106159, w: 0.69840115}
+  m_LocalPosition: {x: 0.00047, y: 0.0006, z: 0.0004}
   m_LocalScale: {x: 0.000055, y: 0.0001, z: 1}
   m_Children: []
   m_Father: {fileID: 4643748001407876}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -20, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -18, y: -90, z: 0}
 --- !u!4 &4620639867230422
 Transform:
   m_ObjectHideFlags: 1
@@ -1336,13 +1336,13 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1506222339641512}
-  m_Text: 'WELCOME TESTSUBJECT
+  m_Text: 'WELCOME TEST SUBJECT
 
     #434095'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
+  m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 450
@@ -1435,6 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff1d2245727fdb4facf05f5102f8e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countDown: 3
 --- !u!114 &114097510030508360
 MonoBehaviour:
   m_ObjectHideFlags: 1
