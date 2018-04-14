@@ -12,6 +12,7 @@ namespace Assets.Scripts.Engine
     {
         public const float RoomSize = 20;
         public static readonly Vector3 GridOffset = new Vector3(10, 0, 10);
+        public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 1, 0);
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
@@ -39,16 +40,17 @@ namespace Assets.Scripts.Engine
 
         public void StartLevel(int level)
         {
-            if(level == 0)
+            if (level == 0)
             {
                 this.Maze = generator.GenerateTutorialMaze();
-            } else
+            }
+            else
             {
                 this.Maze = generator.GenerateNewMaze(new[] { 10, 10, 10 }, .30d);
             }
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
             var playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
-            
+
             playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
             playerController.Kill();
         }
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Engine
         {
             var prefabName = GetPrefabName(virtualTile);
             var prefab = Prefabs[prefabName];
-            return GridOffset + prefab.transform.position;
+            return GridOffset + prefab.transform.position + PlayerSpawnOffset;
         }
 
         private void LoadPrefabs()
@@ -66,7 +68,7 @@ namespace Assets.Scripts.Engine
             var fabs = Resources.FindObjectsOfTypeAll(typeof(GameObject));
             foreach (GameObject fab in fabs)
             {
-                if (fab.tag == "RoomPrefab")
+                if (fab.tag == "Prefab")
                 {
                     if (!Prefabs.ContainsKey(fab.name))
                     {
@@ -102,7 +104,7 @@ namespace Assets.Scripts.Engine
         {
             foreach (var loadedRoom in LoadedRooms)
             {
-                if(!newRooms.ContainsKey(loadedRoom.Key))
+                if (!newRooms.ContainsKey(loadedRoom.Key))
                 {
                     Destroy(loadedRoom.Value);
                 }
@@ -140,10 +142,36 @@ namespace Assets.Scripts.Engine
 
             var roomPos = new Vector3(tile.GetVirtualX(), 0, tile.GetVirtualZ());
             var roomObject = Instantiate(prefab, roomPos + prefab.transform.position + GridOffset, prefab.transform.rotation);
-            //Debug.Log(string.Format("Room creation. VirtualPos: {0}, PrefabPos: {1}, RoomObjPos: {2}", ))
+
+            var keyPrefab = GetRoomKeyContent(tile.Tile);
+            if (keyPrefab != null)
+            {
+                var keyInstance = Instantiate(keyPrefab, roomPos + prefab.transform.position + GridOffset, keyPrefab.transform.rotation);
+                keyInstance.SetActive(true);
+            }
+
             roomObject.SetActive(true);
             //roomObject.transform.position = prefab.transform.position;
             return roomObject;
+        }
+
+        private GameObject GetRoomKeyContent(MazeTile mazeTile)
+        {
+            var prefabName = string.Empty;
+            switch (mazeTile.SpecialProperty)
+            {
+                case TileSpecial.BreakingPoint1:
+                    prefabName = "KeyDoor";
+                    break;
+                case TileSpecial.Key1:
+                    prefabName = "BoomZingo";
+                    break;
+            }
+            if (!string.IsNullOrEmpty(prefabName))
+            {
+                return Prefabs[prefabName];
+            }
+            return null;
         }
 
         private string GetPrefabName(VirtualTile virtualTile)
@@ -159,7 +187,7 @@ namespace Assets.Scripts.Engine
         public VirtualTile TryGetRelativeRoom(Vector3 vector)
         {
             var relativeDir = GetRelativeDirection(vector);
-            if(relativeDir != Direction.NONE)
+            if (relativeDir != Direction.NONE)
             {
                 return lastPlayerTile.Translate(relativeDir);
             }
