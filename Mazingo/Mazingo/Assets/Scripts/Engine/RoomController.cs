@@ -53,7 +53,7 @@ namespace Assets.Scripts.Engine
             var position = player.transform.position;
 
             var playerTile = TryGetRelativeRoom(position);
-            if (playerTile != null && !lastPlayerTile.Equals(playerTile))
+            if (playerTile != null)
             {
                 var newRooms = GetDirectionalTiles(playerTile);
                 UnloadRoomsExcept(newRooms);
@@ -88,6 +88,7 @@ namespace Assets.Scripts.Engine
                 while ((directionTile = directionTile.Translate(dir)) != null)
                 {
                     var roomObj = EnsureRoom(directionTile);
+                    Debug.Log(string.Format("Loading room {0} of {1} ({2} at {3})", dir.Name, virtualTile.VirtualLocation, roomObj.name, directionTile.VirtualLocation));
                     tiles.Add(directionTile.VirtualLocation, roomObj);
                 }
             }
@@ -101,10 +102,13 @@ namespace Assets.Scripts.Engine
                 return LoadedRooms[tile.VirtualLocation];
             }
             var prefabName = GetPrefabName(tile);
+            Debug.Log(string.Format("Cloning {0}", prefabName));
             var prefab = Prefabs[prefabName];
 
             var roomPos = new Vector3(tile.GetVirtualX(), 0, tile.GetVirtualZ());
-            return Instantiate(prefab, roomPos, Quaternion.identity);
+            var roomObject = Instantiate(prefab, roomPos, Quaternion.identity);
+            roomObject.SetActive(true);
+            return roomObject;
         }
 
         private string GetPrefabName(VirtualTile virtualTile)
