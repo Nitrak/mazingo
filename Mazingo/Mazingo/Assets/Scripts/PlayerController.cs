@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            if (interactPressed && !pickupGracePeriod)
+            if (interactPressed && !pickupGracePeriod || CarriedObject.constraints == RigidbodyConstraints.FreezeAll)
             {
                 Debug.Log("dropping item");
                 dropItem();
