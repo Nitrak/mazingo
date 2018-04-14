@@ -42,11 +42,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
-        private int xMod = 1;
-        private int yMod = 1;
-
-        public bool shouldTakeInput = true;
-
         // Use this for initialization
         private void Start()
         {
@@ -60,35 +55,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
-            shouldTakeInput = true;
-    }
-
-        public void SetWalkSpeed(float newSpeed)
-        {
-            m_WalkSpeed = newSpeed;
-        }
-        public void SetRunSpeed(float newSpeed)
-        {
-            m_RunSpeed = newSpeed;
-        }
-        public void SetJumpSpeed(float newSpeed)
-        {
-            m_JumpSpeed = newSpeed;
-        }
-
-        public float GetMovementSpeed()
-        {
-            return m_WalkSpeed;
-        }
-
-        public float GetRunSpeed()
-        {
-            return m_RunSpeed;
-        }
-
-        public float GetJumpSpeed()
-        {
-            return m_JumpSpeed;
         }
 
 
@@ -136,7 +102,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // get a normal for the surface that is being touched to move along it
             RaycastHit hitInfo;
             Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
-                               m_CharacterController.height/2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+                               m_CharacterController.height/2f, ~0, QueryTriggerInteraction.Ignore);
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
             m_MoveDir.x = desiredMove.x*speed;
@@ -237,11 +203,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void GetInput(out float speed)
         {
-            if (!shouldTakeInput)
-            {
-                speed = 0f;
-                return;
-            }
             // Read input
             float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
             float vertical = CrossPlatformInputManager.GetAxis("Vertical");
@@ -255,7 +216,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
-            m_Input = new Vector2(horizontal*xMod, vertical*yMod);
+            m_Input = new Vector2(horizontal, vertical);
 
             // normalize input if it exceeds 1 in combined length:
             if (m_Input.sqrMagnitude > 1)
@@ -272,20 +233,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
-
-        public void NormalizeControls()
-        {
-            xMod = 1;
-            yMod = 1;
-        }
-
-        public void RandomizeControls()
-        {
-            if (Mathf.Round(Random.Range(0f, 1f)) == 0)
-                xMod = -1;
-            if (Mathf.Round(Random.Range(0f, 1f)) == 0)
-                yMod = -1;
-        }
 
         private void RotateView()
         {
