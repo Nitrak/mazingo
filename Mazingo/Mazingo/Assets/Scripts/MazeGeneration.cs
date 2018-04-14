@@ -121,6 +121,17 @@ namespace Assets.Scripts
                     throw new ArgumentOutOfRangeException("direction", direction, "Directions must be one of four cardinal directions, as given in the enumerable");
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            var tileObj = obj as MazeTile;
+            if(tileObj != null)
+            {
+                return tileObj.Floor == this.Floor
+                    && tileObj.Location.Equals(this.Location);
+            }
+            return false;
+        }
     }
 
     public struct Location
