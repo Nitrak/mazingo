@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class StrangerDangerScript : MonoBehaviour {
+
+    private struct SpeedVars
+    {
+        public float ForwardSpeed;
+        public float BackwardSpeed;
+        public float StrafeSpeed;
+        public float JumpForce;
+    }
+
+    private SpeedVars speedVars;
 
     public float freezeTimeWhenSeen = 3f;
 
@@ -15,15 +26,28 @@ public class StrangerDangerScript : MonoBehaviour {
 
     public bool isVisible = false;
 
+    RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
     GameObject player;
     float time;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        var p = GameObject.FindGameObjectWithTag("Player");
+        var tmp = p.GetComponent<RigidbodyFirstPersonController>();
+
+        playerMoveSettings = tmp.movementSettings;
+        player = p;
+
+        speedVars = new SpeedVars
+        {
+            ForwardSpeed = playerMoveSettings.ForwardSpeed,
+            BackwardSpeed = playerMoveSettings.BackwardSpeed,
+            StrafeSpeed = playerMoveSettings.StrafeSpeed,
+            JumpForce = playerMoveSettings.JumpForce
+        };
+
         this.playerMask = LayerMask.GetMask("Player");
         this.isVisible = false;
-
     }
 
 
@@ -46,7 +70,6 @@ public class StrangerDangerScript : MonoBehaviour {
         var hit = Physics.Raycast(transform.position, player.transform.position - transform.position, out rayHit, 5f);
 
         Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
-
         
         if (rayHit.transform.Equals(player.transform) && isVisible)
         {
@@ -56,9 +79,19 @@ public class StrangerDangerScript : MonoBehaviour {
         {
             freezeTimer = Mathf.Max(0, freezeTimer - Time.deltaTime);
         }
+        var percentage = (freezeTimer / freezeTimeWhenSeen);
+        Freeze(percentage);
+    }
 
-        var alpha = ((freezeTimer / freezeTimeWhenSeen) * 255f) / 255f;
-        //Debug.Log(alpha);
+    private void Freeze(float percentage)
+    {
+        var movespeed = 1 - percentage;
+        playerMoveSettings.ForwardSpeed = speedVars.ForwardSpeed * movespeed;
+        playerMoveSettings.BackwardSpeed = speedVars.BackwardSpeed * movespeed;
+        playerMoveSettings.StrafeSpeed = speedVars.StrafeSpeed * movespeed;
+        playerMoveSettings.JumpForce = speedVars.JumpForce * movespeed;
+
+        var alpha = (percentage * 255f) / 255f;
         text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
 
         if (freezeTimer.Equals(freezeTimeWhenSeen))

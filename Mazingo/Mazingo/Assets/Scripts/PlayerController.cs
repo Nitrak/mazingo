@@ -1,38 +1,65 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
-    private List<object> Inventory;
+    public class CarriedEventArgs : EventArgs
+    {
+        private Rigidbody item;
+        public CarriedEventArgs(Rigidbody i)
+        {
+            this.item = i;
+        }
+
+        public Rigidbody Item
+        {
+            get
+            {
+                return item;
+            }
+        }
+    }
+
+
 
     private Rigidbody CarriedObject;
 
-    private bool interactPressed = false;
-
-    private bool pickupGracePeriod;
+    private Quaternion CarriedInitialRotation;
     private Transform CarriedInitialParent;
-    private bool CarryingItem;
-    private Timer pickupGraceTimer;
     private LayerMask objectMask;
+    private Timer pickupGraceTimer;
+
+    private bool interactPressed = false;
+    private bool pickupGracePeriod;
+    private bool CarryingItem;
     private float carriedObjectAngularDrag;
 
-    public float rayLength = 5f;
     public KeyCode interactKey = KeyCode.E;
-    public float carryingDistance = 2f;
-    
     public int pickupGraceDelay = 200;
-    private Quaternion CarriedInitialRotation;
+    public float carryingDistance = 2f;
+    public float rayLength = 5f;
+
+    public delegate void CarryEventHandler(object sender, CarriedEventArgs e);
+    public event CarryEventHandler OnPickedUp;
+    public event CarryEventHandler OnDropped;
+
+
 
     // Use this for initialization
     void Start () {
-        this.Inventory = new List<object>();
         this.CarryingItem = false;
         this.CarriedObject = null;
         this.pickupGracePeriod = false;
         this.objectMask = LayerMask.GetMask("Objects");
 	}
+
+    void test()
+    {
+
+    }
  
     // Update is called once per frame
     void Update()
@@ -58,13 +85,16 @@ public class PlayerController : MonoBehaviour {
 
     private void dropItem() {
         startGracePeriod();
-
+        
         this.CarryingItem = false;
         //Debug.Log("dropped item");
         //this.CarriedObject.transform.parent = this.CarriedInitialParent;
         this.CarriedObject.angularDrag = carriedObjectAngularDrag;
         this.CarriedObject.useGravity = true;
+        var dropped = CarriedObject;
         this.CarriedObject = null;
+
+        OnDropped(this, new CarriedEventArgs(dropped));
     }
 
     private void pickItemUp(Rigidbody item)
@@ -81,6 +111,7 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject.angularDrag = 100;
         //this.CarriedObject.transform.parent = this.transform;
         UpdateCarriedItemPosition();
+        OnPickedUp(this, new CarriedEventArgs(item));
     }
 
     private void startGracePeriod()
