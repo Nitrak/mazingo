@@ -11,13 +11,19 @@ namespace Assets.Scripts.Engine
     {
         private const float RoomSize = 20;
 
-        private Dictionary<Location, MazeTile> RoomGraph;
+        public Rigidbody StartingRoom;
+        public Rigidbody StandardRoom;
+
+        private Maze Maze;
         private IEnumerable<MazeTile> LoadedTiles;
 
         public RoomController()
         {
-            RoomGraph = new Dictionary<Location, MazeTile>();
+            var generator = new MazeGeneration();
+            this.Maze = generator.GenerateNewMaze(2, 20);
+
             LoadedTiles = new List<MazeTile>();
+            Load();
         }
 
         public void Load()
