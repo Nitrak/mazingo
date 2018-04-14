@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 224038378071972376}
   - component: {fileID: 222058600809005718}
   - component: {fileID: 114760539158083788}
+  - component: {fileID: 95887714585208522}
   m_Layer: 5
   m_Name: DeathScreen
   m_TagString: Untagged
@@ -80,6 +81,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95887714585208522
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1573193984115170}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c7e9c24a77e8a8b45bf0ef9b34174694, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114025229768489338
 MonoBehaviour:
   m_ObjectHideFlags: 1

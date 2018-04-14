@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Engine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,34 +9,43 @@ public class GameController : MonoBehaviour {
 
     public float Tick = 0.5f;
     private float timer;
-    Assets.Scripts.Engine.RoomController rc;
-
-    GameObject currentRoom;
+    private int currentLevel;
+    private RoomController roomController;
+    private PlayerController playerController;
 
 
 	// Use this for initialization
 	void Start () {
+        this.currentLevel = 1;
         instance = this;
-        rc = new Assets.Scripts.Engine.RoomController();
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Kill();
-        }
+        roomController = new Assets.Scripts.Engine.RoomController();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        roomController.StartLevel(currentLevel);
 	}
+
+    //TODO: Callback here
+    public void LevelComplete()
+    {
+        roomController.StartLevel(++currentLevel);
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        if (!roomController.IsLoaded()) return;
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            playerController.Kill();
+        }
+
         timer += Time.deltaTime;
         if(timer>=Tick)
         {
-            Debug.Log("Loading..");
+            //Debug.Log("Loading..");
             timer = timer % Tick;
-            rc.Load();
+            roomController.Load();
         }
 	}
 
-    public void SetCurrentRoom(GameObject room)
-    {
-        currentRoom = room;
-    }
 }
