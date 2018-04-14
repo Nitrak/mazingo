@@ -24,12 +24,14 @@ public class StrangerDangerScript : MonoBehaviour {
     private FirstPersonController playerMoveSettings;
     private PlayerController controller;
     private GameObject player;
+    //RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
 
     void Start()
     {
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
         //controller = p.transform.GetChild(0).GetComponent<PlayerController>();
+        controller = p.transform.GetChild(0).GetComponent<PlayerController>();
         //playerMoveSettings = tmp.movementSettings;
         playerMoveSettings = p.GetComponent<FirstPersonController>();
         player = p;
