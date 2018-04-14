@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     private bool CarryingItem;
     private float carriedObjectAngularDrag;
 
+    public GameObject deathScreen;
     public KeyCode interactKey = KeyCode.E;
     public int pickupGraceDelay = 200;
     public float carryingDistance = 2f;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        RecordPlayerInput();
+        recordPlayerInput();
         if (!CarryingItem && !pickupGracePeriod)
         {
             castRay();  
@@ -73,9 +74,22 @@ public class PlayerController : MonoBehaviour {
             }
             else if(CarryingItem)
             {
-                UpdateCarriedItemPosition();
+                updateCarriedItemPosition();
             }
         }
+    }
+
+    public void Kill() {
+        StartCoroutine(Example());
+    }
+    
+    private IEnumerator Example()
+    {
+        Debug.Log(Time.time);
+        yield return new WaitForSeconds(3);
+        Debug.Log(Time.time);
+        deathScreen.SetActive(true);
+        Destroy(this);
     }
 
     private void dropItem() {
@@ -105,7 +119,7 @@ public class PlayerController : MonoBehaviour {
         carriedObjectAngularDrag = CarriedObject.angularDrag;
         this.CarriedObject.angularDrag = 100;
         //this.CarriedObject.transform.parent = this.transform;
-        UpdateCarriedItemPosition();
+        updateCarriedItemPosition();
         if(OnPickedUp != null)
             OnPickedUp(this, new CarriedEventArgs(item));
     }
@@ -149,12 +163,12 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void UpdateCarriedItemPosition()
+    private void updateCarriedItemPosition()
     {
         this.CarriedObject.MovePosition(this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance)));
     }
 
-    private void RecordPlayerInput()
+    private void recordPlayerInput()
     {
         if (Input.GetKeyDown(interactKey))
         {
@@ -166,7 +180,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private Quaternion LookAt(Vector3 sourcePoint, Vector3 destPoint)
+    private Quaternion lookAt(Vector3 sourcePoint, Vector3 destPoint)
     {
         destPoint = new Vector3(destPoint.x, destPoint.y, destPoint.z);
         sourcePoint = new Vector3(sourcePoint.x, sourcePoint.y, sourcePoint.z);

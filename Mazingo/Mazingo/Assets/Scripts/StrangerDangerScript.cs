@@ -27,6 +27,7 @@ public class StrangerDangerScript : MonoBehaviour {
     public bool isVisible = false;
 
     RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
+    PlayerController controller;
     GameObject player;
     float time;
 
@@ -34,6 +35,9 @@ public class StrangerDangerScript : MonoBehaviour {
     {
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
+        controller = p.transform.GetChild(0).GetComponent<PlayerController>();
+
+        
 
         playerMoveSettings = tmp.movementSettings;
         player = p;
@@ -91,12 +95,17 @@ public class StrangerDangerScript : MonoBehaviour {
         playerMoveSettings.StrafeSpeed = speedVars.StrafeSpeed * movespeed;
         playerMoveSettings.JumpForce = speedVars.JumpForce * movespeed;
 
-        var alpha = (percentage * 255f) / 255f;
-        text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+        if (text != null)
+        {
+            var alpha = (percentage * 255f) / 255f;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+        }
 
         if (freezeTimer.Equals(freezeTimeWhenSeen))
         {
-            text.text = "You lose!";
+            controller.Kill();
+            if(text != null)
+                text.text = "You lose!";
         }
     }
 }
