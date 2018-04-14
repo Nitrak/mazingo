@@ -28,14 +28,12 @@ public class DoorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (openDoor && transform.position != openPosition.position)
-            movingTime += Time.deltaTime;
+            movingTime = Mathf.Min(1, movingTime + Time.deltaTime);
         else if (closeDoor && transform.position != openPosition.position)
-            movingTime -= Time.deltaTime;
-        if (movingTime > 1)
-            movingTime = 1;
-        if (movingTime < 0)
-            movingTime = 0;
+            movingTime = Mathf.Max(0, movingTime - Time.deltaTime);
+
         if(movingTime>0 && movingTime<1)
             transform.position = Vector3.Lerp(closedPosition, openPosition.position, movingTime);
     }
