@@ -22,7 +22,7 @@ public class BombController : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
+        isExploded = false;
     }
 
     void OnDrawGizmosSelected()
@@ -76,6 +76,7 @@ public class BombController : MonoBehaviour
 
     private void Explode()
     {
+        Debug.Log("booom");
         isExploded = true;
         audioSource.clip = null;
         audioSource.pitch = 1;
