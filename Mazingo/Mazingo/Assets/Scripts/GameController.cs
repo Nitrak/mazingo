@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.currentLevel = 1;
+        this.currentLevel = 0;
         instance = this;
         roomController = new Assets.Scripts.Engine.RoomController();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
