@@ -104,14 +104,14 @@ public class BombController : MonoBehaviour
         transform.localScale = Vector3.zero;
         audioSource.volume = 1;
         audioSource.PlayOneShot(explosionSound);
-        var player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
+        var playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerObject.transform.position = new Vector3(playerObject.transform.position.x, playerObject.transform.position.y + 1, playerObject.transform.position.z);
 
-        player.GetComponent<Rigidbody>().AddExplosionForce(2000, transform.position, 200);
+        playerObject.GetComponent<Rigidbody>().AddExplosionForce(2000, transform.position, 200);
 
         if (Vector3.Distance(player.transform.position, transform.position) < deathDistance)
         {
-            Debug.Log("DEAD");//player.Kill();
+            player.Kill();
         }
 
         StartCoroutine(Disable());
