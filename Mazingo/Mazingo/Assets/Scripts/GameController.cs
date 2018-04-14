@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    public static GameController instance;
+
     public float Tick = 0.5f;
     private float timer;
     Assets.Scripts.Engine.RoomController rc;
 
+    GameObject currentRoom;
+
 
 	// Use this for initialization
 	void Start () {
+        instance = this;
         rc = new Assets.Scripts.Engine.RoomController();
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -27,4 +32,9 @@ public class GameController : MonoBehaviour {
             rc.Load();
         }
 	}
+
+    public void SetCurrentRoom(GameObject room)
+    {
+        currentRoom = room;
+    }
 }

@@ -42,6 +42,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private int xMod = 1;
+        private int yMod = 1;
+
         // Use this for initialization
         private void Start()
         {
@@ -244,7 +247,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
-            m_Input = new Vector2(horizontal, vertical);
+            m_Input = new Vector2(horizontal*xMod, vertical*yMod);
 
             // normalize input if it exceeds 1 in combined length:
             if (m_Input.sqrMagnitude > 1)
@@ -261,6 +264,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+
+        public void NormalizeControls()
+        {
+            xMod = 1;
+            yMod = 1;
+        }
+
+        public void RandomizeControls()
+        {
+            if (Mathf.Round(Random.Range(0f, 1f)) == 0)
+                xMod = -1;
+            if (Mathf.Round(Random.Range(0f, 1f)) == 0)
+                yMod = -1;
+        }
 
         private void RotateView()
         {

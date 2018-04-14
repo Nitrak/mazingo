@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6344ffd32a494e4ba9368ece8cb6b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionText: {fileID: 0}
   deathScreen: {fileID: 0}
   interactKey: 101
   pickupGraceDelay: 200

@@ -136,13 +136,27 @@ namespace Assets.Scripts
 
     public struct Location
     {
-        public int X;
-        public int Z;
+        public readonly int X;
+        public readonly int Z;
 
         public Location(int x, int z)
         {
             X = x;
             Z = z;
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            // Suitable nullity checks etc, of course :)
+            hash = hash * 23 + X.GetHashCode();
+            hash = hash * 23 + Z.GetHashCode();
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}, {1})", X, Z);
         }
 
         public Location AddDirectionOnce(Direction direction)

@@ -8,6 +8,7 @@ public class BombController : MonoBehaviour
     public float detonationTimeWhenCarried = 20;
     public float explosionTimeWhenPlaced = 5;
     private float detonationTimer;
+    private float initialDetonationTimer;
 
     public AudioClip explosionSound;
     public AudioClip tickingSound;
@@ -19,6 +20,7 @@ public class BombController : MonoBehaviour
     private bool canBePickedUp = true;
     private bool isExploded;
 
+    private Vector3 initialLocalScale;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
 
@@ -28,6 +30,7 @@ public class BombController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        this.initialDetonationTimer = detonationTimeWhenCarried;
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
         player.OnDropped += Player_OnDropped;
@@ -37,6 +40,7 @@ public class BombController : MonoBehaviour
 
         this.spawnPosition = this.transform.position;
         this.spawnRotation = this.transform.rotation;
+        this.initialLocalScale = this.transform.localScale;
     }
 
     private void Player_OnPickedUp(object sender, PlayerController.CarriedEventArgs e)
@@ -129,19 +133,24 @@ public class BombController : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        Debug.Log("asplode!");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
 
+        Debug.Log("asplode!");
         body.velocity = Vector3.zero;
         this.transform.position = spawnPosition;
         this.transform.rotation = spawnRotation;
-        this.transform.localScale = Vector3.one;
+        this.transform.localScale = initialLocalScale;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        transform.GetChild(1).GetComponent<LineRenderer>().enabled = false;
+        startBombTimer = false;
+
         isExploded = false;
         audioSource.clip = tickingSound;
         audioSource.pitch = 0.5f;
         audioSource.volume = 1;
+        detonationTimer = 0;
+        detonationTimeWhenCarried = initialDetonationTimer;
 
-        yield return new WaitForSeconds(2);
         Debug.Log("We're back!");
     }
 
@@ -150,6 +159,11 @@ public class BombController : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         //transform.gameObject.SetActive(false);
+    }
+
+    public float GetTimeLeft()
+    {
+        return Mathf.Ceil(detonationTimeWhenCarried-detonationTimer);
     }
 
     public float GetExplosionZone()
