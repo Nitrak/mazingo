@@ -22,9 +22,9 @@ public class CircleMovementScript : MonoBehaviour
     {
         rotationTimer += Time.deltaTime * speed;
 
-        float x = Mathf.Cos(rotationTimer) * radius;
+        float x = initialTransform.x + Mathf.Cos(rotationTimer) * radius;
         float y = 0;
-        float z = Mathf.Sin(rotationTimer) * radius;
+        float z = initialTransform.z + Mathf.Sin(rotationTimer) * radius;
 
         transform.position = new Vector3(x, y, z);
 
