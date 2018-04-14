@@ -101,8 +101,6 @@ namespace Assets.Scripts
     public class Floor
     {
         public Dictionary<Location, MazeTile> Tiles = new Dictionary<Location, MazeTile>();
-
-        public List<>
     }
 
     public class Maze
@@ -172,10 +170,10 @@ namespace Assets.Scripts
                     if (floor == otherFloor)
                         continue;
 
-                    var possibleDoorsOnThisFloor = maze.Floors[floor].Tiles.Where(e => e.Value.East == null).Select(e => e.Value.East)
-                                           .Concat(maze.Floors[floor].Tiles.Where(e => e.Value.West == null).Select(e => e.Value.West)
-                                           .Concat(maze.Floors[floor].Tiles.Where(e => e.Value.North == null).Select(e => e.Value.North)
-                                           .Concat(maze.Floors[floor].Tiles.Where(e => e.Value.South == null).Select(e => e.Value.South);
+                    var possibleDoorsOnThisFloorEast = maze.Floors[floor].Tiles.Where(e => e.Value.East == null).Select(e => e.Value.East);
+                    var possibleDoorsOnThisFloorWest = maze.Floors[floor].Tiles.Where(e => e.Value.West == null).Select(e => e.Value.West);
+                    var possibleDoorsOnThisFloorNorth= maze.Floors[floor].Tiles.Where(e => e.Value.North == null).Select(e => e.Value.North);
+                    var possibleDoorsOnThisFloorSouth= maze.Floors[floor].Tiles.Where(e => e.Value.South == null).Select(e => e.Value.South);
                 }
             }
 
