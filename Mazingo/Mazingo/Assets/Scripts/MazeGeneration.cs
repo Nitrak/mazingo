@@ -115,18 +115,21 @@ namespace Assets.Scripts
 
     public class MazeGeneration : MonoBehaviour
     {
-        public Maze GenerateNewMaze(int floors, int tiles)
+        public int Floors = 1;
+        public int TilesPerFloor = 30;
+
+        public Maze GenerateNewMaze()
         {
             var rng = new Random();
             var maze = new Maze();
 
-            for (int floor = 0; floor < floors; ++floor)
+            for (int floor = 0; floor < Floors; ++floor)
             {
                 var previousTile = new MazeTile(TileSpecial.Nothing, floor, ref maze);
                 maze.Floors[floor].Tiles.Add(previousTile.Location, previousTile);
 
 
-                for (int tile = 0; tile < tiles; ++tile)
+                for (int tile = 0; tile < TilesPerFloor; ++tile)
                 {
                     var nextDirection = (Direction) rng.Next(0, 3);
 
@@ -170,11 +173,11 @@ namespace Assets.Scripts
             }
 
             //Now we have completely generated the mazes. Let's glue them together
-            for (int floor = 1; floor < floors; ++floor)
+            for (int floor = 1; floor < Floors; ++floor)
             {
                 var thisFloor = maze.Floors[floor];
 
-                for (int otherFloor = 0; otherFloor < floors; ++otherFloor)
+                for (int otherFloor = 0; otherFloor < Floors; ++otherFloor)
                 {
                     //Don't make floors back to the same one
                     if (floor == otherFloor)
