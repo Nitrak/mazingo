@@ -111,7 +111,7 @@ namespace Assets.Scripts.Engine
             var prefab = Prefabs[prefabName];
 
             var roomPos = new Vector3(tile.GetVirtualX(), 0, tile.GetVirtualZ());
-            var roomObject = Instantiate(prefab, roomPos + prefab.transform.position + GridOffset, Quaternion.identity);
+            var roomObject = Instantiate(prefab, roomPos + prefab.transform.position + GridOffset, prefab.transform.rotation);
             //Debug.Log(string.Format("Room creation. VirtualPos: {0}, PrefabPos: {1}, RoomObjPos: {2}", ))
             roomObject.SetActive(true);
             //roomObject.transform.position = prefab.transform.position;

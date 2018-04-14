@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
@@ -26,6 +27,17 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody CarriedObject;
     private Rigidbody player;
+    private Image deathImage;
+
+    private struct SpeedVars
+    {
+        public float WalkSpeed;
+        public float RunSpeed;
+        public float JumpForce;
+    }
+
+    private SpeedVars speedVars;
+    private FirstPersonController playerMoveSettings;
 
     private Quaternion CarriedInitialRotation;
     private Transform CarriedInitialParent;
@@ -43,7 +55,10 @@ public class PlayerController : MonoBehaviour {
     private bool CarryingItem;
     private float carriedObjectAngularDrag;
 
+
+
     public Text actionText;
+    public Animator fadeAnimation;
     public GameObject deathScreen;
     public KeyCode interactKey = KeyCode.E;
     public KeyCode throwKey = KeyCode.Mouse0;
@@ -67,9 +82,17 @@ public class PlayerController : MonoBehaviour {
         this.objectMask = LayerMask.GetMask("Objects");
 
         this.player = this.transform.parent.GetComponent<Rigidbody>();
+        this.deathImage = deathScreen.GetComponent<Image>();
 
-        cameraSpawnRotation = player.transform.rotation;
-        spawnPosition = player.transform.position;
+        this.cameraSpawnRotation = player.transform.rotation;
+        this.spawnPosition = player.transform.position;
+        playerMoveSettings = this.transform.parent.GetComponent<FirstPersonController>();
+        speedVars = new SpeedVars
+        {
+            WalkSpeed = playerMoveSettings.GetMovementSpeed(),
+            RunSpeed = playerMoveSettings.GetRunSpeed(),
+            JumpForce = playerMoveSettings.GetJumpSpeed()
+        };
     }
 
     private void FixedUpdate()
@@ -244,17 +267,12 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator Respawn()
     {
         startSpawnGracePeriod();
-        yield return new WaitForSeconds(1);
-        deathScreen.SetActive(true);
-        Debug.Log("rip");
-        player.velocity = Vector3.zero;
-        this.transform.parent.rotation = Quaternion.identity;
-        this.transform.rotation = Quaternion.identity;
-        this.transform.parent.position = spawnPosition;
-        //player.position = spawnPosition;
 
-        yield return new WaitForSeconds(2);
-        deathScreen.SetActive(false);
+        playerMoveSettings.shouldTakeInput = false;
+        yield return new WaitForSeconds(0.3f);
+        
+        deathScreen.SetActive(true);
+        yield return FadeOut();
     }
     
     private Quaternion lookAt(Vector3 sourcePoint, Vector3 destPoint)
@@ -273,5 +291,21 @@ public class PlayerController : MonoBehaviour {
         q.w = dot + 1;
 
         return q;
+    }
+
+    IEnumerator FadeOut()
+    {
+        Debug.Log("fading!");
+        fadeAnimation.SetBool("Fade", true);
+        yield return new WaitUntil(() => deathImage.color.a == 1f);
+        Debug.Log("rip");
+        player.velocity = Vector3.zero;
+        this.transform.parent.rotation = Quaternion.identity;
+        this.transform.rotation = Quaternion.identity;
+        this.transform.parent.position = spawnPosition;
+        fadeAnimation.SetBool("Fade", false);
+        yield return new WaitUntil(() => deathImage.color.a == 0f);
+        deathScreen.SetActive(false);
+        playerMoveSettings.shouldTakeInput = true;
     }
 }
