@@ -40,6 +40,14 @@ ModelImporter:
     100064: pCube9
     100066: transform14
     100068: transform15
+    100070: group17
+    100072: group19
+    100074: pasted__group16
+    100076: pasted__group16 1
+    100078: pasted__pasted__group12 1
+    100080: pasted__pasted__pasted__group11 1
+    100082: pasted__pasted__pasted__pasted__group7 1
+    100084: pasted__pasted__pasted__pasted__pasted__Door 1
     400000: //RootNode
     400002: group10
     400004: group8
@@ -75,22 +83,33 @@ ModelImporter:
     400064: pCube9
     400066: transform14
     400068: transform15
+    400070: group17
+    400072: group19
+    400074: pasted__group16
+    400076: pasted__group16 1
+    400078: pasted__pasted__group12 1
+    400080: pasted__pasted__pasted__group11 1
+    400082: pasted__pasted__pasted__pasted__group7 1
+    400084: pasted__pasted__pasted__pasted__pasted__Door 1
     2100000: lambert1
     2300000: pCube7
     2300002: pasted__pasted__pasted__pasted__Door
     2300004: pasted__pasted__pasted__pasted__Door 1
     2300006: pasted__pasted__pasted__pasted__pasted__Door
     2300008: pCube9
+    2300010: pasted__pasted__pasted__pasted__pasted__Door 1
     3300000: pCube7
     3300002: pasted__pasted__pasted__pasted__Door
     3300004: pasted__pasted__pasted__pasted__Door 1
     3300006: pasted__pasted__pasted__pasted__pasted__Door
     3300008: pCube9
+    3300010: pasted__pasted__pasted__pasted__pasted__Door 1
     4300000: pCube7
     4300002: pasted__pasted__pasted__pasted__Door
     4300004: pasted__pasted__pasted__pasted__Door
     4300006: pasted__pasted__pasted__pasted__pasted__Door
     4300008: pCube9
+    4300010: pasted__pasted__pasted__pasted__pasted__Door
     9500000: //RootNode
   externalObjects: {}
   materials:
