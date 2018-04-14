@@ -15,6 +15,7 @@ public class BombController : MonoBehaviour
     private AudioSource audioSource;
 
     private bool pickedUp;
+    private bool startBombTimer;
     private bool canBePickedUp = true;
     private bool isExploded;
 
@@ -25,7 +26,7 @@ public class BombController : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
         player.OnDropped += Player_OnDropped;
         player.OnPickedUp += Player_OnPickedUp; ;
         audioSource = GetComponent<AudioSource>();
@@ -53,7 +54,7 @@ public class BombController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pickedUp)
+        if (pickedUp || startBombTimer)
         {
             detonationTimer = Mathf.Min(detonationTimeWhenCarried, detonationTimer + Time.deltaTime);
         }
@@ -73,7 +74,6 @@ public class BombController : MonoBehaviour
 
     public void PickUpBomb()
     {
-        Debug.Log("MY PICK UP");
         if (canBePickedUp)
             pickedUp = true;
     }
@@ -88,7 +88,7 @@ public class BombController : MonoBehaviour
         detonationTimer = 0;
         detonationTimeWhenCarried = explosionTimeWhenPlaced;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        pickedUp = true;
+        startBombTimer = true;
         transform.GetChild(1).GetComponent<LineRenderer>().enabled = true;
         transform.GetChild(1).transform.rotation = Quaternion.identity;
         return explosionTimeWhenPlaced;
