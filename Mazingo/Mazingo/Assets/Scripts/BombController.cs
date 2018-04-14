@@ -152,6 +152,11 @@ public class BombController : MonoBehaviour
         //transform.gameObject.SetActive(false);
     }
 
+    public float GetTimeLeft()
+    {
+        return Mathf.Ceil(detonationTimeWhenCarried-detonationTimer);
+    }
+
     public float GetExplosionZone()
     {
         return deathDistance;
