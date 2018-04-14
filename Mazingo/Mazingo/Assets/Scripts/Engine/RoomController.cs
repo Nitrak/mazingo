@@ -17,19 +17,47 @@ namespace Assets.Scripts.Engine
         private Maze Maze;
         private Dictionary<Location, GameObject> LoadedRooms;
         private Dictionary<string, GameObject> Prefabs;
+        private MazeGeneration generator;
+        private GameObject player;
 
         //State data
         private VirtualTile lastPlayerTile;
 
         public RoomController()
         {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            var generator = new MazeGeneration();
-            this.Maze = generator.GenerateNewMaze(2, 20);
-            this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
+            this.player = GameObject.FindGameObjectWithTag("Player");
+            this.generator = new MazeGeneration();
             LoadedRooms = new Dictionary<Location, GameObject>();
             LoadPrefabs();
-            Load();
+            //Load();
+        }
+
+        public bool IsLoaded()
+        {
+            return Maze != null;
+        }
+
+        public void StartLevel(int level)
+        {
+            if(level == 0)
+            {
+                this.Maze = generator.GenerateTutorialMaze();
+            } else
+            {
+                this.Maze = generator.GenerateNewMaze(new[] { 10, 10, 10 }, .30d);
+            }
+            this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
+            var playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
+            
+            playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
+            playerController.Kill();
+        }
+
+        private Vector3 GetSpawnPosition(VirtualTile virtualTile)
+        {
+            var prefabName = GetPrefabName(virtualTile);
+            var prefab = Prefabs[prefabName];
+            return GridOffset + prefab.transform.position;
         }
 
         private void LoadPrefabs()
@@ -53,7 +81,7 @@ namespace Assets.Scripts.Engine
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             var position = player.transform.position;
-            Debug.Log(string.Format("Player position: {0}", position));
+            //Debug.Log(string.Format("Player position: {0}", position));
 
             var playerTile = TryGetRelativeRoom(position);
             if (playerTile != null)
@@ -92,7 +120,7 @@ namespace Assets.Scripts.Engine
                 while (loaded <= 5 && (directionTile = directionTile.Translate(dir)) != null)
                 {
                     var roomObj = EnsureRoom(directionTile);
-                    Debug.Log(string.Format("Loading room {0} of {1} ({2} at {3})", dir.Name, virtualTile.VirtualLocation, roomObj.name, directionTile.VirtualLocation));
+                    //Debug.Log(string.Format("Loading room {0} of {1} ({2} at {3})", dir.Name, virtualTile.VirtualLocation, roomObj.name, directionTile.VirtualLocation));
                     tiles.Add(directionTile.VirtualLocation, roomObj);
                     loaded++;
                 }

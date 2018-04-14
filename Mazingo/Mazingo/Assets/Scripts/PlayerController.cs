@@ -128,6 +128,11 @@ public class PlayerController : MonoBehaviour {
         recordPlayerInput();
     }
 
+    public void SetSpawnPosition(Vector3 spawn)
+    {
+        this.spawnPosition = spawn;
+    }
+
     private void castRay()
     {
         RaycastHit ray;
@@ -264,8 +269,9 @@ public class PlayerController : MonoBehaviour {
             StartCoroutine(Respawn());
     }
     
-    private IEnumerator Respawn()
+    public IEnumerator Respawn()
     {
+        Debug.Log("Spawning player");
         startSpawnGracePeriod();
 
         playerMoveSettings.shouldTakeInput = false;

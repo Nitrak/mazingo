@@ -211,6 +211,7 @@ namespace Assets.Scripts
     {
         public List<Floor> Floors = new List<Floor>();
         public MazeTile StartTile;
+        public int ShortestTilesFromKeyToBomb;
     }
 
     public static class HelperFunctions
@@ -220,6 +221,26 @@ namespace Assets.Scripts
 
     public class MazeGeneration : MonoBehaviour
     {
+        private class DijkstraInfo
+        {
+            public DijkstraInfo(MazeTile tile, int distance, DijkstraInfo previous)
+            {
+                Tile = tile;
+                Distance = distance;
+                Previous = previous;
+            }
+
+            public MazeTile Tile;
+            public int Distance;
+            public DijkstraInfo Previous;
+        }
+
+        private int FindDistance(ref Maze maze)
+        {
+
+            return 0;
+        }
+
         public Maze GenerateTutorialMaze()
         {
             var maze = new Maze();
@@ -253,7 +274,7 @@ namespace Assets.Scripts
             if (!(rng.NextDouble() <= pctchance)) return TileSpecial.Nothing;
 
             var possibleTraps = Enum.GetValues(typeof(TileSpecial)).Cast<int>().Where(e => e > 0 && e < 1000).ToList();
-            return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count)];
+            return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count - 1)];
 
         }
         
@@ -350,8 +371,8 @@ namespace Assets.Scripts
                             && possibleDoorsOnThisFloorEast.Count > 0
                             && possibleDoorsOnOtherFloorWest.Count > 0)
                         {
-                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorEast.Count);
-                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorWest.Count);
+                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorEast.Count - 1);
+                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorWest.Count - 1);
                             possibleDoorsOnThisFloorEast[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorWest[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorEast.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorWest.RemoveAt(idxFromOtherFloor);
@@ -360,8 +381,8 @@ namespace Assets.Scripts
                                  && possibleDoorsOnThisFloorWest.Count > 0
                                  && possibleDoorsOnOtherFloorEast.Count > 0)
                         {
-                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorWest.Count);
-                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorEast.Count);
+                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorWest.Count - 1);
+                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorEast.Count - 1);
                             possibleDoorsOnThisFloorWest[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorEast[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorWest.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorEast.RemoveAt(idxFromOtherFloor);
@@ -370,8 +391,8 @@ namespace Assets.Scripts
                                  && possibleDoorsOnThisFloorNorth.Count > 0
                                  && possibleDoorsOnOtherFloorSouth.Count > 0)
                         {
-                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorNorth.Count);
-                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorSouth.Count);
+                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorNorth.Count - 1);
+                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorSouth.Count - 1);
                             possibleDoorsOnThisFloorNorth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorSouth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorNorth.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorSouth.RemoveAt(idxFromOtherFloor);
@@ -380,8 +401,8 @@ namespace Assets.Scripts
                                  && possibleDoorsOnThisFloorSouth.Count > 0
                                  && possibleDoorsOnOtherFloorNorth.Count > 0)
                         {
-                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorSouth.Count);
-                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorNorth.Count);
+                            var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorSouth.Count - 1);
+                            var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorNorth.Count - 1);
                             possibleDoorsOnThisFloorSouth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorNorth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorSouth.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorNorth.RemoveAt(idxFromOtherFloor);
@@ -391,6 +412,17 @@ namespace Assets.Scripts
                 }
             }
 
+            //Insert key and breaking point
+            var allTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).ToList();
+
+            var tileIndex = rng.Next(allTiles.Count - 1);
+            allTiles[tileIndex].SpecialProperty = TileSpecial.Key1;
+            allTiles.RemoveAt(tileIndex);
+
+            tileIndex = rng.Next(allTiles.Count - 1);
+            allTiles[tileIndex].SpecialProperty = TileSpecial.BreakingPoint1;
+            allTiles.RemoveAt(tileIndex);
+
             //Add a start position to a southern wall somewhere
             for (var i = 0; i < 3 /*Number of directions*/; ++i)
             {
@@ -399,11 +431,14 @@ namespace Assets.Scripts
                     .Where(e => e.SideByDirection(usingDirection) == null 
                             && !maze.Floors[e.Floor].Tiles.ContainsKey(e.Location.AddDirectionOnce(usingDirection))).ToList();
                 if (listOfValidStartTiles.Count == 0) continue;
-                var aValidTile = listOfValidStartTiles[rng.Next(listOfValidStartTiles.Count)];
+                var aValidTile = listOfValidStartTiles[rng.Next(listOfValidStartTiles.Count-1)];
 
                 maze.StartTile = new MazeTile(TileSpecial.PlayerSpawn, usingDirection, ref aValidTile, ref maze);
                 break;
             }
+
+            
+
             return maze;
         }
 
