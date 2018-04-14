@@ -29,17 +29,20 @@ public class DoorScript : MonoBehaviour
     void Update()
     {
 
-        if (openDoor && transform.position != openPosition.position)
+        if (openDoor)
             movingTime = Mathf.Min(1, movingTime + Time.deltaTime);
-        else if (closeDoor && transform.position != openPosition.position)
+        else if (closeDoor)
             movingTime = Mathf.Max(0, movingTime - Time.deltaTime);
 
-        if(movingTime>0 && movingTime<1)
+
+
+        if (movingTime > 0 && movingTime < 1)
+        {
             transform.position = Vector3.Lerp(closedPosition, openPosition.position, movingTime);
+        }
     }
 
-
-    private void OnTriggerEnter(Collider collision)
+    public void DoorEnter(Collider collision)
     {
         Debug.Log("enter");
 
@@ -53,7 +56,7 @@ public class DoorScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    public void DoorExit(Collider collision)
     {
         Debug.Log("exit");
         if (collision.gameObject.tag == "Player")
