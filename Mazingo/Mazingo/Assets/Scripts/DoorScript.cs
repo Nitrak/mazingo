@@ -58,7 +58,6 @@ public class DoorScript : MonoBehaviour
 
     public void DoorExit(Collider collision)
     {
-        Debug.Log("exit");
         if (collision.gameObject.tag == "Player")
         {
             closeDoor = true;

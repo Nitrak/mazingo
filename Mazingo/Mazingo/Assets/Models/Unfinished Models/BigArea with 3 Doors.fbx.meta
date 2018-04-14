@@ -20,6 +20,22 @@ ModelImporter:
     100024: transform12
     100026: transform13
     100028: transform9
+    100030: group14
+    100032: group15
+    100034: group16
+    100036: pasted__group12
+    100038: pasted__group12 1
+    100040: pasted__group14
+    100042: pasted__pasted__group11
+    100044: pasted__pasted__group11 1
+    100046: pasted__pasted__group12
+    100048: pasted__pasted__pasted__group11
+    100050: pasted__pasted__pasted__group7
+    100052: pasted__pasted__pasted__group7 1
+    100054: pasted__pasted__pasted__pasted__Door
+    100056: pasted__pasted__pasted__pasted__Door 1
+    100058: pasted__pasted__pasted__pasted__group7
+    100060: pasted__pasted__pasted__pasted__pasted__Door
     400000: //RootNode
     400002: group10
     400004: group8
@@ -35,10 +51,35 @@ ModelImporter:
     400024: transform12
     400026: transform13
     400028: transform9
+    400030: group14
+    400032: group15
+    400034: group16
+    400036: pasted__group12
+    400038: pasted__group12 1
+    400040: pasted__group14
+    400042: pasted__pasted__group11
+    400044: pasted__pasted__group11 1
+    400046: pasted__pasted__group12
+    400048: pasted__pasted__pasted__group11
+    400050: pasted__pasted__pasted__group7
+    400052: pasted__pasted__pasted__group7 1
+    400054: pasted__pasted__pasted__pasted__Door
+    400056: pasted__pasted__pasted__pasted__Door 1
+    400058: pasted__pasted__pasted__pasted__group7
+    400060: pasted__pasted__pasted__pasted__pasted__Door
     2100000: lambert1
     2300000: pCube7
+    2300002: pasted__pasted__pasted__pasted__Door
+    2300004: pasted__pasted__pasted__pasted__Door 1
+    2300006: pasted__pasted__pasted__pasted__pasted__Door
     3300000: pCube7
+    3300002: pasted__pasted__pasted__pasted__Door
+    3300004: pasted__pasted__pasted__pasted__Door 1
+    3300006: pasted__pasted__pasted__pasted__pasted__Door
     4300000: pCube7
+    4300002: pasted__pasted__pasted__pasted__Door
+    4300004: pasted__pasted__pasted__pasted__Door
+    4300006: pasted__pasted__pasted__pasted__pasted__Door
     9500000: //RootNode
   externalObjects: {}
   materials:
