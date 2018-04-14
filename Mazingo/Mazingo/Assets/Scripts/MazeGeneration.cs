@@ -262,6 +262,8 @@ namespace Assets.Scripts
             var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
 
             //Hooking the two floors together
+            maze.ShortestTilesFromKeyToBomb = 3;
+            maze.StartTile = starting;
             statue.TieMazeTile(floor1Room1, Direction.East);
             floor1Room3.TieMazeTile(bomb, Direction.East);
 
