@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 95421011895380442}
   m_Layer: 0
   m_Name: d1111
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1663,7 +1663,7 @@ GameObject:
   - component: {fileID: 95036481667872500}
   m_Layer: 0
   m_Name: d0010
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2557,7 +2557,7 @@ GameObject:
   - component: {fileID: 95629003290050024}
   m_Layer: 0
   m_Name: d1100
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3166,7 +3166,7 @@ GameObject:
   - component: {fileID: 95118829485153266}
   m_Layer: 0
   m_Name: d1110
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3437,7 +3437,7 @@ GameObject:
   - component: {fileID: 95163794381926210}
   m_Layer: 0
   m_Name: d0111
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3516,7 +3516,7 @@ GameObject:
   - component: {fileID: 95672311499661808}
   m_Layer: 0
   m_Name: d1000
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4158,7 +4158,7 @@ GameObject:
   - component: {fileID: 95438341826794996}
   m_Layer: 0
   m_Name: d0001
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4509,7 +4509,7 @@ GameObject:
   - component: {fileID: 64536200131851026}
   m_Layer: 0
   m_Name: s1000
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4740,7 +4740,7 @@ GameObject:
   - component: {fileID: 95621878631688554}
   m_Layer: 0
   m_Name: d0101
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4833,7 +4833,7 @@ GameObject:
   - component: {fileID: 95689632659210446}
   m_Layer: 0
   m_Name: d1011
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6357,7 +6357,7 @@ GameObject:
   - component: {fileID: 95829756941565940}
   m_Layer: 0
   m_Name: d0100
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6679,7 +6679,7 @@ GameObject:
   - component: {fileID: 64057995610041998}
   m_Layer: 0
   m_Name: s0001
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6804,7 +6804,7 @@ GameObject:
   - component: {fileID: 95698959714145986}
   m_Layer: 0
   m_Name: d1101
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7264,7 +7264,7 @@ GameObject:
   - component: {fileID: 95701152738475034}
   m_Layer: 0
   m_Name: d0110
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7296,7 +7296,7 @@ GameObject:
   - component: {fileID: 64033423510021314}
   m_Layer: 0
   m_Name: s0010
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7327,7 +7327,7 @@ GameObject:
   - component: {fileID: 95878737480477264}
   m_Layer: 0
   m_Name: d1010
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7880,7 +7880,7 @@ GameObject:
   - component: {fileID: 64093877474833360}
   m_Layer: 0
   m_Name: s0100
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8035,7 +8035,7 @@ GameObject:
   - component: {fileID: 95916343608766014}
   m_Layer: 0
   m_Name: d0011
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8278,7 +8278,7 @@ GameObject:
   - component: {fileID: 95669094979187258}
   m_Layer: 0
   m_Name: d1001
-  m_TagString: Untagged
+  m_TagString: RoomPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

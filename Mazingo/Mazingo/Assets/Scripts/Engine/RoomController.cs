@@ -10,22 +10,22 @@ namespace Assets.Scripts.Engine
 
     public class RoomController : MonoBehaviour
     {
-        private const float RoomSize = 20;
+        public const float RoomSize = 20;
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
-        private Dictionary<Location, KeyValuePair<int, GameObject>> LoadedRooms;
+        private Dictionary<Location, GameObject> LoadedRooms;
         private Dictionary<string, GameObject> Prefabs;
 
         //State data
-        private MazeTile lastPlayerTile;
+        private VirtualTile lastPlayerTile;
 
         public RoomController()
         {
             var generator = new MazeGeneration();
             this.Maze = generator.GenerateNewMaze(2, 20);
-
-            LoadedRooms = new Dictionary<Location, KeyValuePair<int, GameObject>>();
+            this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
+            LoadedRooms = new Dictionary<Location, GameObject>();
             LoadPrefabs();
             Load();
         }
@@ -34,12 +34,15 @@ namespace Assets.Scripts.Engine
         {
             Prefabs = new Dictionary<string, GameObject>();
             var fabs = Resources.FindObjectsOfTypeAll(typeof(GameObject));
-            foreach(GameObject fab in fabs)
+            foreach (GameObject fab in fabs)
             {
-                if(fab.tag == "RoomPrefab")
+                if (fab.tag == "RoomPrefab")
                 {
-                    Debug.Log(string.Format("Loaded {0}", fab.name));
-                    Prefabs.Add(fab.name, fab);
+                    if (!Prefabs.ContainsKey(fab.name))
+                    {
+                        Debug.Log(string.Format("Loaded {0}", fab.name));
+                        Prefabs.Add(fab.name, fab);
+                    }
                 }
             }
         }
@@ -49,8 +52,8 @@ namespace Assets.Scripts.Engine
             var player = GameObject.FindGameObjectWithTag("Player");
             var position = player.transform.position;
 
-            var playerTile = TryGetRoomAt(position);
-            if (playerTile != null)
+            var playerTile = TryGetRelativeRoom(position);
+            if (playerTile != null && !lastPlayerTile.Equals(playerTile))
             {
                 var newRooms = GetDirectionalTiles(playerTile);
                 UnloadRoomsExcept(newRooms);
@@ -64,85 +67,75 @@ namespace Assets.Scripts.Engine
             }
         }
 
-        private void UnloadRoomsExcept(Dictionary<Location, KeyValuePair<int, GameObject>> newRooms)
+        private void UnloadRoomsExcept(Dictionary<Location, GameObject> newRooms)
         {
-            foreach(var loadedRoomKvp in LoadedRooms)
+            foreach (var loadedRoom in LoadedRooms)
             {
-                var location = loadedRoomKvp.Key;
-                var newRoom = newRooms[location];
-                var oldRoom = loadedRoomKvp.Value;
-                if(newRooms.ContainsKey(location) && newRoom.Key == oldRoom.Key)
+                if(!newRooms.ContainsKey(loadedRoom.Key))
                 {
-                    continue;
+                    Destroy(loadedRoom.Value);
                 }
-                Destroy(oldRoom.Value);
             }
         }
 
-        private Dictionary<Location, KeyValuePair<int, GameObject>> GetDirectionalTiles(MazeTile tile)
+        private Dictionary<Location, GameObject> GetDirectionalTiles(VirtualTile virtualTile)
         {
-            var tiles = new Dictionary<Location, KeyValuePair<int, GameObject>>();
-            tiles.Add(tile.Location, new KeyValuePair<int, GameObject>(tile.Floor, EnsureRoom(tile)));
-            foreach (var dir in Enum.GetValues(typeof(Direction)))
+            var tiles = new Dictionary<Location, GameObject>();
+            tiles.Add(virtualTile.VirtualLocation, EnsureRoom(virtualTile));
+            foreach (var dir in Direction.Values)
             {
-                var directionTile = tile;
-                while ((directionTile = directionTile.Sides[(int)dir]) != null)
+                var directionTile = virtualTile;
+                while ((directionTile = directionTile.Translate(dir)) != null)
                 {
-                    var roomKvp = new KeyValuePair<int, GameObject>(directionTile.Floor, EnsureRoom(directionTile));
-                    tiles.Add(directionTile.Location, roomKvp);
+                    var roomObj = EnsureRoom(directionTile);
+                    tiles.Add(directionTile.VirtualLocation, roomObj);
                 }
             }
             return tiles;
         }
 
-        private GameObject EnsureRoom(MazeTile tile)
+        private GameObject EnsureRoom(VirtualTile tile)
         {
-            if(LoadedRooms.ContainsKey(tile.Location) && LoadedRooms[tile.Location].Key == tile.Floor)
+            if (LoadedRooms.ContainsKey(tile.VirtualLocation))
             {
-                return LoadedRooms[tile.Location].Value;
+                return LoadedRooms[tile.VirtualLocation];
             }
             var prefabName = GetPrefabName(tile);
             var prefab = Prefabs[prefabName];
 
-            var roomPos = new Vector3(tile.Location.X * RoomSize, 0, tile.Location.Z * RoomSize);
+            var roomPos = new Vector3(tile.GetVirtualX(), 0, tile.GetVirtualZ());
             return Instantiate(prefab, roomPos, Quaternion.identity);
         }
 
-        private string GetPrefabName(MazeTile tile)
+        private string GetPrefabName(VirtualTile virtualTile)
         {
-            var builder = new StringBuilder(tile.SpecialProperty == TileSpecial.PlayerSpawn ? "s" : "d");
-            foreach(var sideTile in tile.Sides) {
+            var builder = new StringBuilder(virtualTile.Tile.SpecialProperty == TileSpecial.PlayerSpawn ? "s" : "d");
+            foreach (var sideTile in virtualTile.Tile.Sides)
+            {
                 builder.Append(Convert.ToInt32(sideTile != null));
             }
             return builder.ToString();
         }
 
-        public MazeTile TryGetRoomAt(Vector3 vector)
+        public VirtualTile TryGetRelativeRoom(Vector3 vector)
         {
-            var gridX = (int)(vector.x / RoomSize);
-            var gridZ = (int)(vector.z / RoomSize);
-            var location = new Location(gridX, gridZ);
-            if (lastPlayerTile == null)
+            var relativeDir = GetRelativeDirection(vector);
+            if(relativeDir != Direction.NONE)
             {
-                Floor floor = Maze.Floors[StartFloorIndex];
-                if (floor.Tiles.ContainsKey(location))
-                {
-                    return floor.Tiles[location];
-                }
+                return lastPlayerTile.Translate(relativeDir);
             }
-            else
-            {
-                if (lastPlayerTile.Location.Equals(location))
-                {
-                    return lastPlayerTile;
-                }
-                else
-                {
-                    return GetTileFrom(lastPlayerTile, location);
-                }
-            }
-            return null;
+            return lastPlayerTile;
         }
+
+        private Direction GetRelativeDirection(Vector3 vector)
+        {
+            float relX = vector.x - lastPlayerTile.GetVirtualX();
+            float relZ = vector.z - lastPlayerTile.GetVirtualZ();
+            var offX = (int)Math.Floor(relX / RoomSize);
+            var offZ = (int)Math.Floor(relZ / RoomSize);
+            return Direction.ForRelative(offX, offZ);
+        }
+
 
         private MazeTile GetTileFrom(MazeTile tile, Location location)
         {

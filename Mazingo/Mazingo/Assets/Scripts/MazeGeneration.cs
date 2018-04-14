@@ -121,17 +121,42 @@ namespace Assets.Scripts
                     throw new ArgumentOutOfRangeException("direction", direction, "Directions must be one of four cardinal directions, as given in the enumerable");
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            var tileObj = obj as MazeTile;
+            if(tileObj != null)
+            {
+                return tileObj.Floor == this.Floor
+                    && tileObj.Location.Equals(this.Location);
+            }
+            return false;
+        }
     }
 
     public struct Location
     {
-        public int X;
-        public int Z;
+        public readonly int X;
+        public readonly int Z;
 
         public Location(int x, int z)
         {
             X = x;
             Z = z;
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            // Suitable nullity checks etc, of course :)
+            hash = hash * 23 + X.GetHashCode();
+            hash = hash * 23 + Z.GetHashCode();
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0}, {1})", X, Z);
         }
 
         public Location AddDirectionOnce(Direction direction)
