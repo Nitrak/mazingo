@@ -134,8 +134,13 @@ namespace Assets.Scripts
         public int Floors = 1;
         public int TilesPerFloor = 30;
 
-        public Maze GenerateNewMaze()
+        public Maze GenerateNewMaze(int? floors = null, int? tilesPerFloor = null)
         {
+            //Get optional params
+            Floors = floors ?? Floors;
+            TilesPerFloor = tilesPerFloor ?? TilesPerFloor;
+
+            //Set up the maze
             var rng = new Random();
             var maze = new Maze();
 
