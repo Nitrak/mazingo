@@ -66,12 +66,12 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            if (interactPressed && !pickupGracePeriod || CarriedObject.constraints == RigidbodyConstraints.FreezeAll)
+            if ((interactPressed && !pickupGracePeriod) || (CarriedObject != null  && CarriedObject.constraints == RigidbodyConstraints.FreezeAll))
             {
                 //Debug.Log("dropping item");
                 dropItem();
             }
-            else
+            else if(CarryingItem)
             {
                 UpdateCarriedItemPosition();
             }
