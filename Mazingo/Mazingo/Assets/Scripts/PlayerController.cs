@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (interactPressed && !pickupGracePeriod)
             {
-                Debug.Log("dropping item");
+                //Debug.Log("dropping item");
                 dropItem();
             }
             else
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour {
         startGracePeriod();
 
         this.CarryingItem = false;
-        Debug.Log("dropped item");
+        //Debug.Log("dropped item");
         //this.CarriedObject.transform.parent = this.CarriedInitialParent;
         this.CarriedObject.angularDrag = carriedObjectAngularDrag;
         this.CarriedObject.useGravity = true;
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
         startGracePeriod();
         CarryingItem = true;
         CarriedObject = item;
-        Debug.Log("Picked item up");
+        //Debug.Log("Picked item up");
         this.CarriedObject = item;
         this.CarriedInitialParent = item.transform.parent;
         this.CarriedInitialRotation = item.transform.rotation;
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
         pickupGracePeriod = true;
         pickupGraceTimer = new Timer((obj) =>
         {
-            Debug.Log("Grace period over");
+            //Debug.Log("Grace period over");
             pickupGracePeriod = false;
             pickupGraceTimer.Dispose();
         },
@@ -98,12 +98,12 @@ public class PlayerController : MonoBehaviour {
     private void castRay()
     {
         RaycastHit ray;
-        Debug.Log("cast");
+        //Debug.Log("cast");
         bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength, objectMask);
         //Debug.DrawRay(transform.position, transform.rotation * Vector3.forward, Color.red, rayLength);
         if (hit)
         {
-            Debug.Log("hit");
+            //Debug.Log("hit");
             //interaction
             var d = ray.collider.gameObject.GetComponent<Rigidbody>();
             if (d != null)
