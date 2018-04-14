@@ -132,6 +132,23 @@ namespace Assets.Scripts
             X = x;
             Z = z;
         }
+
+        public Location AddDirectionOnce(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.East:
+                    return new Location(X+1,Z);
+                case Direction.North:
+                    return new Location(X,Z+1);
+                case Direction.South:
+                    return new Location(X,Z-1);
+                case Direction.West:
+                    return new Location(X-1,Z);;
+                default:
+                    throw new ArgumentOutOfRangeException("direction", direction, "Directions must be one of four cardinal directions, as given in the enumerable");
+            }
+        }
     }
 
     public class Floor
@@ -144,6 +161,11 @@ namespace Assets.Scripts
     {
         public List<Floor> Floors = new List<Floor>();
         public MazeTile StartTile;
+    }
+
+    public static class HelperFunctions
+    {
+        
     }
 
     public class MazeGeneration : MonoBehaviour
@@ -305,7 +327,9 @@ namespace Assets.Scripts
             for (var i = 0; i < 3 /*Number of directions*/; ++i)
             {
                 var usingDirection = (Direction)i;
-                var listOfValidStartTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).Where(e => e.SideByDirection(usingDirection) == null).ToList();
+                var listOfValidStartTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value))
+                    .Where(e => e.SideByDirection(usingDirection) == null 
+                            && !maze.Floors[e.Floor].Tiles.ContainsKey(e.Location.AddDirectionOnce(usingDirection))).ToList();
                 if (listOfValidStartTiles.Count == 0) continue;
                 var aValidTile = listOfValidStartTiles[rng.Next(listOfValidStartTiles.Count)];
 
