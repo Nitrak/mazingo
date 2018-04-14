@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 95755537643524514}
   - component: {fileID: 65923245762762368}
   - component: {fileID: 114795162322748742}
+  - component: {fileID: 64184499565459856}
   m_Layer: 0
   m_Name: keyDoor
   m_TagString: Untagged
@@ -114,6 +115,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1094522382591366}
   m_Mesh: {fileID: 4300000, guid: c32fb8b484e37e54bae99f2a2a1a7852, type: 3}
+--- !u!64 &64184499565459856
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1814169334632810}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!65 &65923245762762368
 BoxCollider:
   m_ObjectHideFlags: 1
