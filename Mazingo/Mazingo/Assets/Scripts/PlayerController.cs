@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator Respawn()
     {
         startSpawnGracePeriod();
+        yield return new WaitForSeconds(1);
         deathScreen.SetActive(true);
         Debug.Log("rip");
         player.velocity = Vector3.zero;
@@ -183,7 +184,9 @@ public class PlayerController : MonoBehaviour {
                 if (interactPressed && !CarryingItem)
                 {
                     pickItemUp(d);
-                }else if (!CarryingItem)
+                    actionText.text = "";
+                }
+                else if (!CarryingItem)
                 {
                     actionText.text = String.Format("Press <{0}> to interact", interactKey.ToString());
                 }
