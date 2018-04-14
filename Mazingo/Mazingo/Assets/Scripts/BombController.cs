@@ -100,10 +100,11 @@ public class BombController : MonoBehaviour
         return explosionTimeWhenPlaced;
     }
 
-    private void Explode()
+    public void Explode()
     {
         if(pickedUp)
             player.dropItem();
+
         Debug.Log("booom");
         isExploded = true;
         audioSource.clip = null;

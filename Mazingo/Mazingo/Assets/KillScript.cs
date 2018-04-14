@@ -6,8 +6,10 @@ public class KillScript : MonoBehaviour {
 
     PlayerController player;
 
-	// Use this for initialization
-	void Start () {
+    LayerMask objectMask = LayerMask.GetMask("Objects");
+
+    // Use this for initialization
+    void Start () {
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
     }
 
@@ -15,5 +17,12 @@ public class KillScript : MonoBehaviour {
     {
         if(other.tag=="Player")
             player.Kill();
+        else { 
+            var controller = other.GetComponent<BombController>();
+            if(controller != null)
+            {
+                controller.Explode();
+            }
+        }
     }
 }
