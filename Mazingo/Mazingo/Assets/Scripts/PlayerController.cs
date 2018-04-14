@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour {
     private bool CarryingItem;
     private float carriedObjectAngularDrag;
 
+    public Text actionText;
     public GameObject deathScreen;
     public KeyCode interactKey = KeyCode.E;
     public int pickupGraceDelay = 200;
@@ -100,10 +102,11 @@ public class PlayerController : MonoBehaviour {
         deathScreen.SetActive(true);
         Debug.Log("rip");
         player.velocity = Vector3.zero;
+        this.transform.parent.rotation = Quaternion.identity;
+        this.transform.rotation = Quaternion.identity;
         this.transform.parent.position = spawnPosition;
-        this.transform.parent.rotation = cameraSpawnRotation;
         //player.position = spawnPosition;
-        //this.transform.rotation = cameraSpawnRotation;
+
         yield return new WaitForSeconds(2);
         deathScreen.SetActive(false);
     }
@@ -180,7 +183,11 @@ public class PlayerController : MonoBehaviour {
                 if (interactPressed && !CarryingItem)
                 {
                     pickItemUp(d);
+                }else if (!CarryingItem)
+                {
+                    actionText.text = String.Format("Press <{0}> to interact", interactKey.ToString());
                 }
+                
             }
             else
             {
@@ -188,6 +195,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
+            actionText.text = "";
         }
     }
 
