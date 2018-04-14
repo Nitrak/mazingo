@@ -68,9 +68,11 @@ public class PlayerController : MonoBehaviour {
     public float rayLength = 5f;
 
     public delegate void CarryEventHandler(object sender, CarriedEventArgs e);
+    public delegate void EventHandler(object sender);
     public event CarryEventHandler OnPickedUp;
     public event CarryEventHandler OnDropped;
     public event CarryEventHandler OnThrown;
+    public event EventHandler OnDeath;
 
 
 
@@ -271,6 +273,7 @@ public class PlayerController : MonoBehaviour {
     
     public IEnumerator Respawn()
     {
+        OnDeath(this);
         Debug.Log("Spawning player");
         startSpawnGracePeriod();
 
