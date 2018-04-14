@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator Respawn()
     {
         startSpawnGracePeriod();
+        yield return new WaitForSeconds(1);
         deathScreen.SetActive(true);
         Debug.Log("rip");
         player.velocity = Vector3.zero;
