@@ -18,11 +18,30 @@ public class BombController : MonoBehaviour
     private bool canBePickedUp = true;
     private bool isExploded;
 
+    private PlayerController player;
+    private Rigidbody body;
+
     // Use this for initialization
     void Start()
     {
+        body = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.OnDropped += Player_OnDropped;
+        player.OnPickedUp += Player_OnPickedUp; ;
         audioSource = GetComponent<AudioSource>();
         isExploded = false;
+    }
+
+    private void Player_OnPickedUp(object sender, PlayerController.CarriedEventArgs e)
+    {
+        if(e.Item == body)
+            PickUpBomb();
+    }
+
+    private void Player_OnDropped(object sender, PlayerController.CarriedEventArgs e)
+    {
+        if (e.Item == body)
+            DropBomb();
     }
 
     void OnDrawGizmosSelected()
@@ -54,6 +73,7 @@ public class BombController : MonoBehaviour
 
     public void PickUpBomb()
     {
+        Debug.Log("MY PICK UP");
         if (canBePickedUp)
             pickedUp = true;
     }
