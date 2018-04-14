@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 4527253753759052}
   - component: {fileID: 33380683863789994}
   - component: {fileID: 23633711166385248}
+  - component: {fileID: 64947137106123564}
   m_Layer: 0
   m_Name: pCube9
   m_TagString: Untagged
@@ -793,6 +794,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1828099598457002}
   m_Mesh: {fileID: 4300002, guid: 66092f96a90417343b5b15eb1fd6bcc5, type: 3}
+--- !u!64 &64947137106123564
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1428206993704880}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300004, guid: 66092f96a90417343b5b15eb1fd6bcc5, type: 3}
 --- !u!95 &95697775460904794
 Animator:
   serializedVersion: 3

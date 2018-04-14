@@ -15,6 +15,7 @@ namespace Assets.Scripts.Engine
 
         private Maze Maze;
         private Dictionary<Location, KeyValuePair<int, GameObject>> LoadedRooms;
+        private Dictionary<string, GameObject> Prefabs;
 
         //State data
         private MazeTile lastPlayerTile;
@@ -25,7 +26,22 @@ namespace Assets.Scripts.Engine
             this.Maze = generator.GenerateNewMaze(2, 20);
 
             LoadedRooms = new Dictionary<Location, KeyValuePair<int, GameObject>>();
+            LoadPrefabs();
             Load();
+        }
+
+        private void LoadPrefabs()
+        {
+            Prefabs = new Dictionary<string, GameObject>();
+            var fabs = Resources.FindObjectsOfTypeAll(typeof(GameObject));
+            foreach(GameObject fab in fabs)
+            {
+                if(fab.tag == "RoomPrefab")
+                {
+                    Debug.Log(string.Format("Loaded {0}", fab.name));
+                    Prefabs.Add(fab.name, fab);
+                }
+            }
         }
 
         public void Load()
@@ -66,13 +82,14 @@ namespace Assets.Scripts.Engine
         private Dictionary<Location, KeyValuePair<int, GameObject>> GetDirectionalTiles(MazeTile tile)
         {
             var tiles = new Dictionary<Location, KeyValuePair<int, GameObject>>();
+            tiles.Add(tile.Location, new KeyValuePair<int, GameObject>(tile.Floor, EnsureRoom(tile)));
             foreach (var dir in Enum.GetValues(typeof(Direction)))
             {
                 var directionTile = tile;
                 while ((directionTile = directionTile.Sides[(int)dir]) != null)
                 {
                     var roomKvp = new KeyValuePair<int, GameObject>(directionTile.Floor, EnsureRoom(directionTile));
-                    LoadedRooms.Add(directionTile.Location, roomKvp);
+                    tiles.Add(directionTile.Location, roomKvp);
                 }
             }
             return tiles;
@@ -85,8 +102,8 @@ namespace Assets.Scripts.Engine
                 return LoadedRooms[tile.Location].Value;
             }
             var prefabName = GetPrefabName(tile);
-            var prefab = GameObject.Find(prefabName);
-            Resources.FindObjectsOfTypeAll(typeof(GameObject));
+            var prefab = Prefabs[prefabName];
+
             var roomPos = new Vector3(tile.Location.X * RoomSize, 0, tile.Location.Z * RoomSize);
             return Instantiate(prefab, roomPos, Quaternion.identity);
         }

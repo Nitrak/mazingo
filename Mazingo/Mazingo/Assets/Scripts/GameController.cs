@@ -12,6 +12,10 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rc = new Assets.Scripts.Engine.RoomController();
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Kill();
+        }
 	}
 	
 	// Update is called once per frame
