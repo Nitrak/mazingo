@@ -80,6 +80,7 @@ namespace Assets.Scripts
                     throw new ArgumentOutOfRangeException("growDirection", growDirection, null);
             }
 
+            Location = newLocation;
             SpecialProperty = special;
             Floor = tileBackwards.Floor;
             maze.Floors[Floor].Tiles.Add(Location, this);
