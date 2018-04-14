@@ -57,6 +57,34 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
         }
 
+        public void SetWalkSpeed(float newSpeed)
+        {
+            m_WalkSpeed = newSpeed;
+        }
+        public void SetRunSpeed(float newSpeed)
+        {
+            m_RunSpeed = newSpeed;
+        }
+        public void SetJumpSpeed(float newSpeed)
+        {
+            m_JumpSpeed = newSpeed;
+        }
+
+        public float GetMovementSpeed()
+        {
+            return m_WalkSpeed;
+        }
+
+        public float GetRunSpeed()
+        {
+            return m_RunSpeed;
+        }
+
+        public float GetJumpSpeed()
+        {
+            return m_JumpSpeed;
+        }
+
 
         // Update is called once per frame
         private void Update()

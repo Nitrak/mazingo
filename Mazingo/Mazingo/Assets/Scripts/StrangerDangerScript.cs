@@ -8,9 +8,8 @@ public class StrangerDangerScript : MonoBehaviour {
 
     private struct SpeedVars
     {
-        public float ForwardSpeed;
-        public float BackwardSpeed;
-        public float StrafeSpeed;
+        public float WalkSpeed;
+        public float RunSpeed;
         public float JumpForce;
     }
 
@@ -26,7 +25,8 @@ public class StrangerDangerScript : MonoBehaviour {
 
     public bool isVisible = false;
 
-    RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
+    //RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
+    FirstPersonController playerMoveSettings;
     PlayerController controller;
     GameObject player;
     float time;
@@ -36,15 +36,15 @@ public class StrangerDangerScript : MonoBehaviour {
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
         controller = p.transform.GetChild(0).GetComponent<PlayerController>();
-        playerMoveSettings = tmp.movementSettings;
+        //playerMoveSettings = tmp.movementSettings;
+        playerMoveSettings = p.GetComponent<FirstPersonController>();
         player = p;
 
         speedVars = new SpeedVars
         {
-            ForwardSpeed = playerMoveSettings.ForwardSpeed,
-            BackwardSpeed = playerMoveSettings.BackwardSpeed,
-            StrafeSpeed = playerMoveSettings.StrafeSpeed,
-            JumpForce = playerMoveSettings.JumpForce
+            WalkSpeed = playerMoveSettings.GetMovementSpeed(),
+            RunSpeed = playerMoveSettings.GetRunSpeed(),
+            JumpForce = playerMoveSettings.GetJumpSpeed()
         };
 
         this.playerMask = LayerMask.GetMask("Player");
@@ -88,10 +88,10 @@ public class StrangerDangerScript : MonoBehaviour {
     private void Freeze(float percentage)
     {
         var movespeed = 1 - percentage;
-        playerMoveSettings.ForwardSpeed = speedVars.ForwardSpeed * movespeed;
-        playerMoveSettings.BackwardSpeed = speedVars.BackwardSpeed * movespeed;
-        playerMoveSettings.StrafeSpeed = speedVars.StrafeSpeed * movespeed;
-        playerMoveSettings.JumpForce = speedVars.JumpForce * movespeed;
+        playerMoveSettings.SetWalkSpeed(speedVars.WalkSpeed * movespeed);
+        playerMoveSettings.SetRunSpeed(speedVars.RunSpeed * movespeed);
+        playerMoveSettings.SetJumpSpeed(speedVars.JumpForce * movespeed);
+
 
         if (text != null)
         {
