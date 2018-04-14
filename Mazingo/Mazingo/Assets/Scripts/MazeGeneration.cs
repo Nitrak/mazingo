@@ -16,7 +16,15 @@ namespace Assets.Scripts
         Key1 = 1001,
 
 
-        BreakingPoint1 = 2001
+        BreakingPoint1 = 2001,
+
+        Decoration1 = 3001,
+        Decoration2 = 3002,
+        Decoration3 = 3003,
+        Decoration4 = 3004,
+        Decoration5 = 3005,
+        Decoration6 = 3006,
+        Decoration7 = 3007
     }
 
     public enum Direction
@@ -248,8 +256,8 @@ namespace Assets.Scripts
             
             //Create ground floor
             var starting = new MazeTile(TileSpecial.PlayerSpawn, 0, ref maze);
-            var room1 = new MazeTile(TileSpecial.Nothing, Direction.East, ref starting, ref maze);
-            var room2 = new MazeTile(TileSpecial.Nothing, Direction.North, ref room1, ref maze);
+            var room1 = new MazeTile(TileSpecial.Decoration1, Direction.East, ref starting, ref maze);
+            var room2 = new MazeTile(TileSpecial.Decoration3, Direction.North, ref room1, ref maze);
             var room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref room2, ref maze);
             var bproom = new MazeTile(TileSpecial.BreakingPoint1, Direction.East, ref room3, ref maze);
             var statue = new MazeTile(TileSpecial.Statue, Direction.North, ref room3, ref maze);
@@ -257,7 +265,7 @@ namespace Assets.Scripts
             
             //Create 1st floor
             var floor1Room1 = new MazeTile(TileSpecial.Nothing, 1, ref maze);
-            var floor1Room2 = new MazeTile(TileSpecial.Nothing, Direction.South, ref floor1Room1, ref maze);
+            var floor1Room2 = new MazeTile(TileSpecial.Decoration2, Direction.South, ref floor1Room1, ref maze);
             var floor1Lava = new MazeTile(TileSpecial.Lava, Direction.East, ref floor1Room2, ref maze);
             var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
 
@@ -275,7 +283,15 @@ namespace Assets.Scripts
 
             var possibleTraps = Enum.GetValues(typeof(TileSpecial)).Cast<int>().Where(e => e > 0 && e < 1000).ToList();
             return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count - 1)];
+        }
 
+        private TileSpecial GenerateRandomDecoration(ref Random rng)
+        {
+            //Traps are found in the enum from 1 to 1000
+            if (!(rng.NextDouble() <= 0.5)) return TileSpecial.Nothing;
+
+            var possibleTraps = Enum.GetValues(typeof(TileSpecial)).Cast<int>().Where(e => e > 3000 && e < 4000).ToList();
+            return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count - 1)];
         }
         
         public Maze GenerateNewMaze(int[] tilesPerFloor, double chanceOfTrap)
@@ -422,6 +438,12 @@ namespace Assets.Scripts
             tileIndex = rng.Next(allTiles.Count - 1);
             allTiles[tileIndex].SpecialProperty = TileSpecial.BreakingPoint1;
             allTiles.RemoveAt(tileIndex);
+
+            //Add a bunch of decorations
+            foreach (var mazeTile in allTiles)
+            {
+                mazeTile.SpecialProperty = GenerateRandomDecoration(ref rng);
+            }
 
             //Add a start position to a southern wall somewhere
             for (var i = 0; i < 3 /*Number of directions*/; ++i)
