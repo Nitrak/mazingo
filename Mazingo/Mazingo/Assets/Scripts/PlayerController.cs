@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     private Quaternion cameraSpawnRotation;
 
     private bool interactPressed = false;
+    private bool throwPressed = false;
     private bool pickupGracePeriod;
     private bool spawnGracePeriod;
     private bool CarryingItem;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour {
     public Text actionText;
     public GameObject deathScreen;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode throwKey = KeyCode.Mouse0;
     public int pickupGraceDelay = 200;
     public int spawnGraceDelay = 2000;
     public float carryingDistance = 2f;
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour {
     public delegate void CarryEventHandler(object sender, CarriedEventArgs e);
     public event CarryEventHandler OnPickedUp;
     public event CarryEventHandler OnDropped;
+    public event CarryEventHandler OnThrown;
 
 
 
@@ -69,47 +72,87 @@ public class PlayerController : MonoBehaviour {
         spawnPosition = player.transform.position;
     }
 
+    private void FixedUpdate()
+    {
+        if (!CarryingItem && !pickupGracePeriod)
+        {
+            castRay();
+        }
+        else
+        {
+            if (CarryingItem)
+            {
+                updateCarriedItemPosition();
+                if (!pickupGracePeriod)
+                {
+                    if (interactPressed || (CarriedObject != null && CarriedObject.constraints == RigidbodyConstraints.FreezeAll))
+                    {
+                        //Debug.Log("dropping item");
+                        dropItem();
+                    }
+                    else if (throwPressed)
+                    {
+                        throwItem((transform.rotation * Vector3.forward)*300);
+                    }
+                }
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         recordPlayerInput();
-        if (!CarryingItem && !pickupGracePeriod)
+    }
+
+    private void castRay()
+    {
+        RaycastHit ray;
+        //Debug.Log("cast");
+        bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength, objectMask);
+        //Debug.DrawRay(transform.position, transform.rotation * Vector3.forward, Color.red, rayLength);
+        if (hit)
         {
-            castRay();  
+            //Debug.Log("hit");
+            //interaction
+            var d = ray.collider.gameObject.GetComponent<Rigidbody>();
+            if (d != null)
+            {
+                if (interactPressed && !CarryingItem)
+                {
+                    pickItemUp(d);
+                    actionText.text = "";
+                }
+                else if (!CarryingItem)
+                {
+                    actionText.text = String.Format("Press <{0}> to interact", interactKey.ToString());
+                }
+                
+            }
+            else
+            {
+            }
         }
         else
         {
-            if ((interactPressed && !pickupGracePeriod) || (CarriedObject != null  && CarriedObject.constraints == RigidbodyConstraints.FreezeAll))
-            {
-                //Debug.Log("dropping item");
-                dropItem();
-            }
-            else if(CarryingItem)
-            {
-                updateCarriedItemPosition();
-            }
+            actionText.text = "";
         }
     }
 
-    public void Kill() {
-        if(!spawnGracePeriod)
-            StartCoroutine(Respawn());
-    }
-    
-    private IEnumerator Respawn()
+    public void throwItem(Vector3 force)
     {
-        startSpawnGracePeriod();
-        yield return new WaitForSeconds(1);
-        deathScreen.SetActive(true);
-        Debug.Log("rip");
-        player.velocity = Vector3.zero;
-        this.transform.parent.rotation = Quaternion.identity;
-        this.transform.rotation = Quaternion.identity;
-        this.transform.parent.position = spawnPosition;
-        //player.position = spawnPosition;
+        startPickupGracePeriod();
 
-        yield return new WaitForSeconds(2);
-        deathScreen.SetActive(false);
+        this.CarryingItem = false;
+        //Debug.Log("dropped item");
+        //this.CarriedObject.transform.parent = this.CarriedInitialParent;
+        this.CarriedObject.angularDrag = carriedObjectAngularDrag;
+        this.CarriedObject.useGravity = true;
+        var dropped = CarriedObject;
+        CarriedObject.AddForce(force);
+        this.CarriedObject = null;
+        if (OnDropped != null)
+            OnDropped(this, new CarriedEventArgs(dropped));
     }
 
     public void dropItem() {
@@ -168,40 +211,6 @@ public class PlayerController : MonoBehaviour {
                     null, spawnGraceDelay, Timeout.Infinite);
     }
  
-    private void castRay()
-    {
-        RaycastHit ray;
-        //Debug.Log("cast");
-        bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength, objectMask);
-        //Debug.DrawRay(transform.position, transform.rotation * Vector3.forward, Color.red, rayLength);
-        if (hit)
-        {
-            //Debug.Log("hit");
-            //interaction
-            var d = ray.collider.gameObject.GetComponent<Rigidbody>();
-            if (d != null)
-            {
-                if (interactPressed && !CarryingItem)
-                {
-                    pickItemUp(d);
-                    actionText.text = "";
-                }
-                else if (!CarryingItem)
-                {
-                    actionText.text = String.Format("Press <{0}> to interact", interactKey.ToString());
-                }
-                
-            }
-            else
-            {
-            }
-        }
-        else
-        {
-            actionText.text = "";
-        }
-    }
-
     private void updateCarriedItemPosition()
     {
         this.CarriedObject.MovePosition(this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance)));
@@ -209,9 +218,17 @@ public class PlayerController : MonoBehaviour {
 
     private void recordPlayerInput()
     {
+        if (Input.GetKeyDown(throwKey))
+        {
+            throwPressed = true;
+        }
         if (Input.GetKeyDown(interactKey))
         {
             interactPressed = true;
+        }
+        if (Input.GetKeyUp(throwKey))
+        {
+            throwPressed = false;
         }
         if (Input.GetKeyUp(interactKey))
         {
@@ -219,6 +236,27 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void Kill() {
+        if(!spawnGracePeriod)
+            StartCoroutine(Respawn());
+    }
+    
+    private IEnumerator Respawn()
+    {
+        startSpawnGracePeriod();
+        yield return new WaitForSeconds(1);
+        deathScreen.SetActive(true);
+        Debug.Log("rip");
+        player.velocity = Vector3.zero;
+        this.transform.parent.rotation = Quaternion.identity;
+        this.transform.rotation = Quaternion.identity;
+        this.transform.parent.position = spawnPosition;
+        //player.position = spawnPosition;
+
+        yield return new WaitForSeconds(2);
+        deathScreen.SetActive(false);
+    }
+    
     private Quaternion lookAt(Vector3 sourcePoint, Vector3 destPoint)
     {
         destPoint = new Vector3(destPoint.x, destPoint.y, destPoint.z);
