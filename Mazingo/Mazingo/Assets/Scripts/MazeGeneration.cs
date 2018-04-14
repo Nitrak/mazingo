@@ -10,7 +10,8 @@ namespace Assets.Scripts
     {
         Nothing = 0,
         PlayerSpawn = 1,
-
+        Statue = 2,
+        Lava = 3,
 
         Key1 = 1001,
         Key2 = 1002,
@@ -122,6 +123,31 @@ namespace Assets.Scripts
             }
         }
 
+        public void TieMazeTile(MazeTile other, Direction directionToOther)
+        {
+            switch (directionToOther)
+            {
+                case Direction.North:
+                    North = other;
+                    other.South = this;
+                    break;
+                case Direction.South:
+                    South = other;
+                    other.North = this;
+                    break;
+                case Direction.West:
+                    West = other;
+                    other.East = this;
+                    break;
+                case Direction.East:
+                    East = other;
+                    other.West = this;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("directionToOther", directionToOther, null);
+            }
+        }
+
         public override bool Equals(object obj)
         {
             var tileObj = obj as MazeTile;
@@ -196,6 +222,33 @@ namespace Assets.Scripts
 
     public class MazeGeneration : MonoBehaviour
     {
+        public Maze GenerateTutorialMaze()
+        {
+            var maze = new Maze();
+            maze.Floors.AddRange(Enumerable.Repeat<Floor>(null, 2).ToList());
+            
+            //Create ground floor
+            var starting = new MazeTile(TileSpecial.PlayerSpawn, 0, ref maze);
+            var room1 = new MazeTile(TileSpecial.Nothing, Direction.East, ref starting, ref maze);
+            var room2 = new MazeTile(TileSpecial.Nothing, Direction.North, ref room1, ref maze);
+            var room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref room2, ref maze);
+            var bproom = new MazeTile(TileSpecial.BreakingPoint1, Direction.East, ref room3, ref maze);
+            var statue = new MazeTile(TileSpecial.Statue, Direction.North, ref room3, ref maze);
+            var bomb = new MazeTile(TileSpecial.Key1, Direction.North, ref statue, ref maze);
+            
+            //Create 1st floor
+            var floor1Room1 = new MazeTile(TileSpecial.Nothing, 1, ref maze);
+            var floor1Room2 = new MazeTile(TileSpecial.Nothing, Direction.South, ref floor1Room1, ref maze);
+            var floor1Lava = new MazeTile(TileSpecial.Lava, Direction.East, ref floor1Room2, ref maze);
+            var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
+
+            //Hooking the two floors together
+            statue.TieMazeTile(floor1Room1, Direction.East);
+            floor1Room3.TieMazeTile(bomb, Direction.East);
+
+            return maze;
+        }
+
         public int Floors = 1;
         public int TilesPerFloor = 30;
 
@@ -298,10 +351,7 @@ namespace Assets.Scripts
                         {
                             var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorEast.Count);
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorWest.Count);
-                            possibleDoorsOnThisFloorEast[idxFromThisFloor].Value.East =
-                                possibleDoorsOnOtherFloorWest[idxFromOtherFloor].Value;
-                            possibleDoorsOnThisFloorWest[idxFromOtherFloor].Value.West =
-                                possibleDoorsOnOtherFloorEast[idxFromThisFloor].Value;
+                            possibleDoorsOnThisFloorEast[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorWest[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorEast.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorWest.RemoveAt(idxFromOtherFloor);
                         }
@@ -311,10 +361,7 @@ namespace Assets.Scripts
                         {
                             var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorWest.Count);
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorEast.Count);
-                            possibleDoorsOnThisFloorWest[idxFromThisFloor].Value.West =
-                                possibleDoorsOnOtherFloorEast[idxFromOtherFloor].Value;
-                            possibleDoorsOnThisFloorEast[idxFromOtherFloor].Value.East =
-                                possibleDoorsOnOtherFloorWest[idxFromThisFloor].Value;
+                            possibleDoorsOnThisFloorWest[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorEast[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorWest.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorEast.RemoveAt(idxFromOtherFloor);
                         }
@@ -324,10 +371,7 @@ namespace Assets.Scripts
                         {
                             var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorNorth.Count);
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorSouth.Count);
-                            possibleDoorsOnThisFloorNorth[idxFromThisFloor].Value.North =
-                                possibleDoorsOnOtherFloorSouth[idxFromOtherFloor].Value;
-                            possibleDoorsOnThisFloorSouth[idxFromOtherFloor].Value.South =
-                                possibleDoorsOnOtherFloorNorth[idxFromThisFloor].Value;
+                            possibleDoorsOnThisFloorNorth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorSouth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorNorth.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorSouth.RemoveAt(idxFromOtherFloor);
                         }
@@ -337,10 +381,7 @@ namespace Assets.Scripts
                         {
                             var idxFromThisFloor = rng.Next(0, possibleDoorsOnThisFloorSouth.Count);
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorNorth.Count);
-                            possibleDoorsOnThisFloorSouth[idxFromThisFloor].Value.South =
-                                possibleDoorsOnOtherFloorNorth[idxFromOtherFloor].Value;
-                            possibleDoorsOnThisFloorNorth[idxFromOtherFloor].Value.North =
-                                possibleDoorsOnOtherFloorSouth[idxFromThisFloor].Value;
+                            possibleDoorsOnThisFloorSouth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorNorth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorSouth.RemoveAt(idxFromThisFloor);
                             possibleDoorsOnThisFloorNorth.RemoveAt(idxFromOtherFloor);
                         }
