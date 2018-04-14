@@ -6,16 +6,16 @@ public class TVTextScript : MonoBehaviour
 {
 
     TextMesh text;
-    public float countDown = 5;
+    public float countDown = 2;
     private float countDownTimer;
     int testNumber;
-    bool startText = false;
+    bool startText;
 
     // Use this for initialization
     void Start()
     {
         countDownTimer = countDown;
-        startText = true;
+        startText = false;
         text = GetComponent<TextMesh>();
         testNumber = (int)Mathf.Floor(Random.Range(402017, 754392));
         text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
@@ -31,7 +31,7 @@ public class TVTextScript : MonoBehaviour
             if(startText)
                 text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
             else
-                text.text = "Commence operation\n Seek & Destroy.";
+                text.text = "Commence operation\n Seek & Destroy";
 
             countDownTimer = countDown; 
             startText = !startText;
