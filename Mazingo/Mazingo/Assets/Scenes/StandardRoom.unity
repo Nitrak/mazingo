@@ -424,6 +424,11 @@ Prefab:
       propertyPath: text
       value: 
       objectReference: {fileID: 553644129}
+    - target: {fileID: 114583315479860334, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9,
+        type: 2}
+      propertyPath: freezeTimeWhenSeen
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9, type: 2}
   m_IsPrefabParent: 0
@@ -437,18 +442,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1764236787964800, guid: 59de63d92e801c046902b95bcc8e48fd,
     type: 2}
   m_PrefabInternal: {fileID: 1896737686}
---- !u!65 &476161704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 476161699}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 750.00006, y: 0.099978924, z: 750}
-  m_Center: {x: 0.00000023841858, y: 0.000010531396, z: 0.000005543232}
 --- !u!114 &476161705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,20 +497,6 @@ Prefab:
     - target: {fileID: 4234021124117524, guid: 2a7a9ca491bb38e4187ce336130a02b3, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114172642227259066, guid: 2a7a9ca491bb38e4187ce336130a02b3,
-        type: 2}
-      propertyPath: detonationTimeWhenCarried
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461778452745130, guid: 2a7a9ca491bb38e4187ce336130a02b3, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114172642227259066, guid: 2a7a9ca491bb38e4187ce336130a02b3,
-        type: 2}
-      propertyPath: deathDistance
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a7a9ca491bb38e4187ce336130a02b3, type: 2}
@@ -626,6 +605,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9536819270c50e45ab2af9195f6f93a, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1602653178 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1573193984115170, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 300576202}
 --- !u!1001 &1772257003
 Prefab:
   m_ObjectHideFlags: 0
@@ -715,7 +699,12 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 15.16
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1451542813726570, guid: 59de63d92e801c046902b95bcc8e48fd, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114264873057908324, guid: 59de63d92e801c046902b95bcc8e48fd, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 59de63d92e801c046902b95bcc8e48fd, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1952453953
@@ -780,13 +769,18 @@ Prefab:
     - target: {fileID: 114502953458513966, guid: 966a12b41ce0f6049b17636222d4ecbd,
         type: 2}
       propertyPath: advancedSettings.airControl
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114502953458513966, guid: 966a12b41ce0f6049b17636222d4ecbd,
         type: 2}
       propertyPath: advancedSettings.slowDownRate
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114638351733759294, guid: 966a12b41ce0f6049b17636222d4ecbd,
+        type: 2}
+      propertyPath: deathScreen
+      value: 
+      objectReference: {fileID: 1602653178}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 966a12b41ce0f6049b17636222d4ecbd, type: 2}
   m_IsPrefabParent: 0

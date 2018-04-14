@@ -109,7 +109,7 @@ public class BombController : MonoBehaviour
 
         playerObject.GetComponent<Rigidbody>().AddExplosionForce(2000, transform.position, 200);
 
-        if (Vector3.Distance(player.transform.position, transform.position) < deathDistance)
+        if (Vector3.Distance(playerObject.transform.position, transform.position) < deathDistance)
         {
             player.Kill();
         }
