@@ -248,15 +248,11 @@ namespace Assets.Scripts
 
             return maze;
         }
-
-        public int Floors = 1;
-        public int TilesPerFloor = 30;
-
-        public Maze GenerateNewMaze(int? floors = null, int? tilesPerFloor = null)
+        
+        public Maze GenerateNewMaze(int[] tilesPerFloor)
         {
             //Get optional params
-            Floors = floors ?? Floors;
-            TilesPerFloor = tilesPerFloor ?? TilesPerFloor;
+            var Floors = tilesPerFloor.Length;
 
             //Set up the maze
             var rng = new Random();
@@ -269,7 +265,7 @@ namespace Assets.Scripts
                 var previousTile = new MazeTile(TileSpecial.Nothing, floor, ref maze);
 
 
-                for (int tile = 0; tile < TilesPerFloor; ++tile)
+                for (int tile = 0; tile < tilesPerFloor[floor]; ++tile)
                 {
                     var nextDirection = (Direction) rng.Next(0, 3);
 
@@ -334,7 +330,7 @@ namespace Assets.Scripts
                     var possibleDoorsOnOtherFloorSouth =
                         maze.Floors[floor].Tiles.Where(e => e.Value.South == null).ToList();
 
-                    int toOtherFloors = maze.Floors[floor].NumPortsToOtherFloors == 0 ? rng.Next(1, 3) : rng.Next(0, 3);
+                    int toOtherFloors = maze.Floors[floor].NumPortsToOtherFloors == 0 ? rng.Next(1,Math.Max((int) Math.Floor(tilesPerFloor[floor]/(10.0*Floors)),1)) : rng.Next(0, (int) Math.Floor(tilesPerFloor[floor]/(10.0*Floors)));
 
                     for (int portal = 0; portal < toOtherFloors; ++portal)
                     {
@@ -411,7 +407,7 @@ namespace Assets.Scripts
             {
                 try
                 {
-                    var maze = GenerateNewMaze();
+                    var maze = GenerateNewMaze(new []{30});
                     break;
                 }
                 catch (Exception e)
