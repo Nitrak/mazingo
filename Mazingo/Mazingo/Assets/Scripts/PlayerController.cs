@@ -23,23 +23,31 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
-
     private Rigidbody CarriedObject;
+    private Rigidbody player;
 
     private Quaternion CarriedInitialRotation;
     private Transform CarriedInitialParent;
     private LayerMask objectMask;
     private Timer pickupGraceTimer;
+    private Timer spawnGraceTimer;
+
+    private Vector3 spawnPosition;
+    private Quaternion spawnRotation;
+
+    private Vector3 cameraSpawnPosition;
+    private Quaternion cameraSpawnRotation;
 
     private bool interactPressed = false;
     private bool pickupGracePeriod;
+    private bool spawnGracePeriod;
     private bool CarryingItem;
     private float carriedObjectAngularDrag;
 
     public GameObject deathScreen;
     public KeyCode interactKey = KeyCode.E;
     public int pickupGraceDelay = 200;
+    public int spawnGraceDelay = 2000;
     public float carryingDistance = 2f;
     public float rayLength = 5f;
 
@@ -55,7 +63,14 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject = null;
         this.pickupGracePeriod = false;
         this.objectMask = LayerMask.GetMask("Objects");
-	}
+        this.cameraSpawnPosition = transform.position;
+        this.cameraSpawnRotation = transform.rotation;
+
+        this.player = this.transform.parent.GetComponent<Rigidbody>();
+        this.spawnPosition = player.transform.position;
+        this.spawnRotation = player.transform.rotation;
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -80,15 +95,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Kill() {
-        StartCoroutine(Example());
+        if(!spawnGracePeriod)
+            StartCoroutine(Respawn());
     }
     
-    private IEnumerator Example()
+    private IEnumerator Respawn()
     {
-        Debug.Log("rip");
+        startSpawnGracePeriod();
         deathScreen.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Destroy(this);
+        Debug.Log("rip");
+        yield return new WaitForSeconds(1);
+        player.position = spawnPosition;
+        //player.rotation = spawnRotation;
+        player.velocity = Vector3.zero;
+        //this.transform.position = cameraSpawnPosition;
+        this.transform.rotation = cameraSpawnRotation;
+        yield return new WaitForSeconds(1);
+        deathScreen.SetActive(false);
     }
 
     private void dropItem() {
@@ -133,6 +156,18 @@ public class PlayerController : MonoBehaviour {
             pickupGraceTimer.Dispose();
         },
                     null, pickupGraceDelay, Timeout.Infinite);
+    }
+
+    private void startSpawnGracePeriod()
+    {
+        spawnGracePeriod = true;
+        spawnGraceTimer = new Timer((obj) =>
+        {
+            //Debug.Log("Grace period over");
+            spawnGracePeriod = false;
+            spawnGraceTimer.Dispose();
+        },
+                    null, spawnGraceDelay, Timeout.Infinite);
     }
  
     private void castRay()

@@ -46,6 +46,14 @@ ModelImporter:
     100076: pasted__pasted__pasted__pasted__Door 1
     100078: pasted__pasted__pasted__pasted__group7
     100080: pasted__pasted__pasted__pasted__pasted__Door
+    100082: pasted__group12 2
+    100084: pasted__pasted__group11 2
+    100086: pasted__pasted__pasted__group7 2
+    100088: pasted__pasted__pasted__pasted__Door 2
+    100090: pCube8
+    100092: pCube9
+    100094: transform14
+    100096: transform15
     400000: //RootNode
     400002: group10
     400004: group11
@@ -87,6 +95,14 @@ ModelImporter:
     400076: pasted__pasted__pasted__pasted__Door 1
     400078: pasted__pasted__pasted__pasted__group7
     400080: pasted__pasted__pasted__pasted__pasted__Door
+    400082: pasted__group12 2
+    400084: pasted__pasted__group11 2
+    400086: pasted__pasted__pasted__group7 2
+    400088: pasted__pasted__pasted__pasted__Door 2
+    400090: pCube8
+    400092: pCube9
+    400094: transform14
+    400096: transform15
     2100000: lambert1
     2300000: pasted__Door
     2300002: pasted__pasted__Door
@@ -95,6 +111,8 @@ ModelImporter:
     2300008: pCube7
     2300010: pasted__pasted__pasted__pasted__Door 1
     2300012: pasted__pasted__pasted__pasted__pasted__Door
+    2300014: pasted__pasted__pasted__pasted__Door 2
+    2300016: pCube9
     3300000: pasted__Door
     3300002: pasted__pasted__Door
     3300004: pasted__pasted__pasted__Door
@@ -102,6 +120,8 @@ ModelImporter:
     3300008: pCube7
     3300010: pasted__pasted__pasted__pasted__Door 1
     3300012: pasted__pasted__pasted__pasted__pasted__Door
+    3300014: pasted__pasted__pasted__pasted__Door 2
+    3300016: pCube9
     4300000: pasted__Door
     4300002: pasted__pasted__Door
     4300004: pasted__pasted__pasted__Door
@@ -109,6 +129,8 @@ ModelImporter:
     4300008: pCube7
     4300010: pasted__pasted__pasted__pasted__Door
     4300012: pasted__pasted__pasted__pasted__pasted__Door
+    4300014: pCube9
+    4300016: pasted__pasted__pasted__pasted__Door
     9500000: //RootNode
   externalObjects: {}
   materials:

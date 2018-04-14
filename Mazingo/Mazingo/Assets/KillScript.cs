@@ -13,6 +13,7 @@ public class KillScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        player.Kill();
+        if(other.tag=="Player")
+            player.Kill();
     }
 }
