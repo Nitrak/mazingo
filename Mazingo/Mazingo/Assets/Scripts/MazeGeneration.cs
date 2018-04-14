@@ -95,6 +95,15 @@ namespace Assets.Scripts
         public MazeTile South;
         public MazeTile West;
         public MazeTile East;
+
+        private MazeTile[] _sides;
+        public MazeTile[] Sides
+        {
+            get
+            {
+                return _sides ?? (_sides = new[] { North, East, South, West });
+            }
+        }
     }
 
     public struct Location
