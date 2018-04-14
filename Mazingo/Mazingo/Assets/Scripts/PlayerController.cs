@@ -184,7 +184,9 @@ public class PlayerController : MonoBehaviour {
                 if (interactPressed && !CarryingItem)
                 {
                     pickItemUp(d);
-                }else if (!CarryingItem)
+                    actionText.text = "";
+                }
+                else if (!CarryingItem)
                 {
                     actionText.text = String.Format("Press <{0}> to interact", interactKey.ToString());
                 }
