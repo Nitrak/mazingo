@@ -104,6 +104,23 @@ namespace Assets.Scripts
                 return _sides ?? (_sides = new[] { North, East, South, West });
             }
         }
+
+        public MazeTile SideByDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.East:
+                    return East;
+                case Direction.North:
+                    return North;
+                case Direction.South:
+                    return South;
+                case Direction.West:
+                    return West;
+                default:
+                    throw new ArgumentOutOfRangeException("direction", direction, "Directions must be one of four cardinal directions, as given in the enumerable");
+            }
+        }
     }
 
     public struct Location
@@ -127,6 +144,7 @@ namespace Assets.Scripts
     public class Maze
     {
         public List<Floor> Floors = new List<Floor>();
+        public MazeTile StartTile = null;
     }
 
     public class MazeGeneration : MonoBehaviour
@@ -196,8 +214,6 @@ namespace Assets.Scripts
             //Now we have completely generated the mazes. Let's glue them together
             for (int floor = 1; floor < Floors; ++floor)
             {
-                var thisFloor = maze.Floors[floor];
-
                 for (int otherFloor = 0; otherFloor < Floors; ++otherFloor)
                 {
                     //Don't make floors back to the same one
@@ -286,14 +302,40 @@ namespace Assets.Scripts
                 }
             }
 
+            //Add a start position to a southern wall somewhere
+            for (var i = 0; i < 3 /*Number of directions*/; ++i)
+            {
+                var usingDirection = (Direction)i;
+                var listOfValidStartTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).Where(e => e.SideByDirection(usingDirection) == null).ToList();
+                if (listOfValidStartTiles.Count == 0) continue;
+                var aValidTile = listOfValidStartTiles[rng.Next(listOfValidStartTiles.Count)];
 
+                maze.StartTile = new MazeTile(TileSpecial.PlayerSpawn, usingDirection, ref aValidTile, ref maze);
+            }
             return maze;
         }
 
         // Use this for initialization
         void Start()
         {
-            var maze = GenerateNewMaze();
+            var attempt = 5;
+            while (attempt > 0)
+            {
+                try
+                {
+                    var maze = GenerateNewMaze();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                    attempt--;
+                }
+
+            }
+            
+
+            
         }
 
         // Update is called once per frame
