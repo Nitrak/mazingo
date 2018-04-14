@@ -13,28 +13,24 @@ public class StrangerDangerScript : MonoBehaviour {
         public float JumpForce;
     }
 
-    private SpeedVars speedVars;
-
+    public LayerMask playerMask;
+    public Text text;
     public float freezeTimeWhenSeen = 3f;
 
-    public float freezeTimer = 0f;
+    private SpeedVars speedVars;
+    private bool isVisible = false;
+    private float freezeTimer = 0f;
 
-    public LayerMask playerMask;
-
-    public Text text;
-
-    public bool isVisible = false;
-
+    private FirstPersonController playerMoveSettings;
+    private PlayerController controller;
+    private GameObject player;
     //RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
-    FirstPersonController playerMoveSettings;
-    PlayerController controller;
-    GameObject player;
-    float time;
 
     void Start()
     {
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
+        //controller = p.transform.GetChild(0).GetComponent<PlayerController>();
         controller = p.transform.GetChild(0).GetComponent<PlayerController>();
         //playerMoveSettings = tmp.movementSettings;
         playerMoveSettings = p.GetComponent<FirstPersonController>();
@@ -55,13 +51,11 @@ public class StrangerDangerScript : MonoBehaviour {
     void OnBecameVisible()
     {
         this.isVisible = true;
-        //Debug.Log("visible!");
     }
 
     void OnBecameInvisible()
     {
         this.isVisible = false;
-        //Debug.Log("invisible!");
     }
 
     // Update is called once per frame
@@ -69,11 +63,11 @@ public class StrangerDangerScript : MonoBehaviour {
     {
         RaycastHit rayHit;
         var tmp = player.transform.position - transform.position;
-        var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position));
+        var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position) +1);
 
         Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
         
-        if (rayHit.transform.Equals(player.transform) && isVisible)
+        if (hit && rayHit.transform.Equals(player.transform) && isVisible)
         {
             freezeTimer = Mathf.Min(freezeTimeWhenSeen, freezeTimer + Time.deltaTime);
         }

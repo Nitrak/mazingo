@@ -597,21 +597,6 @@ Prefab:
       propertyPath: deathScreen
       value: 
       objectReference: {fileID: 1602653178}
-    - target: {fileID: 114592287295147896, guid: 0c5ce4041be013d41b6a6833cd3c1733,
-        type: 2}
-      propertyPath: m_WalkSpeed
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114592287295147896, guid: 0c5ce4041be013d41b6a6833cd3c1733,
-        type: 2}
-      propertyPath: m_RunSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114592287295147896, guid: 0c5ce4041be013d41b6a6833cd3c1733,
-        type: 2}
-      propertyPath: m_JumpSpeed
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c5ce4041be013d41b6a6833cd3c1733, type: 2}
   m_IsPrefabParent: 0
