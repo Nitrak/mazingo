@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
     private bool CarryingItem;
     private Timer pickupGraceTimer;
     private LayerMask objectMask;
+    private float carriedObjectAngularDrag;
 
     public float rayLength = 5f;
     public KeyCode interactKey = KeyCode.E;
@@ -61,6 +62,8 @@ public class PlayerController : MonoBehaviour {
         this.CarryingItem = false;
         Debug.Log("dropped item");
         //this.CarriedObject.transform.parent = this.CarriedInitialParent;
+        this.CarriedObject.angularDrag = carriedObjectAngularDrag;
+        this.CarriedObject.useGravity = true;
         this.CarriedObject = null;
     }
 
@@ -73,6 +76,9 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject = item;
         this.CarriedInitialParent = item.transform.parent;
         this.CarriedInitialRotation = item.transform.rotation;
+        this.CarriedObject.useGravity = false;
+        carriedObjectAngularDrag = CarriedObject.angularDrag;
+        this.CarriedObject.angularDrag = 100;
         //this.CarriedObject.transform.parent = this.transform;
         UpdateCarriedItemPosition();
     }
@@ -116,21 +122,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void UpdateCarriedItemPosition() {
-        //RaycastHit ray;
-        //bool hit = Physics.Raycast(transform.position, transform.rotation * Vector3.forward, out ray, rayLength);
-
+    private void UpdateCarriedItemPosition()
+    {
         this.CarriedObject.MovePosition(this.transform.position + (this.transform.rotation * (Vector3.forward * carryingDistance)));
-
-        //var rot = Quaternion.AngleAxis(transform.rotation.y, Vector3.up) * Quaternion.Inverse(CarriedInitialRotation);
-        //var rot = LookAt(CarriedObject.transform.position, transform.position) * Quaternion.Inverse(CarriedInitialRotation);
-        var rot = Quaternion.FromToRotation(Vector3.left, new Vector3(0,0, 1.5f));
-        this.CarriedObject.MoveRotation(rot);
-        //this.CarriedObject.transform.rotation = rot;
-        //this.CarriedObject.transform.Rotate(transform.position,Space.World);
-        //this.CarriedObject.transform.rotation = LookAt(CarriedObject.transform.position, transform.position) * transform.rotation;// CarriedInitialRotation * this.transform.rotation;
-
-        //this.CarriedObject.transform.rotation = this.CarriedObject.transform.RotateAround()
     }
 
     private void RecordPlayerInput()
