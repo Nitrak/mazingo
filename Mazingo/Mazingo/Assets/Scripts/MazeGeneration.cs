@@ -156,6 +156,10 @@ namespace Assets.Scripts
             }
             return false;
         }
+        public override int GetHashCode()
+        {
+            return this.Floor.GetHashCode() + this.Location.GetHashCode();
+        }
     }
 
     public struct Location
@@ -221,24 +225,79 @@ namespace Assets.Scripts
 
     public class MazeGeneration : MonoBehaviour
     {
-        private class DijkstraInfo
+        public int FindDistance(ref Maze maze)
         {
-            public DijkstraInfo(MazeTile tile, int distance, DijkstraInfo previous)
+            var listOfAllTiles = maze.Floors.SelectMany(e => e.Tiles.Select(a => a.Value)).ToList();
+            Dictionary<MazeTile, int> objToIndex = new Dictionary<MazeTile, int>();
+            int origin = -1; 
+            int target = -1;
+
+            var distance = new int[listOfAllTiles.Count()];
+            var previous = new int[listOfAllTiles.Count()];
+            var visited = new bool[listOfAllTiles.Count()];
+
+
+            for (int i = 0; i < listOfAllTiles.Count; i++)
             {
-                Tile = tile;
-                Distance = distance;
-                Previous = previous;
+                var m =  listOfAllTiles[i];
+                if (m.SpecialProperty == TileSpecial.Key1)
+                    target = i;
+                else if (m.SpecialProperty == TileSpecial.BreakingPoint1)
+                    origin = i;
+
+                objToIndex.Add(m, i);
+                distance[i] = int.MaxValue;
+                previous[i] = -1;
+                visited[i] = false;
             }
 
-            public MazeTile Tile;
-            public int Distance;
-            public DijkstraInfo Previous;
+            distance[origin] = 0;
+
+            while (listOfAllTiles.Count > 0)
+            {
+                var uIdx = GetShortest(distance, visited);
+                var u = listOfAllTiles[uIdx];
+
+                if (u == null)
+                    break;
+                visited[uIdx] = true;
+
+                if (uIdx == target)
+                {
+                    Debug.Log(distance[uIdx]);
+                    return distance[uIdx];
+                }
+
+                foreach(var v in u.Sides)
+                {
+                    if (v == null) continue;
+                    var vIdx = objToIndex[v];
+                    var alt = distance[uIdx] + 1;
+                    if(alt < distance[vIdx])
+                    {
+                        distance[vIdx] = alt;
+                        previous[vIdx] = uIdx;
+                    }
+                }
+
+            }
+
+            return int.MaxValue;
         }
 
-        private int FindDistance(ref Maze maze)
+        private int GetShortest(int[] distance, bool[] visited)
         {
+            int shortestIdx = -1;
+            int shortestDist = int.MaxValue;
 
-            return 0;
+            for (int i = 0; i < distance.Length; i++) {
+                if (visited[i]) continue;
+
+                int currentDist = distance[i];
+                if (currentDist < shortestDist)
+                    shortestIdx = i;
+            }
+            return shortestIdx;
         }
 
         public Maze GenerateTutorialMaze()
