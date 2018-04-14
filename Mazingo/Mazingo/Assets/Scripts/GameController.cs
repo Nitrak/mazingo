@@ -26,8 +26,9 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
-        if(timer<=Tick)
+        if(timer>=Tick)
         {
+            Debug.Log("Loading..");
             timer = timer % Tick;
             rc.Load();
         }

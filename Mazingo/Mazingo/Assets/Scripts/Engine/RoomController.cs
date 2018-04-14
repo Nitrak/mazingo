@@ -11,6 +11,7 @@ namespace Assets.Scripts.Engine
     public class RoomController : MonoBehaviour
     {
         public const float RoomSize = 20;
+        public static readonly Vector3 GridOffset = new Vector3(10, 0, 10);
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Engine
 
         public RoomController()
         {
+            var player = GameObject.FindGameObjectWithTag("Player");
             var generator = new MazeGeneration();
             this.Maze = generator.GenerateNewMaze(2, 20);
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
@@ -51,9 +53,10 @@ namespace Assets.Scripts.Engine
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             var position = player.transform.position;
+            Debug.Log(string.Format("Player position: {0}", position));
 
             var playerTile = TryGetRelativeRoom(position);
-            if (playerTile != null && !lastPlayerTile.Equals(playerTile))
+            if (playerTile != null)
             {
                 var newRooms = GetDirectionalTiles(playerTile);
                 UnloadRoomsExcept(newRooms);
@@ -85,10 +88,13 @@ namespace Assets.Scripts.Engine
             foreach (var dir in Direction.Values)
             {
                 var directionTile = virtualTile;
-                while ((directionTile = directionTile.Translate(dir)) != null)
+                var loaded = 0;
+                while (loaded <= 5 && (directionTile = directionTile.Translate(dir)) != null)
                 {
                     var roomObj = EnsureRoom(directionTile);
+                    Debug.Log(string.Format("Loading room {0} of {1} ({2} at {3})", dir.Name, virtualTile.VirtualLocation, roomObj.name, directionTile.VirtualLocation));
                     tiles.Add(directionTile.VirtualLocation, roomObj);
+                    loaded++;
                 }
             }
             return tiles;
@@ -101,10 +107,15 @@ namespace Assets.Scripts.Engine
                 return LoadedRooms[tile.VirtualLocation];
             }
             var prefabName = GetPrefabName(tile);
+            Debug.Log("Getting prefab: " + prefabName);
             var prefab = Prefabs[prefabName];
 
             var roomPos = new Vector3(tile.GetVirtualX(), 0, tile.GetVirtualZ());
-            return Instantiate(prefab, roomPos, Quaternion.identity);
+            var roomObject = Instantiate(prefab, roomPos + prefab.transform.position + GridOffset, Quaternion.identity);
+            //Debug.Log(string.Format("Room creation. VirtualPos: {0}, PrefabPos: {1}, RoomObjPos: {2}", ))
+            roomObject.SetActive(true);
+            //roomObject.transform.position = prefab.transform.position;
+            return roomObject;
         }
 
         private string GetPrefabName(VirtualTile virtualTile)
