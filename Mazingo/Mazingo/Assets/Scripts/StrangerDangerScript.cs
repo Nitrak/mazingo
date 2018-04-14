@@ -95,6 +95,9 @@ public class StrangerDangerScript : MonoBehaviour {
 
         if (freezeTimer.Equals(freezeTimeWhenSeen))
         {
+            playerMoveSettings.SetWalkSpeed(speedVars.WalkSpeed);
+            playerMoveSettings.SetRunSpeed(speedVars.RunSpeed);
+            playerMoveSettings.SetJumpSpeed(speedVars.JumpForce);
             controller.Kill();
             if(text != null)
                 text.text = "You lose!";

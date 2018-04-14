@@ -33,9 +33,6 @@ public class PlayerController : MonoBehaviour {
     private Timer spawnGraceTimer;
 
     private Vector3 spawnPosition;
-    private Quaternion spawnRotation;
-
-    private Vector3 cameraSpawnPosition;
     private Quaternion cameraSpawnRotation;
 
     private bool interactPressed = false;
@@ -63,13 +60,11 @@ public class PlayerController : MonoBehaviour {
         this.CarriedObject = null;
         this.pickupGracePeriod = false;
         this.objectMask = LayerMask.GetMask("Objects");
-        this.cameraSpawnPosition = transform.position;
-        this.cameraSpawnRotation = transform.rotation;
 
         this.player = this.transform.parent.GetComponent<Rigidbody>();
-        this.spawnPosition = player.transform.position;
-        this.spawnRotation = player.transform.rotation;
 
+        cameraSpawnRotation = player.transform.rotation;
+        spawnPosition = player.transform.position;
     }
 
     // Update is called once per frame
@@ -104,18 +99,17 @@ public class PlayerController : MonoBehaviour {
         startSpawnGracePeriod();
         deathScreen.SetActive(true);
         Debug.Log("rip");
-        yield return new WaitForSeconds(1);
-        player.position = spawnPosition;
-        //player.rotation = spawnRotation;
         player.velocity = Vector3.zero;
-        //this.transform.position = cameraSpawnPosition;
-        this.transform.rotation = cameraSpawnRotation;
-        yield return new WaitForSeconds(1);
+        this.transform.parent.position = spawnPosition;
+        this.transform.parent.rotation = cameraSpawnRotation;
+        //player.position = spawnPosition;
+        //this.transform.rotation = cameraSpawnRotation;
+        yield return new WaitForSeconds(2);
         deathScreen.SetActive(false);
     }
 
-    private void dropItem() {
-        startGracePeriod();
+    public void dropItem() {
+        startPickupGracePeriod();
         
         this.CarryingItem = false;
         //Debug.Log("dropped item");
@@ -128,9 +122,9 @@ public class PlayerController : MonoBehaviour {
             OnDropped(this, new CarriedEventArgs(dropped));
     }
 
-    private void pickItemUp(Rigidbody item)
+    public void pickItemUp(Rigidbody item)
     {
-        startGracePeriod();
+        startPickupGracePeriod();
         CarryingItem = true;
         CarriedObject = item;
         //Debug.Log("Picked item up");
@@ -146,7 +140,7 @@ public class PlayerController : MonoBehaviour {
             OnPickedUp(this, new CarriedEventArgs(item));
     }
 
-    private void startGracePeriod()
+    private void startPickupGracePeriod()
     {
         pickupGracePeriod = true;
         pickupGraceTimer = new Timer((obj) =>

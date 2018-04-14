@@ -19,6 +19,9 @@ public class BombController : MonoBehaviour
     private bool canBePickedUp = true;
     private bool isExploded;
 
+    private Vector3 spawnPosition;
+    private Quaternion spawnRotation;
+
     private PlayerController player;
     private Rigidbody body;
 
@@ -28,9 +31,12 @@ public class BombController : MonoBehaviour
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
         player.OnDropped += Player_OnDropped;
-        player.OnPickedUp += Player_OnPickedUp; ;
+        player.OnPickedUp += Player_OnPickedUp;
         audioSource = GetComponent<AudioSource>();
         isExploded = false;
+
+        this.spawnPosition = this.transform.position;
+        this.spawnRotation = this.transform.rotation;
     }
 
     private void Player_OnPickedUp(object sender, PlayerController.CarriedEventArgs e)
@@ -96,6 +102,8 @@ public class BombController : MonoBehaviour
 
     private void Explode()
     {
+        if(pickedUp)
+            player.dropItem();
         Debug.Log("booom");
         isExploded = true;
         audioSource.clip = null;
@@ -114,13 +122,33 @@ public class BombController : MonoBehaviour
             player.Kill();
         }
 
-        StartCoroutine(Disable());
+        StartCoroutine(Respawn());
+    }
+
+
+    private IEnumerator Respawn()
+    {
+        Debug.Log("asplode!");
+        yield return new WaitForSeconds(1);
+
+        body.velocity = Vector3.zero;
+        this.transform.position = spawnPosition;
+        this.transform.rotation = spawnRotation;
+        this.transform.localScale = Vector3.one;
+        isExploded = false;
+        audioSource.clip = tickingSound;
+        audioSource.pitch = 0.5f;
+        audioSource.volume = 1;
+
+        yield return new WaitForSeconds(2);
+        Debug.Log("We're back!");
     }
 
     IEnumerator Disable()
     {
+
         yield return new WaitForSeconds(5);
-        transform.gameObject.SetActive(false);
+        //transform.gameObject.SetActive(false);
     }
 
     public float GetExplosionZone()
