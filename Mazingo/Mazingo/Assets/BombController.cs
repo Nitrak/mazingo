@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BombController : MonoBehaviour
 {
-
+    public float deathDistance;
     public float detonationTimeWhenCarried = 5;
     private float detonationTimer;
 
@@ -24,6 +24,12 @@ public class BombController : MonoBehaviour
 
     }
 
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, deathDistance);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -40,7 +46,6 @@ public class BombController : MonoBehaviour
             audioSource.pitch = 0.5f;
         else
             audioSource.pitch = 1 + (detonationTimer / detonationTimeWhenCarried) * pitchFactor;
-
 
         if (!isExploded && detonationTimer >= detonationTimeWhenCarried)
             Explode();
@@ -74,6 +79,16 @@ public class BombController : MonoBehaviour
         transform.localScale = Vector3.zero;
         audioSource.volume = 1;
         audioSource.PlayOneShot(explosionSound);
+        var player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
+
+        player.GetComponent<Rigidbody>().AddExplosionForce(2000, transform.position, 200);
+
+        if (Vector3.Distance(player.transform.position, transform.position) < deathDistance)
+        {
+            Debug.Log("DEAD");//player.Kill();
+        }
+
         StartCoroutine(Disable());
     }
 

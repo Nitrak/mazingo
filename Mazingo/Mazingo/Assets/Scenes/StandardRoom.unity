@@ -318,6 +318,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114668110135381450, guid: 2a7a9ca491bb38e4187ce336130a02b3,
+        type: 2}
+      propertyPath: explosionForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172642227259066, guid: 2a7a9ca491bb38e4187ce336130a02b3,
+        type: 2}
+      propertyPath: deathDistance
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a7a9ca491bb38e4187ce336130a02b3, type: 2}
   m_IsPrefabParent: 0
