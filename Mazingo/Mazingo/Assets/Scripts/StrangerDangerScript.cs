@@ -24,15 +24,18 @@ public class StrangerDangerScript : MonoBehaviour {
     private FirstPersonController playerMoveSettings;
     private PlayerController controller;
     private GameObject player;
+    private Camera playerCamera;
+
+    private Bounds myBounds;
     //RigidbodyFirstPersonController.MovementSettings playerMoveSettings;
 
     void Start()
     {
+        myBounds = GetComponent<Collider>().bounds;
         var p = GameObject.FindGameObjectWithTag("Player");
         var tmp = p.GetComponent<RigidbodyFirstPersonController>();
-        //controller = p.transform.GetChild(0).GetComponent<PlayerController>();
         controller = p.transform.GetChild(0).GetComponent<PlayerController>();
-        //playerMoveSettings = tmp.movementSettings;
+        playerCamera = p.transform.GetChild(0).GetComponent<Camera>();
         playerMoveSettings = p.GetComponent<FirstPersonController>();
         player = p;
 
@@ -46,21 +49,22 @@ public class StrangerDangerScript : MonoBehaviour {
         this.playerMask = LayerMask.GetMask("Player");
         this.isVisible = false;
     }
+    
 
-
-    void OnBecameVisible()
+    private bool VisibilityCheck()
     {
-        this.isVisible = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        this.isVisible = false;
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
+        if (GeometryUtility.TestPlanesAABB(planes, myBounds))
+            return true;
+        else
+            return false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        isVisible = VisibilityCheck();
+        
         RaycastHit rayHit;
         var tmp = player.transform.position - transform.position;
         var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position) +1);
