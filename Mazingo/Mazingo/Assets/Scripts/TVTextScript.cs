@@ -2,18 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TVTextScript : MonoBehaviour {
+public class TVTextScript : MonoBehaviour
+{
 
     TextMesh text;
+    public float countDown = 5;
+    private float countDownTimer;
+    int testNumber;
+    bool startText = false;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        countDownTimer = countDown;
+        startText = true;
         text = GetComponent<TextMesh>();
-        text.text = "WELCOME TESTSUBJECT \n #" +Mathf.Floor(Random.Range(402017,754392));
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        testNumber = (int)Mathf.Floor(Random.Range(402017, 754392));
+        text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        countDownTimer -= Time.deltaTime;
+
+        if (countDownTimer < 0)
+        {
+            if(startText)
+                text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
+            else
+                text.text = "Commence operation\n Seek & Destroy.";
+
+            countDownTimer = countDown; 
+            startText = !startText;
+        }
+    }
 }
