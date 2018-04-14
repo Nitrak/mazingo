@@ -20,6 +20,11 @@ ModelImporter:
     100024: transform12
     100026: transform13
     100028: transform9
+    100030: group15
+    100032: pasted__group12
+    100034: pasted__pasted__group11
+    100036: pasted__pasted__pasted__group7
+    100038: pasted__pasted__pasted__pasted__Door
     400000: //RootNode
     400002: group10
     400004: group8
@@ -35,10 +40,18 @@ ModelImporter:
     400024: transform12
     400026: transform13
     400028: transform9
+    400030: group15
+    400032: pasted__group12
+    400034: pasted__pasted__group11
+    400036: pasted__pasted__pasted__group7
+    400038: pasted__pasted__pasted__pasted__Door
     2100000: lambert1
     2300000: pCube7
+    2300002: pasted__pasted__pasted__pasted__Door
     3300000: pCube7
+    3300002: pasted__pasted__pasted__pasted__Door
     4300000: pCube7
+    4300002: pasted__pasted__pasted__pasted__Door
     9500000: //RootNode
   externalObjects: {}
   materials:
