@@ -1,23 +1,57 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: c32fb8b484e37e54bae99f2a2a1a7852
-timeCreated: 1523706233
-=======
-guid: f1513dc9c1f03af499f8376278608a6d
-timeCreated: 1523705651
->>>>>>> f9e781175df29c90fc85d197fba8fcc632db1c8d
+guid: 66092f96a90417343b5b15eb1fd6bcc5
+timeCreated: 1523706866
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pasted__Door
+    100002: group10
+    100004: group8
+    100006: group9
+    100008: pasted__pCube6
+    100010: pasted__pCube6 1
+    100012: pasted__pCube6 2
+    100014: pCube5
+    100016: pCube6
+    100018: pCube7
+    100020: transform10
+    100022: transform11
+    100024: transform12
+    100026: transform13
+    100028: transform9
+    100030: group15
+    100032: pasted__group12
+    100034: pasted__pasted__group11
+    100036: pasted__pasted__pasted__group7
+    100038: pasted__pasted__pasted__pasted__Door
     400000: //RootNode
-    400002: pasted__Door
-    2100000: lambert2
-    2300000: pasted__Door
-    3300000: pasted__Door
-    4300000: pasted__Door
+    400002: group10
+    400004: group8
+    400006: group9
+    400008: pasted__pCube6
+    400010: pasted__pCube6 1
+    400012: pasted__pCube6 2
+    400014: pCube5
+    400016: pCube6
+    400018: pCube7
+    400020: transform10
+    400022: transform11
+    400024: transform12
+    400026: transform13
+    400028: transform9
+    400030: group15
+    400032: pasted__group12
+    400034: pasted__pasted__group11
+    400036: pasted__pasted__pasted__group7
+    400038: pasted__pasted__pasted__pasted__Door
+    2100000: lambert1
+    2300000: pCube7
+    2300002: pasted__pasted__pasted__pasted__Door
+    3300000: pCube7
+    3300002: pasted__pasted__pasted__pasted__Door
+    4300000: pCube7
+    4300002: pasted__pasted__pasted__pasted__Door
     9500000: //RootNode
   externalObjects: {}
   materials:

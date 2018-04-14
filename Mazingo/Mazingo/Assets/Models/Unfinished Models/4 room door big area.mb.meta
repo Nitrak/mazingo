@@ -1,24 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: c32fb8b484e37e54bae99f2a2a1a7852
-timeCreated: 1523706233
-=======
-guid: f1513dc9c1f03af499f8376278608a6d
-timeCreated: 1523705651
->>>>>>> f9e781175df29c90fc85d197fba8fcc632db1c8d
+guid: da33d5f44000b2548889e5fdf181c1ed
+timeCreated: 1523706866
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: pasted__Door
-    400000: //RootNode
-    400002: pasted__Door
-    2100000: lambert2
-    2300000: pasted__Door
-    3300000: pasted__Door
-    4300000: pasted__Door
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   externalObjects: {}
   materials:
     importMaterials: 1
