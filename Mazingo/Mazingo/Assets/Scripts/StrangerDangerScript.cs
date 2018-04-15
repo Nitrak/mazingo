@@ -13,11 +13,13 @@ public class StrangerDangerScript : MonoBehaviour {
         public float JumpForce;
     }
 
-    public LayerMask playerMask;
+    public LayerMask dangerMask;
     public Text text;
+    public Image dangerScreen;
     public float freezeTimeWhenSeen = 3f;
 
     private SpeedVars speedVars;
+    private string originalText;
     private bool isVisible = false;
     private float freezeTimer = 0f;
 
@@ -46,8 +48,8 @@ public class StrangerDangerScript : MonoBehaviour {
             JumpForce = playerMoveSettings.GetJumpSpeed()
         };
 
-        this.playerMask = LayerMask.GetMask("Player");
         this.isVisible = false;
+        this.originalText = text.text;
     }
     
 
@@ -67,7 +69,7 @@ public class StrangerDangerScript : MonoBehaviour {
         
         RaycastHit rayHit;
         var tmp = player.transform.position - transform.position;
-        var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position) +1);
+        var hit = Physics.Raycast(transform.position, tmp, out rayHit, Vector3.Distance(player.transform.position, transform.position) +1, dangerMask);
 
         Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
         
@@ -85,16 +87,23 @@ public class StrangerDangerScript : MonoBehaviour {
 
     private void Freeze(float percentage)
     {
+        if(percentage == 0 && !this.originalText.Equals(text.text))
+        {
+            this.text.text = this.originalText;
+        }
         var movespeed = 1 - percentage;
         playerMoveSettings.SetWalkSpeed(speedVars.WalkSpeed * movespeed);
         playerMoveSettings.SetRunSpeed(speedVars.RunSpeed * movespeed);
         playerMoveSettings.SetJumpSpeed(speedVars.JumpForce * movespeed);
-
+        var alpha = (percentage * 255f) / 255f;
 
         if (text != null)
         {
-            var alpha = (percentage * 255f) / 255f;
             text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+        }
+        if (dangerScreen != null)
+        {
+            dangerScreen.color = new Color(dangerScreen.color.r, dangerScreen.color.g, dangerScreen.color.b, alpha);
         }
 
         if (freezeTimer.Equals(freezeTimeWhenSeen))

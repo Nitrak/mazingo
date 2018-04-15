@@ -16,10 +16,11 @@ namespace Assets.Scripts.Engine
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
-        private Dictionary<Location, GameObject> LoadedRooms;
+        private Dictionary<Location, KeyValuePair<GameObject, GameObject>> LoadedRooms;
         private Dictionary<string, GameObject> Prefabs;
         private MazeGeneration generator;
         private GameObject player;
+        private PlayerController playerController;
 
         //State data
         private VirtualTile lastPlayerTile;
@@ -28,14 +29,23 @@ namespace Assets.Scripts.Engine
         {
             this.player = GameObject.FindGameObjectWithTag("Player");
             this.generator = new MazeGeneration();
-            LoadedRooms = new Dictionary<Location, GameObject>();
+            this.playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
+            LoadedRooms = new Dictionary<Location, KeyValuePair<GameObject, GameObject>>();
             LoadPrefabs();
             //Load();
+
+            playerController.OnDeath += ReloadStartRoom;
         }
 
         public bool IsLoaded()
         {
             return Maze != null;
+        }
+
+        public void ReloadStartRoom(object sender)
+        {
+            var newVirtual = new VirtualTile(0, 0, Maze.StartTile);
+            Load(newVirtual);
         }
 
         public void StartLevel(int level)
@@ -70,22 +80,22 @@ namespace Assets.Scripts.Engine
             {
                 if (fab.tag == "Prefab")
                 {
-                    if (!Prefabs.ContainsKey(fab.name))
+                    if (!Prefabs.ContainsKey(fab.name.ToLower()))
                     {
                         Debug.Log(string.Format("Loaded {0}", fab.name));
-                        Prefabs.Add(fab.name, fab);
+                        Prefabs.Add(fab.name.ToLower(), fab);
                     }
                 }
             }
         }
 
-        public void Load()
+        public void Load(VirtualTile loadAt = null)
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             var position = player.transform.position;
             //Debug.Log(string.Format("Player position: {0}", position));
 
-            var playerTile = TryGetRelativeRoom(position);
+            var playerTile = loadAt ?? TryGetRelativeRoom(position);
             if (playerTile != null)
             {
                 var newRooms = GetDirectionalTiles(playerTile);
@@ -100,20 +110,23 @@ namespace Assets.Scripts.Engine
             }
         }
 
-        private void UnloadRoomsExcept(Dictionary<Location, GameObject> newRooms)
+        private void UnloadRoomsExcept(Dictionary<Location, KeyValuePair<GameObject, GameObject>> newRooms)
         {
             foreach (var loadedRoom in LoadedRooms)
             {
                 if (!newRooms.ContainsKey(loadedRoom.Key))
                 {
-                    Destroy(loadedRoom.Value);
+                    var objKvp = loadedRoom.Value;
+
+                    Destroy(objKvp.Key);
+                    Destroy(objKvp.Value);
                 }
             }
         }
 
-        private Dictionary<Location, GameObject> GetDirectionalTiles(VirtualTile virtualTile)
+        private Dictionary<Location, KeyValuePair<GameObject, GameObject>> GetDirectionalTiles(VirtualTile virtualTile)
         {
-            var tiles = new Dictionary<Location, GameObject>();
+            var tiles = new Dictionary<Location, KeyValuePair<GameObject, GameObject>>();
             tiles.Add(virtualTile.VirtualLocation, EnsureRoom(virtualTile));
             foreach (var dir in Direction.Values)
             {
@@ -130,7 +143,7 @@ namespace Assets.Scripts.Engine
             return tiles;
         }
 
-        private GameObject EnsureRoom(VirtualTile tile)
+        private KeyValuePair<GameObject, GameObject> EnsureRoom(VirtualTile tile)
         {
             if (LoadedRooms.ContainsKey(tile.VirtualLocation))
             {
@@ -144,15 +157,17 @@ namespace Assets.Scripts.Engine
             var roomObject = Instantiate(prefab, roomPos + prefab.transform.position + GridOffset, prefab.transform.rotation);
 
             var keyPrefab = GetRoomKeyContent(tile.Tile);
+            GameObject keyInstance = null;
             if (keyPrefab != null)
             {
-                var keyInstance = Instantiate(keyPrefab, roomPos + prefab.transform.position + GridOffset, keyPrefab.transform.rotation);
+                keyInstance = Instantiate(keyPrefab, roomPos + prefab.transform.position + GridOffset, keyPrefab.transform.rotation);
                 keyInstance.SetActive(true);
             }
 
             roomObject.SetActive(true);
+            var destructible = (tile.Tile.SpecialProperty != TileSpecial.Key1) ? keyInstance : null;
             //roomObject.transform.position = prefab.transform.position;
-            return roomObject;
+            return new KeyValuePair<GameObject, GameObject>(roomObject, destructible);
         }
 
         private GameObject GetRoomKeyContent(MazeTile mazeTile)
@@ -163,13 +178,16 @@ namespace Assets.Scripts.Engine
             switch (mazeTile.SpecialProperty)
             {
                 case TileSpecial.BreakingPoint1:
-                    prefabName = "KeyDoor";
+                    prefabName = "keydoor";
                     break;
                 case TileSpecial.Key1:
-                    prefabName = "BoomZingo";
+                    if (!playerController.HasBomb())
+                    {
+                        prefabName = "boomzingo";
+                    }
                     break;
                 default:
-                    prefabName = Enum.GetName(typeof(TileSpecial), mazeTile.SpecialProperty);
+                    prefabName = Enum.GetName(typeof(TileSpecial), mazeTile.SpecialProperty).ToLower();
                     break;
             }
             if (!string.IsNullOrEmpty(prefabName) && Prefabs.ContainsKey(prefabName))

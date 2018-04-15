@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33050498596105896}
   - component: {fileID: 23499551502091050}
   - component: {fileID: 95674092504305978}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Screaming statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 135845614457524404}
   - component: {fileID: 23371536680168612}
   - component: {fileID: 114621455525772834}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 136275555346428098}
   - component: {fileID: 23524013546790510}
   - component: {fileID: 114185030626395512}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: StrangerDanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,10 +270,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c794cef0932dc34c826b50aabab64b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMask:
+  dangerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3857
   text: {fileID: 0}
+  dangerScreen: {fileID: 0}
   freezeTimeWhenSeen: 3
 --- !u!135 &135845614457524404
 SphereCollider:
