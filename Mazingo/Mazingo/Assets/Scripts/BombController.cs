@@ -147,6 +147,7 @@ public class BombController : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(5);
+        audioSource.Stop();
         foreach (Transform obj in transform)
         {
             Destroy(obj.gameObject);
