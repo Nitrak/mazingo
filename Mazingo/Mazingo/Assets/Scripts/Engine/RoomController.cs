@@ -65,9 +65,10 @@ namespace Assets.Scripts.Engine
 
         private void RespawnHack()
         {
-            //player.transform.position = GetSpawnPosition(lastPlayerTile);
+            player.transform.position = GetSpawnPosition(lastPlayerTile);
+            playerController.transform.position = GetSpawnPosition(lastPlayerTile);
             playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
-            playerController.Kill();
+            playerController.Respawn();
         }
 
         private Vector3 GetSpawnPosition(VirtualTile virtualTile)
