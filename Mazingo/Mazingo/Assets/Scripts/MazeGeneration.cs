@@ -10,8 +10,9 @@ namespace Assets.Scripts
     {
         Nothing = 0,
         PlayerSpawn = 1,
-        Statue = 2,
-        Lava = 3,
+        DangerStatue = 2,
+        LavaPuzzle = 3,
+        LavaPuzzleWithDanger = 4,
 
         Key1 = 1001,
 
@@ -319,13 +320,13 @@ namespace Assets.Scripts
             var room2 = new MazeTile(TileSpecial.Decoration3, Direction.North, ref room1, ref maze);
             var room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref room2, ref maze);
             var bproom = new MazeTile(TileSpecial.BreakingPoint1, Direction.East, ref room3, ref maze);
-            var statue = new MazeTile(TileSpecial.Statue, Direction.North, ref room3, ref maze);
+            var statue = new MazeTile(TileSpecial.DangerStatue, Direction.North, ref room3, ref maze);
             var bomb = new MazeTile(TileSpecial.Key1, Direction.North, ref statue, ref maze);
             
             //Create 1st floor
             var floor1Room1 = new MazeTile(TileSpecial.Nothing, 1, ref maze);
             var floor1Room2 = new MazeTile(TileSpecial.Decoration2, Direction.South, ref floor1Room1, ref maze);
-            var floor1Lava = new MazeTile(TileSpecial.Lava, Direction.East, ref floor1Room2, ref maze);
+            var floor1Lava = new MazeTile(TileSpecial.LavaPuzzleWithDanger, Direction.East, ref floor1Room2, ref maze);
             var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
 
             //Hooking the two floors together

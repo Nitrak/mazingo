@@ -270,6 +270,15 @@ public class PlayerController : MonoBehaviour {
         if(!spawnGracePeriod)
             StartCoroutine(Respawn());
     }
+
+    public bool HasBomb()
+    {
+        if(CarriedObject != null)
+        {
+            return CarriedObject.gameObject.GetComponent<BombController>() != null;
+        }
+        return false;
+    }
     
     public IEnumerator Respawn()
     {
