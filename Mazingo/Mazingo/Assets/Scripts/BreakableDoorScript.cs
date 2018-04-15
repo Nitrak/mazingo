@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BreakableDoorScript : MonoBehaviour
 {
-
-
     private float explosionTime = -1;
+
+    public delegate void EventHandler(object sender);
+    public event EventHandler OnVictory;
 
     // Use this for initialization
     void Start()
@@ -26,6 +28,10 @@ public class BreakableDoorScript : MonoBehaviour
     private void ExplodeDoor()
     {
         gameObject.SetActive(false);
+        if(OnVictory != null)
+        {
+            OnVictory(this);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
