@@ -9,7 +9,7 @@ namespace Assets.Scripts
     public enum TileSpecial
     {
         Nothing = 0,
-        PlayerSpawn = 4001,
+        PlayerSpawn = 1,
         StrangerDanger = 2,
         LavaPuzzle = 3,
         LavaPuzzleWithDanger = 4,
@@ -292,7 +292,7 @@ namespace Assets.Scripts
                 }
 
             }
-            Debug.Log("No path!");
+
             return int.MaxValue;
         }
 
@@ -345,8 +345,7 @@ namespace Assets.Scripts
         private TileSpecial GenerateRandomTrap(double pctchance, ref Random rng)
         {
             //Traps are found in the enum from 1 to 1000
-            var rngNum = rng.NextDouble();
-            if (!(rngNum <= pctchance)) return TileSpecial.Nothing;
+            if (!(rng.NextDouble() <= pctchance)) return TileSpecial.Nothing;
 
             var possibleTraps = Enum.GetValues(typeof(TileSpecial)).Cast<int>().Where(e => e > 0 && e < 1000).ToList();
             return (TileSpecial) possibleTraps[rng.Next(0, possibleTraps.Count - 1)];
@@ -368,12 +367,9 @@ namespace Assets.Scripts
 
             //Set up the maze
             var rng = new Random();
-            //var rng = new Random(732431538);
-            var seed = rng.Next(int.MaxValue);
-            Debug.Log(seed);
-            rng = new Random(seed);
+            rng.Next(int.MaxValue);
+            rng = new Random(27022485);
             var maze = new Maze();
-            
 
             maze.Floors.AddRange(Enumerable.Repeat<Floor>(null, Floors).ToList());
 
@@ -440,13 +436,13 @@ namespace Assets.Scripts
                         maze.Floors[floor].Tiles.Where(e => e.Value.South == null).ToList();
 
                     var possibleDoorsOnOtherFloorEast =
-                        maze.Floors[otherFloor].Tiles.Where(e => e.Value.East == null).ToList();
+                        maze.Floors[floor].Tiles.Where(e => e.Value.East == null).ToList();
                     var possibleDoorsOnOtherFloorWest =
-                        maze.Floors[otherFloor].Tiles.Where(e => e.Value.West == null).ToList();
+                        maze.Floors[floor].Tiles.Where(e => e.Value.West == null).ToList();
                     var possibleDoorsOnOtherFloorNorth =
-                        maze.Floors[otherFloor].Tiles.Where(e => e.Value.North == null).ToList();
+                        maze.Floors[floor].Tiles.Where(e => e.Value.North == null).ToList();
                     var possibleDoorsOnOtherFloorSouth =
-                        maze.Floors[otherFloor].Tiles.Where(e => e.Value.South == null).ToList();
+                        maze.Floors[floor].Tiles.Where(e => e.Value.South == null).ToList();
 
                     int toOtherFloors = maze.Floors[floor].NumPortsToOtherFloors == 0 ? rng.Next(1,Math.Max((int) Math.Floor(tilesPerFloor[floor]/(10.0*Floors)),1)) : rng.Next(0, (int) Math.Floor(tilesPerFloor[floor]/(10.0*Floors)));
 
@@ -514,8 +510,7 @@ namespace Assets.Scripts
             //Add a bunch of decorations
             foreach (var mazeTile in allTiles)
             {
-                if(mazeTile.SpecialProperty == TileSpecial.Nothing)
-                    mazeTile.SpecialProperty = GenerateRandomDecoration(ref rng);
+                mazeTile.SpecialProperty = GenerateRandomDecoration(ref rng);
             }
 
             //Add a start position to a southern wall somewhere
