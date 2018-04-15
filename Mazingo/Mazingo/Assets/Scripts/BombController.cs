@@ -80,7 +80,7 @@ public class BombController : MonoBehaviour
         if (detonationTimer == 0)
             audioSource.pitch = 0.5f;
         else
-            audioSource.pitch = 1 + (detonationTimer / detonationTimeWhenCarried) * pitchFactor;
+            audioSource.pitch = 0.5f + (detonationTimer / detonationTimeWhenCarried) * pitchFactor;
 
         if (!isExploded && detonationTimer >= detonationTimeWhenCarried)
             Explode();
@@ -148,6 +148,7 @@ public class BombController : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(5);
+        audioSource.loop = false;
         audioSource.Stop();
         foreach (Transform obj in transform)
         {
