@@ -265,6 +265,8 @@ namespace Assets.Scripts
             while (listOfAllTiles.Count > 0)
             {
                 var uIdx = GetShortest(distance, visited);
+                if (uIdx < 0)
+                    break;
                 var u = listOfAllTiles[uIdx];
 
                 if (u == null)
@@ -321,11 +323,11 @@ namespace Assets.Scripts
             var room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref room2, ref maze);
             var bproom = new MazeTile(TileSpecial.BreakingPoint1, Direction.East, ref room3, ref maze);
             var statue = new MazeTile(TileSpecial.StrangerDanger, Direction.North, ref room3, ref maze);
-            var bomb = new MazeTile(TileSpecial.Key1, Direction.North, ref statue, ref maze);
+            var bomb = new MazeTile(TileSpecial.Decoration6, Direction.North, ref statue, ref maze);
             
             //Create 1st floor
-            var floor1Room1 = new MazeTile(TileSpecial.Nothing, 1, ref maze);
-            var floor1Room2 = new MazeTile(TileSpecial.Decoration2, Direction.South, ref floor1Room1, ref maze);
+            var floor1Room1 = new MazeTile(TileSpecial.Decoration2, 1, ref maze);
+            var floor1Room2 = new MazeTile(TileSpecial.Key1, Direction.South, ref floor1Room1, ref maze);
             var floor1Lava = new MazeTile(TileSpecial.LavaPuzzle, Direction.East, ref floor1Room2, ref maze);
             var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
 

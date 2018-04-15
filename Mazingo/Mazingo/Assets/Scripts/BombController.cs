@@ -134,7 +134,12 @@ public class BombController : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(5);
-
+        foreach(Transform obj in transform)
+        {
+            Destroy(obj.gameObject);
+        }
+        Destroy(this.gameObject);
+        /*
         Debug.Log("asplode!");
         body.velocity = Vector3.zero;
         this.transform.position = spawnPosition;
@@ -151,7 +156,7 @@ public class BombController : MonoBehaviour
         detonationTimer = 0;
         detonationTimeWhenCarried = initialDetonationTimer;
 
-        Debug.Log("We're back!");
+        Debug.Log("We're back!");*/
     }
 
     IEnumerator Disable()
