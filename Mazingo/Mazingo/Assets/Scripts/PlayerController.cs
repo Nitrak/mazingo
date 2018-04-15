@@ -316,14 +316,14 @@ public class PlayerController : MonoBehaviour {
     {
         Debug.Log("fading!");
         fadeAnimation.SetBool("Fade", true);
-        yield return new WaitUntil(() => deathImage.color.a == 1f);
+        yield return new WaitUntil(() => deathImage.color.a >= 1f);
         Debug.Log("rip");
         player.velocity = Vector3.zero;
         this.transform.parent.rotation = Quaternion.identity;
         this.transform.rotation = Quaternion.identity;
         this.transform.parent.position = spawnPosition;
         fadeAnimation.SetBool("Fade", false);
-        yield return new WaitUntil(() => deathImage.color.a == 0f);
+        yield return new WaitUntil(() => deathImage.color.a <= 0f);
         deathScreen.SetActive(false);
         playerMoveSettings.shouldTakeInput = true;
     }

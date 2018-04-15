@@ -462,7 +462,7 @@ namespace Assets.Scripts
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorWest.Count - 1);
                             possibleDoorsOnThisFloorEast[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorWest[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorEast.RemoveAt(idxFromThisFloor);
-                            possibleDoorsOnThisFloorWest.RemoveAt(idxFromOtherFloor);
+                            possibleDoorsOnOtherFloorWest.RemoveAt(idxFromOtherFloor);
                         }
                         else if (randomDirectionFromThisFloor == Direction.West
                                  && possibleDoorsOnThisFloorWest.Count > 0
@@ -472,7 +472,7 @@ namespace Assets.Scripts
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorEast.Count - 1);
                             possibleDoorsOnThisFloorWest[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorEast[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorWest.RemoveAt(idxFromThisFloor);
-                            possibleDoorsOnThisFloorEast.RemoveAt(idxFromOtherFloor);
+                            possibleDoorsOnOtherFloorEast.RemoveAt(idxFromOtherFloor);
                         }
                         else if (randomDirectionFromThisFloor == Direction.North
                                  && possibleDoorsOnThisFloorNorth.Count > 0
@@ -482,7 +482,7 @@ namespace Assets.Scripts
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorSouth.Count - 1);
                             possibleDoorsOnThisFloorNorth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorSouth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorNorth.RemoveAt(idxFromThisFloor);
-                            possibleDoorsOnThisFloorSouth.RemoveAt(idxFromOtherFloor);
+                            possibleDoorsOnOtherFloorSouth.RemoveAt(idxFromOtherFloor);
                         }
                         else if (randomDirectionFromThisFloor == Direction.South
                                  && possibleDoorsOnThisFloorSouth.Count > 0
@@ -492,7 +492,7 @@ namespace Assets.Scripts
                             var idxFromOtherFloor = rng.Next(0, possibleDoorsOnOtherFloorNorth.Count - 1);
                             possibleDoorsOnThisFloorSouth[idxFromThisFloor].Value.TieMazeTile(possibleDoorsOnOtherFloorNorth[idxFromOtherFloor].Value, randomDirectionFromThisFloor);
                             possibleDoorsOnThisFloorSouth.RemoveAt(idxFromThisFloor);
-                            possibleDoorsOnThisFloorNorth.RemoveAt(idxFromOtherFloor);
+                            possibleDoorsOnOtherFloorNorth.RemoveAt(idxFromOtherFloor);
                         }
 
                     }
