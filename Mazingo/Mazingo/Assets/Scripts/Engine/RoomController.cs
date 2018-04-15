@@ -51,14 +51,21 @@ namespace Assets.Scripts.Engine
         public void StartTutorial()
         {
             this.Maze = generator.GenerateTutorialMaze();
+            this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
+            RespawnHack();
         }
 
         public void StartLevel(int level)
         {
             this.Maze = generator.GenerateNewMaze(new[] { 10, 10, 10 }, .30d);
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
-            var playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
+            RespawnHack();
+        }
 
+
+        private void RespawnHack()
+        {
+            //player.transform.position = GetSpawnPosition(lastPlayerTile);
             playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
             playerController.Kill();
         }
@@ -158,7 +165,7 @@ namespace Assets.Scripts.Engine
             GameObject keyInstance = null;
             if (keyPrefab != null)
             {
-                keyInstance = Instantiate(keyPrefab, roomPos + prefab.transform.position + GridOffset, keyPrefab.transform.rotation);
+                keyInstance = Instantiate(keyPrefab, roomPos + prefab.transform.position + keyPrefab.transform.position + GridOffset, keyPrefab.transform.rotation);
                 keyInstance.SetActive(true);
             }
 
