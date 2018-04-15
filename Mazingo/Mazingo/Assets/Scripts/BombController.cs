@@ -74,7 +74,7 @@ public class BombController : MonoBehaviour
         }
         else
         {
-            detonationTimer = Mathf.Max(0, detonationTimer - Time.deltaTime);
+            //detonationTimer = Mathf.Max(0, detonationTimer - Time.deltaTime);
         }
 
         if (detonationTimer == 0)
@@ -104,7 +104,7 @@ public class BombController : MonoBehaviour
 
     public void DropBomb()
     {
-        pickedUp = false;
+        //pickedUp = false;
     }
 
     public float StartBomb()
