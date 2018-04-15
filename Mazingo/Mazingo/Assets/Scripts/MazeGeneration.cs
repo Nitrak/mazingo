@@ -326,7 +326,7 @@ namespace Assets.Scripts
             //Create 1st floor
             var floor1Room1 = new MazeTile(TileSpecial.Nothing, 1, ref maze);
             var floor1Room2 = new MazeTile(TileSpecial.Decoration2, Direction.South, ref floor1Room1, ref maze);
-            var floor1Lava = new MazeTile(TileSpecial.LavaPuzzleWithDanger, Direction.East, ref floor1Room2, ref maze);
+            var floor1Lava = new MazeTile(TileSpecial.LavaPuzzle, Direction.East, ref floor1Room2, ref maze);
             var floor1Room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref floor1Lava, ref maze);
 
             //Hooking the two floors together

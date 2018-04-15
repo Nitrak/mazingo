@@ -182,11 +182,11 @@ GameObject:
   - component: {fileID: 82876397985407836}
   m_Layer: 8
   m_Name: BoomZingo
-  m_TagString: Untagged
+  m_TagString: Prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1906227216293996
 GameObject:
   m_ObjectHideFlags: 1
@@ -273,7 +273,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1463464216045772}
   m_LocalRotation: {x: -0, y: 0.31169245, z: -0, w: 0.95018303}
-  m_LocalPosition: {x: 20.772171, y: 76.8, z: 2684.918}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children:
   - {fileID: 4026453746409572}
@@ -332,7 +332,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1044660474068090}
   m_LocalRotation: {x: -0, y: 0.31169245, z: -0, w: 0.95018303}
-  m_LocalPosition: {x: 20.772171, y: 76.8, z: 2684.918}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children: []
   m_Father: {fileID: 4940739906572162}

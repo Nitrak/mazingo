@@ -48,16 +48,14 @@ namespace Assets.Scripts.Engine
             Load(newVirtual);
         }
 
+        public void StartTutorial()
+        {
+            this.Maze = generator.GenerateTutorialMaze();
+        }
+
         public void StartLevel(int level)
         {
-            if (level == 0)
-            {
-                this.Maze = generator.GenerateTutorialMaze();
-            }
-            else
-            {
-                this.Maze = generator.GenerateNewMaze(new[] { 10, 10, 10 }, .30d);
-            }
+            this.Maze = generator.GenerateNewMaze(new[] { 10, 10, 10 }, .30d);
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
             var playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
 
