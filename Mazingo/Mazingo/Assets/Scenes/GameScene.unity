@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 721a5b1d90f89854ba1ab4d20b16683e,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -198,6 +199,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114795162322748742, guid: 7ebd57338b764ad4e971ba04e9874537,
+        type: 2}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1593251518}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7ebd57338b764ad4e971ba04e9874537, type: 2}
   m_IsPrefabParent: 0
@@ -583,6 +589,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1593251518 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114556460150487260, guid: 5e96aef865cf5844cb1ae9e903a50b79,
+    type: 2}
+  m_PrefabInternal: {fileID: 279688095}
+  m_Script: {fileID: 11500000, guid: a70e201ab0ecc824588c0cf3079fd61a, type: 3}
 --- !u!1001 &1630763568
 Prefab:
   m_ObjectHideFlags: 0
