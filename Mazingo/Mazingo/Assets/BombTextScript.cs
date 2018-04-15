@@ -6,7 +6,7 @@ public class BombTextScript : MonoBehaviour
 {
 
     TextMesh text;
-    public float countDown = 20;
+    private float countDown;
     private float countDownTimer;
     bool startText;
     BombController bc;
@@ -15,10 +15,9 @@ public class BombTextScript : MonoBehaviour
     void Start()
     {
         bc = transform.parent.GetComponent<BombController>();
-        countDownTimer = countDown;
         startText = false;
         text = GetComponent<TextMesh>();
-        text.text = countDown.ToString();
+        text.text = countDownTimer.ToString();
     }
 
     // Update is called once per frame
