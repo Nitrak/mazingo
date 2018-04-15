@@ -195,15 +195,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 1814169334632810, guid: 7ebd57338b764ad4e971ba04e9874537, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 114795162322748742, guid: 7ebd57338b764ad4e971ba04e9874537,
         type: 2}
       propertyPath: controller
       value: 
       objectReference: {fileID: 1593251518}
+    - target: {fileID: 114795162322748742, guid: 7ebd57338b764ad4e971ba04e9874537,
+        type: 2}
+      propertyPath: fadeAnimation
+      value: 
+      objectReference: {fileID: 1341516202}
+    - target: {fileID: 114795162322748742, guid: 7ebd57338b764ad4e971ba04e9874537,
+        type: 2}
+      propertyPath: victoryScreen
+      value: 
+      objectReference: {fileID: 1341516198}
+    - target: {fileID: 114795162322748742, guid: 7ebd57338b764ad4e971ba04e9874537,
+        type: 2}
+      propertyPath: victoryFade
+      value: 
+      objectReference: {fileID: 1341516199}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7ebd57338b764ad4e971ba04e9874537, type: 2}
   m_IsPrefabParent: 0
@@ -337,7 +348,7 @@ Prefab:
     - target: {fileID: 114556460150487260, guid: 5e96aef865cf5844cb1ae9e903a50b79,
         type: 2}
       propertyPath: tutorial
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e96aef865cf5844cb1ae9e903a50b79, type: 2}
@@ -636,6 +647,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1341516198 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1157424482935986, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
+--- !u!114 &1341516199 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114970124353103886, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!95 &1341516202 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95257390595607130, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
 --- !u!114 &1457550757 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114679660577343266, guid: 7f3e16fd0961b7b45bff05e855b64866,

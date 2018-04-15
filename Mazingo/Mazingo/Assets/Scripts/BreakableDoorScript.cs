@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BreakableDoorScript : MonoBehaviour
 {
@@ -23,9 +24,24 @@ public class BreakableDoorScript : MonoBehaviour
             ExplodeDoor();
     }
 
+    public Animator fadeAnimation;
+    public GameObject victoryScreen;
+    public Image victoryFade;
+
     private void ExplodeDoor()
     {
-        gameObject.SetActive(false);
+        StartCoroutine(FinishLevel());
+    }
+
+    IEnumerator FinishLevel()
+    {
+        Time.timeScale = 1;
+        //gameObject.SetActive(false);
+        victoryScreen.SetActive(true);
+        fadeAnimation.SetBool("Fade", true);
+        yield return new WaitUntil(() => { return victoryFade.color.a >= 1f; });
+        fadeAnimation.SetBool("Fade", false);
+        Debug.Log("done fading");
         controller.LevelComplete();
     }
 
