@@ -574,7 +574,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -696,7 +696,7 @@ MonoBehaviour:
   explosionTimeWhenPlaced: 5
   explosionSound: {fileID: 8300000, guid: 73ca89b025c0dec47baee3096a938656, type: 3}
   tickingSound: {fileID: 8300000, guid: 0ddca7f1c03f1484e9dc662fd77ae9be, type: 3}
-  pitchFactor: 0.5
+  pitchFactor: 1.005
 --- !u!114 &114981311986478666
 MonoBehaviour:
   m_ObjectHideFlags: 1
