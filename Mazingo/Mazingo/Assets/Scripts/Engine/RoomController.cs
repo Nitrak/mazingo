@@ -12,7 +12,7 @@ namespace Assets.Scripts.Engine
     {
         public const float RoomSize = 20;
         public static readonly Vector3 GridOffset = new Vector3(10, 0, 10);
-        public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 1, 0);
+        public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
@@ -65,9 +65,9 @@ namespace Assets.Scripts.Engine
 
         private void RespawnHack()
         {
-            //player.transform.position = GetSpawnPosition(lastPlayerTile);
+            player.transform.rotation = Quaternion.identity;
+            player.transform.position = GetSpawnPosition(lastPlayerTile);
             playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
-            playerController.Kill();
         }
 
         private Vector3 GetSpawnPosition(VirtualTile virtualTile)
