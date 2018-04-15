@@ -10,6 +10,7 @@ public class TVTextScript : MonoBehaviour
     private float countDownTimer;
     int testNumber;
     bool startText;
+    string initialText = "";
 
     // Use this for initialization
     void Start()
@@ -18,7 +19,8 @@ public class TVTextScript : MonoBehaviour
         startText = false;
         text = GetComponent<TextMesh>();
         testNumber = (int)Mathf.Floor(Random.Range(402017, 754392));
-        text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
+        initialText = "TEST SUBJECT\n #" + testNumber;
+        text.text = initialText;
     }
 
     // Update is called once per frame
@@ -29,9 +31,9 @@ public class TVTextScript : MonoBehaviour
         if (countDownTimer < 0)
         {
             if(startText)
-                text.text = "WELCOME TEST SUBJECT \n #" + testNumber;
+                text.text = initialText;
             else
-                text.text = "Commence operation\n Seek & Destroy";
+                text.text = "Locate explosive\n Breaking Point";
 
             countDownTimer = countDown; 
             startText = !startText;

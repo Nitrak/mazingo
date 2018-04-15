@@ -282,7 +282,8 @@ public class PlayerController : MonoBehaviour {
     
     public IEnumerator Respawn()
     {
-        OnDeath(this);
+        if(OnDeath != null)
+            OnDeath(this);
         Debug.Log("Spawning player");
         startSpawnGracePeriod();
 
