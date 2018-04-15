@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 4567618366692026}
   - component: {fileID: 33027972395295590}
   - component: {fileID: 23456473718434480}
+  - component: {fileID: 64827261026026652}
   m_Layer: 0
   m_Name: Barrel_WideS
   m_TagString: Untagged
@@ -870,3 +871,17 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300040, guid: fe8bb5221257840c2805e380fc94544a, type: 3}
+--- !u!64 &64827261026026652
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1702345425812596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 5c5915e3b1cd1e9498fc34258639b7e5, type: 3}
