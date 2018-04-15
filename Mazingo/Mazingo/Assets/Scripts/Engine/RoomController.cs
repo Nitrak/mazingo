@@ -32,7 +32,6 @@ namespace Assets.Scripts.Engine
             this.playerController = player.transform.GetChild(0).GetComponent<PlayerController>();
             LoadedRooms = new Dictionary<Location, KeyValuePair<GameObject, GameObject>>();
             LoadPrefabs();
-            //Load();
 
             playerController.OnDeath += ReloadStartRoom;
         }
@@ -40,6 +39,16 @@ namespace Assets.Scripts.Engine
         public bool IsLoaded()
         {
             return Maze != null;
+        }
+
+        public void ResetRooms()
+        {
+            foreach(var kvp in LoadedRooms.Values)
+            {
+                Destroy(kvp.Key);
+                Destroy(kvp.Value);
+            }
+            LoadedRooms.Clear();
         }
 
         public MazeGeneration GetMazeGenerator()
@@ -62,6 +71,7 @@ namespace Assets.Scripts.Engine
 
         public void StartLevel(int level)
         {
+            ResetRooms();
             this.Maze = generator.GenerateNewMaze(new[] { 10 + level, 10 + level }, .13 + (level * .2));
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
             RespawnHack();
