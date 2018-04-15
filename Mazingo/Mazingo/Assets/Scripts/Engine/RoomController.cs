@@ -87,7 +87,7 @@ namespace Assets.Scripts.Engine
                 {
                     if (!Prefabs.ContainsKey(fab.name.ToLower()))
                     {
-                        Debug.Log(string.Format("Loaded {0}", fab.name));
+                        //Debug.Log(string.Format("Loaded {0}", fab.name));
                         Prefabs.Add(fab.name.ToLower(), fab);
                     }
                 }
