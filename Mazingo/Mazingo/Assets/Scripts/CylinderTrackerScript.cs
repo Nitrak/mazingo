@@ -11,14 +11,14 @@ public class CylinderTrackerScript : MonoBehaviour {
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        ForkParticlePlugin.Instance.AddEffect(effect);
+        //ForkParticlePlugin.Instance.AddEffect(effect);
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.rotation = LookAt(transform.position, player.transform.position);
-        ForkParticlePlugin.Instance.Test();
+        //ForkParticlePlugin.Instance.Test();
     }
 
     public static Quaternion LookAt(Vector3 sourcePoint, Vector3 destPoint)

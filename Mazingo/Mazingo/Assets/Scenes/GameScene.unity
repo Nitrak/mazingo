@@ -342,7 +342,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e96aef865cf5844cb1ae9e903a50b79, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &630566012
+--- !u!1 &647050164 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1573193984115170, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
+--- !u!95 &647050166 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95346236444876698, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
+--- !u!114 &688154373 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114659949068600846, guid: 7f3e16fd0961b7b45bff05e855b64866,
+    type: 2}
+  m_PrefabInternal: {fileID: 1989092031}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!1001 &1041128841
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -381,9 +397,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 1777126948603126, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9, type: 2}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 114185030626395512, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9,
+        type: 2}
+      propertyPath: effect
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114621455525772834, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9,
         type: 2}
@@ -395,29 +412,9 @@ Prefab:
       propertyPath: dangerScreen
       value: 
       objectReference: {fileID: 2087078668}
-    - target: {fileID: 1777126948603126, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9, type: 2}
-      propertyPath: m_TagString
-      value: Prefab
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e0d6d1a0bcb8b04082d29d32d5500d9, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &647050164 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1573193984115170, guid: 7f3e16fd0961b7b45bff05e855b64866,
-    type: 2}
-  m_PrefabInternal: {fileID: 1989092031}
---- !u!95 &647050166 stripped
-Animator:
-  m_PrefabParentObject: {fileID: 95346236444876698, guid: 7f3e16fd0961b7b45bff05e855b64866,
-    type: 2}
-  m_PrefabInternal: {fileID: 1989092031}
---- !u!114 &688154373 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114659949068600846, guid: 7f3e16fd0961b7b45bff05e855b64866,
-    type: 2}
-  m_PrefabInternal: {fileID: 1989092031}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1087053124
 Prefab:
   m_ObjectHideFlags: 0
