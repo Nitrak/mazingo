@@ -12,7 +12,7 @@ namespace Assets.Scripts.Engine
     {
         public const float RoomSize = 20;
         public static readonly Vector3 GridOffset = new Vector3(10, 0, 10);
-        public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
+        public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 3, 0);
         private const int StartFloorIndex = 0;
 
         private Maze Maze;
