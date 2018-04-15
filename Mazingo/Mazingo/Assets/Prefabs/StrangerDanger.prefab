@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 136275555346428098}
   - component: {fileID: 23524013546790510}
   - component: {fileID: 114185030626395512}
-  - component: {fileID: 114953717300234122}
   m_Layer: 12
   m_Name: StrangerDanger
   m_TagString: Prefab
@@ -277,19 +276,6 @@ MonoBehaviour:
   text: {fileID: 0}
   dangerScreen: {fileID: 0}
   freezeTimeWhenSeen: 3
---- !u!114 &114953717300234122
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1777126948603126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e2c3945a6d5b2479b9cc6fabea6079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 3
-  speed: 1
 --- !u!135 &135845614457524404
 SphereCollider:
   m_ObjectHideFlags: 1
