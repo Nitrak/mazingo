@@ -33,6 +33,16 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public RoomController GetRoomController()
+    {
+        return roomController;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
+    }
+
     //TODO: Callback here
     public void LevelComplete()
     {

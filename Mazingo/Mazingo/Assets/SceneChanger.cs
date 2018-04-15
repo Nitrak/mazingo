@@ -17,7 +17,7 @@ public class SceneChanger : MonoBehaviour {
 
     public void StartDemo()
     {
-        SceneManager.LoadScene("DemoScene");
+        SceneManager.LoadScene("TutorialScene");
     }
 
     public void StartGame()
