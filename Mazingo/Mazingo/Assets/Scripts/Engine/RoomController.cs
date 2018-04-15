@@ -65,16 +65,9 @@ namespace Assets.Scripts.Engine
 
         private void RespawnHack()
         {
-<<<<<<< HEAD
-            player.transform.position = GetSpawnPosition(lastPlayerTile);
-            playerController.transform.position = GetSpawnPosition(lastPlayerTile);
-            playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
-            playerController.Respawn();
-=======
             player.transform.rotation = Quaternion.identity;
             player.transform.position = GetSpawnPosition(lastPlayerTile);
             playerController.SetSpawnPosition(GetSpawnPosition(lastPlayerTile));
->>>>>>> 4ca71fabf11112181153a675fac490ee1fef2e7a
         }
 
         private Vector3 GetSpawnPosition(VirtualTile virtualTile)
