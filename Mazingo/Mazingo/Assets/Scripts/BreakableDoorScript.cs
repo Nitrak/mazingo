@@ -7,13 +7,11 @@ public class BreakableDoorScript : MonoBehaviour
 {
     private float explosionTime = -1;
 
-    public delegate void EventHandler(object sender);
-    public event EventHandler OnVictory;
+    public GameController controller;
 
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -28,10 +26,7 @@ public class BreakableDoorScript : MonoBehaviour
     private void ExplodeDoor()
     {
         gameObject.SetActive(false);
-        if(OnVictory != null)
-        {
-            OnVictory(this);
-        }
+        controller.LevelComplete();
     }
 
     private void OnTriggerEnter(Collider other)
