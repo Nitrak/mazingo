@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4450456779115484}
   m_Layer: 0
-  m_Name: Decoration 6
+  m_Name: Decoration6
   m_TagString: Prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
