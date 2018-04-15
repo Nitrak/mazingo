@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1074,6 +1074,55 @@ Prefab:
     - target: {fileID: 114970124353103886, guid: 7f3e16fd0961b7b45bff05e855b64866,
         type: 2}
       propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114572368370903336, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_Text
+      value: TEST COMPLETE
+      objectReference: {fileID: 0}
+    - target: {fileID: 114572368370903336, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157424482935986, guid: 7f3e16fd0961b7b45bff05e855b64866, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114572368370903336, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 114572368370903336, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114572368370903336, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 224740484805685140, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 224740484805685140, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659949068600846, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_Text
+      value: LOOK AWAY!
+      objectReference: {fileID: 0}
+    - target: {fileID: 114659949068600846, guid: 7f3e16fd0961b7b45bff05e855b64866,
+        type: 2}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
