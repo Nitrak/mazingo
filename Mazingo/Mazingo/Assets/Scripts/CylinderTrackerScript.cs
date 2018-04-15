@@ -5,20 +5,17 @@ using UnityEngine;
 public class CylinderTrackerScript : MonoBehaviour {
     GameObject player;
 
-    public GameObject effect;
     float time;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        ForkParticlePlugin.Instance.AddEffect(effect);
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.rotation = LookAt(transform.position, player.transform.position);
-        ForkParticlePlugin.Instance.Test();
     }
 
     public static Quaternion LookAt(Vector3 sourcePoint, Vector3 destPoint)
