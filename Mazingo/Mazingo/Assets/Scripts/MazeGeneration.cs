@@ -249,7 +249,7 @@ namespace Assets.Scripts
             for (int i = 0; i < listOfAllTiles.Count; i++)
             {
                 var m =  listOfAllTiles[i];
-                if (m.SpecialProperty == TileSpecial.PlayerSpawn)
+                if (m.SpecialProperty == TileSpecial.Key1)
                     target = i;
                 else if (m.SpecialProperty == TileSpecial.BreakingPoint1)
                     origin = i;
@@ -369,8 +369,9 @@ namespace Assets.Scripts
             //Set up the maze
             var rng = new Random();
             //var rng = new Random(732431538);
-            //var seed = rng.Next(int.MaxValue);
-            //Debug.Log(seed);
+            var seed = rng.Next(int.MaxValue);
+            Debug.Log(seed);
+            rng = new Random(seed);
             var maze = new Maze();
             
 
