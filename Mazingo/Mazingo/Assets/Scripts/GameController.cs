@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
     {
         if (tutorial)
         {
-            SceneManager.LoadScene("TitleScreen");
+            SceneManager.LoadScene("GameScene");
         }
         else
         {
