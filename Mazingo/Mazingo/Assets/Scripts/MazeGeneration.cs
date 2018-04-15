@@ -13,6 +13,7 @@ namespace Assets.Scripts
         StrangerDanger = 2,
         LavaPuzzle = 3,
         LavaPuzzleWithDanger = 4,
+        LavaPuzzleWithDangerMoving = 5,
 
         Key1 = 1001,
 
