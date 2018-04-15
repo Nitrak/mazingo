@@ -10,7 +10,7 @@ namespace Assets.Scripts
     {
         Nothing = 0,
         PlayerSpawn = 1,
-        DangerStatue = 2,
+        StrangerDanger = 2,
         LavaPuzzle = 3,
         LavaPuzzleWithDanger = 4,
 
@@ -320,7 +320,7 @@ namespace Assets.Scripts
             var room2 = new MazeTile(TileSpecial.Decoration3, Direction.North, ref room1, ref maze);
             var room3 = new MazeTile(TileSpecial.Nothing, Direction.East, ref room2, ref maze);
             var bproom = new MazeTile(TileSpecial.BreakingPoint1, Direction.East, ref room3, ref maze);
-            var statue = new MazeTile(TileSpecial.DangerStatue, Direction.North, ref room3, ref maze);
+            var statue = new MazeTile(TileSpecial.StrangerDanger, Direction.North, ref room3, ref maze);
             var bomb = new MazeTile(TileSpecial.Key1, Direction.North, ref statue, ref maze);
             
             //Create 1st floor
