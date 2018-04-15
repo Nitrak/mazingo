@@ -57,7 +57,7 @@ namespace Assets.Scripts.Engine
 
         public void StartLevel(int level)
         {
-            this.Maze = generator.GenerateNewMaze(new[] { 10, 10 }, .30d);
+            this.Maze = generator.GenerateNewMaze(new[] { 10, 10 }, .50d);
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
             RespawnHack();
         }

@@ -367,7 +367,11 @@ namespace Assets.Scripts
 
             //Set up the maze
             var rng = new Random();
+            var seed = rng.Next(int.MaxValue);
+            Debug.Log(seed);
+            rng = new Random(seed);
             var maze = new Maze();
+            
 
             maze.Floors.AddRange(Enumerable.Repeat<Floor>(null, Floors).ToList());
 
