@@ -85,6 +85,11 @@ public class StrangerDangerScript : MonoBehaviour {
         Freeze(percentage);
     }
 
+    private void OnDestroy()
+    {
+        Freeze(0);   
+    }
+
     private void Freeze(float percentage)
     {
         if(percentage == 0 && !this.originalText.Equals(text.text))
