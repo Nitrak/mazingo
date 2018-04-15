@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 135434438134186320}
   - component: {fileID: 114667615995748184}
   - component: {fileID: 82876397985407836}
+  - component: {fileID: 82115056760596508}
   m_Layer: 8
   m_Name: BoomZingo
   m_TagString: Prefab
@@ -525,6 +526,86 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!82 &82115056760596508
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878909248476700}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!82 &82876397985407836
 AudioSource:
   m_ObjectHideFlags: 1
@@ -697,6 +778,9 @@ MonoBehaviour:
   explosionSound: {fileID: 8300000, guid: 73ca89b025c0dec47baee3096a938656, type: 3}
   tickingSound: {fileID: 8300000, guid: 0ddca7f1c03f1484e9dc662fd77ae9be, type: 3}
   pitchFactor: 1.005
+  audioSource: {fileID: 82876397985407836}
+  music: {fileID: 82115056760596508}
+  pickupSound: {fileID: 8300000, guid: 35493464b0884a64ba36eadc7fc6d32d, type: 3}
 --- !u!114 &114981311986478666
 MonoBehaviour:
   m_ObjectHideFlags: 1

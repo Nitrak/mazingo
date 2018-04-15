@@ -16,7 +16,7 @@ public class BombController : MonoBehaviour
     public AudioClip explosionSound;
     public AudioClip tickingSound;
     public float pitchFactor = 1;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     private bool pickedUp;
     private bool startBombTimer;
@@ -30,6 +30,9 @@ public class BombController : MonoBehaviour
     private PlayerController player;
     private Rigidbody body;
 
+    public AudioSource music;
+    public AudioClip pickupSound;
+
     // Use this for initialization
     void Start()
     {
@@ -39,7 +42,6 @@ public class BombController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
         player.OnDropped += Player_OnDropped;
         player.OnPickedUp += Player_OnPickedUp;
-        audioSource = GetComponent<AudioSource>();
         isExploded = false;
 
         this.spawnPosition = this.transform.position;
@@ -90,6 +92,11 @@ public class BombController : MonoBehaviour
     {
         if (canBePickedUp)
         {
+            if (!music.isPlaying)
+            {
+                music.clip = pickupSound;
+                music.Play();
+            }
             pickedUp = true;
             SetBombTimeout();
         }
@@ -125,6 +132,8 @@ public class BombController : MonoBehaviour
 
         Debug.Log("booom");
         isExploded = true;
+        music.clip = null;
+        music.Stop();
         audioSource.clip = null;
         audioSource.pitch = 1;
         transform.GetChild(0).gameObject.SetActive(true);
@@ -150,6 +159,7 @@ public class BombController : MonoBehaviour
         yield return new WaitForSeconds(5);
         audioSource.loop = false;
         audioSource.Stop();
+        music.Stop();
         foreach (Transform obj in transform)
         {
             Destroy(obj.gameObject);
