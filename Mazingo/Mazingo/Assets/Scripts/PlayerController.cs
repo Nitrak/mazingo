@@ -286,6 +286,7 @@ public class PlayerController : MonoBehaviour {
             OnDeath(this);
         Debug.Log("Spawning player");
         startSpawnGracePeriod();
+        dropItem();
 
         playerMoveSettings.shouldTakeInput = false;
         yield return new WaitForSeconds(0.3f);
