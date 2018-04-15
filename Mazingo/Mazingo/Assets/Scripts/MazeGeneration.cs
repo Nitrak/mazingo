@@ -367,6 +367,8 @@ namespace Assets.Scripts
 
             //Set up the maze
             var rng = new Random();
+            rng.Next(int.MaxValue);
+            rng = new Random(27022485);
             var maze = new Maze();
 
             maze.Floors.AddRange(Enumerable.Repeat<Floor>(null, Floors).ToList());
