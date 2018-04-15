@@ -11,8 +11,10 @@ namespace Assets.Scripts
         Nothing = 0,
         PlayerSpawn = 4001,
         StrangerDanger = 2,
+        StrangerDangerMoving = 6,
         LavaPuzzle = 3,
         LavaPuzzleWithDanger = 4,
+        LavaPuzzleWithDangerMoving = 5,
 
         Key1 = 1001,
 
