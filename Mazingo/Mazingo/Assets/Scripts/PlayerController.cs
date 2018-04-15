@@ -191,8 +191,11 @@ public class PlayerController : MonoBehaviour {
         this.CarryingItem = false;
         //Debug.Log("dropped item");
         //this.CarriedObject.transform.parent = this.CarriedInitialParent;
-        this.CarriedObject.angularDrag = carriedObjectAngularDrag;
-        this.CarriedObject.useGravity = true;
+        if (this.CarriedObject != null)
+        {
+            this.CarriedObject.angularDrag = carriedObjectAngularDrag;
+            this.CarriedObject.useGravity = true;
+        }
         var dropped = CarriedObject;
         this.CarriedObject = null;
         if(OnDropped != null)
@@ -319,6 +322,7 @@ public class PlayerController : MonoBehaviour {
         fadeAnimation.SetBool("Fade", true);
         yield return new WaitUntil(() => deathImage.color.a >= 1f);
         Debug.Log("rip");
+        player.useGravity = false;
         player.velocity = Vector3.zero;
         this.transform.parent.rotation = Quaternion.identity;
         this.transform.rotation = Quaternion.identity;
@@ -326,6 +330,7 @@ public class PlayerController : MonoBehaviour {
         fadeAnimation.SetBool("Fade", false);
         yield return new WaitUntil(() => deathImage.color.a <= 0f);
         deathScreen.SetActive(false);
+        player.useGravity = true;
         playerMoveSettings.shouldTakeInput = true;
     }
 }
