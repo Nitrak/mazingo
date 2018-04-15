@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BombController : MonoBehaviour
 {
+    public const int RoomTimeoutMultiplier = 5;
+
     public float deathDistance;
     public float detonationTimeWhenCarried = 20;
     public float explosionTimeWhenPlaced = 5;
@@ -45,7 +48,7 @@ public class BombController : MonoBehaviour
 
     private void Player_OnPickedUp(object sender, PlayerController.CarriedEventArgs e)
     {
-        if(e.Item == body)
+        if (e.Item == body)
             PickUpBomb();
     }
 
@@ -85,7 +88,17 @@ public class BombController : MonoBehaviour
     public void PickUpBomb()
     {
         if (canBePickedUp)
+        {
             pickedUp = true;
+            SetBombTimeout();
+        }
+    }
+
+    private void SetBombTimeout()
+    {
+        var roomController = GameController.instance.GetRoomController();
+        var dist = roomController.GetMazeGenerator().FindDistance(ref roomController.Maze);
+        this.detonationTimeWhenCarried = Math.Max(10, dist * RoomTimeoutMultiplier);
     }
 
     public void DropBomb()
@@ -106,7 +119,7 @@ public class BombController : MonoBehaviour
 
     public void Explode()
     {
-        if(pickedUp)
+        if (pickedUp)
             player.dropItem();
 
         Debug.Log("booom");
@@ -134,7 +147,7 @@ public class BombController : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(5);
-        foreach(Transform obj in transform)
+        foreach (Transform obj in transform)
         {
             Destroy(obj.gameObject);
         }
@@ -168,7 +181,7 @@ public class BombController : MonoBehaviour
 
     public float GetTimeLeft()
     {
-        return Mathf.Ceil(detonationTimeWhenCarried-detonationTimer);
+        return Mathf.Ceil(detonationTimeWhenCarried - detonationTimer);
     }
 
     public float GetExplosionZone()

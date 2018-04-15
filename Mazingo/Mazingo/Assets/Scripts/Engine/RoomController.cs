@@ -15,7 +15,7 @@ namespace Assets.Scripts.Engine
         public static readonly Vector3 PlayerSpawnOffset = new Vector3(0, 3, 0);
         private const int StartFloorIndex = 0;
 
-        private Maze Maze;
+        public Maze Maze;
         private Dictionary<Location, KeyValuePair<GameObject, GameObject>> LoadedRooms;
         private Dictionary<string, GameObject> Prefabs;
         private MazeGeneration generator;
@@ -42,6 +42,11 @@ namespace Assets.Scripts.Engine
             return Maze != null;
         }
 
+        public MazeGeneration GetMazeGenerator()
+        {
+            return generator;
+        }
+
         public void ReloadStartRoom(object sender)
         {
             var newVirtual = new VirtualTile(0, 0, Maze.StartTile);
@@ -57,7 +62,7 @@ namespace Assets.Scripts.Engine
 
         public void StartLevel(int level)
         {
-            this.Maze = generator.GenerateNewMaze(new[] { 10, 10 }, .215212d);
+            this.Maze = generator.GenerateNewMaze(new[] { 10 + level, 10 + level }, .13 + (level * .2));
             this.lastPlayerTile = new VirtualTile(0, 0, Maze.StartTile);
             RespawnHack();
         }
