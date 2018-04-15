@@ -8,7 +8,7 @@ public class BombController : MonoBehaviour
     public const int RoomTimeoutMultiplier = 5;
 
     public float deathDistance;
-    public float detonationTimeWhenCarried = 20;
+    private float detonationTimeWhenCarried;
     public float explosionTimeWhenPlaced = 5;
     private float detonationTimer;
     private float initialDetonationTimer;
@@ -33,7 +33,7 @@ public class BombController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.detonationTimeWhenCarried = GetTimeLeft();
+        SetBombTimeout();
         this.initialDetonationTimer = detonationTimeWhenCarried;
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();

@@ -693,7 +693,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathDistance: 3
-  detonationTimeWhenCarried: 20
   explosionTimeWhenPlaced: 5
   explosionSound: {fileID: 8300000, guid: 73ca89b025c0dec47baee3096a938656, type: 3}
   tickingSound: {fileID: 8300000, guid: 0ddca7f1c03f1484e9dc662fd77ae9be, type: 3}
@@ -709,7 +708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20af4ac72403d948a90011d088b5590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countDown: 20
 --- !u!120 &120247981872126026
 LineRenderer:
   m_ObjectHideFlags: 1
