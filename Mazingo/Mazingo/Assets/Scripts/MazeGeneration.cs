@@ -265,6 +265,8 @@ namespace Assets.Scripts
             while (listOfAllTiles.Count > 0)
             {
                 var uIdx = GetShortest(distance, visited);
+                if (uIdx < 0)
+                    break;
                 var u = listOfAllTiles[uIdx];
 
                 if (u == null)
