@@ -33,6 +33,7 @@ public class BombController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        this.detonationTimeWhenCarried = GetTimeLeft();
         this.initialDetonationTimer = detonationTimeWhenCarried;
         body = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
