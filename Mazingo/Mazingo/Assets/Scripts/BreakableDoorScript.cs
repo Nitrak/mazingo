@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,13 @@ public class BreakableDoorScript : MonoBehaviour
     private float explosionTime = -1;
 
     public GameController controller;
+    public Animator fadeAnimation;
+    public GameObject victoryScreen;
+    public Image victoryFade;
+
+    private bool victoryGracePeriod = false;
+    private Timer victoryGraceTimer;
+    private int victoryGraceDelay = 4000;
 
     // Use this for initialization
     void Start()
@@ -24,24 +32,38 @@ public class BreakableDoorScript : MonoBehaviour
             ExplodeDoor();
     }
 
-    public Animator fadeAnimation;
-    public GameObject victoryScreen;
-    public Image victoryFade;
+    
+
+    private void startVictoryGraceTimer()
+    {
+        victoryGracePeriod = true;
+        victoryGraceTimer = new Timer((obj) =>
+        {
+            //Debug.Log("Grace period over");
+            victoryGracePeriod = false;
+            victoryGraceTimer.Dispose();
+        },
+                    null, victoryGraceDelay, Timeout.Infinite);
+    }
 
     private void ExplodeDoor()
     {
-        StartCoroutine(FinishLevel());
+        if(!victoryGracePeriod)
+            StartCoroutine(FinishLevel());
     }
 
     IEnumerator FinishLevel()
     {
+        startVictoryGraceTimer();
         Time.timeScale = 1;
         //gameObject.SetActive(false);
         victoryScreen.SetActive(true);
         fadeAnimation.SetBool("Fade", true);
         yield return new WaitUntil(() => { return victoryFade.color.a >= 1f; });
         fadeAnimation.SetBool("Fade", false);
+        yield return new WaitUntil(() => victoryFade.color.a == 0f);
         Debug.Log("done fading");
+        victoryScreen.SetActive(false);
         controller.LevelComplete();
     }
 
