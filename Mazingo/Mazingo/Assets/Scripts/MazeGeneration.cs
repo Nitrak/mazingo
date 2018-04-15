@@ -370,7 +370,7 @@ namespace Assets.Scripts
             var rng = new Random();
             var seed = rng.Next(int.MaxValue);
             Debug.Log(seed);
-            rng = new Random(seed);
+            rng = new Random(106520481);
             var maze = new Maze();
             
 
