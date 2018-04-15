@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         this.currentLevel = 0;
         instance = this;
         roomController = new Assets.Scripts.Engine.RoomController();
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerController = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).GetComponent<PlayerController>();
 
         if (tutorial)
         {
