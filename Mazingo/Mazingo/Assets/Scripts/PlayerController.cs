@@ -288,6 +288,7 @@ public class PlayerController : MonoBehaviour {
         if(OnDeath != null)
             OnDeath(this);
         Debug.Log("Spawning player");
+        GetComponent<AudioSource>().Play();
         startSpawnGracePeriod();
         dropItem();
 

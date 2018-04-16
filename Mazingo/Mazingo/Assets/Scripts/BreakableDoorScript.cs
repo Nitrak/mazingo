@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BreakableDoorScript : MonoBehaviour
 {
@@ -64,6 +65,8 @@ public class BreakableDoorScript : MonoBehaviour
         yield return new WaitUntil(() => victoryFade.color.a == 0f);
         Debug.Log("done fading");
         victoryScreen.SetActive(false);
+        if(controller.tutorial)
+            SceneManager.LoadScene("GameScene");
         controller.LevelComplete();
     }
 

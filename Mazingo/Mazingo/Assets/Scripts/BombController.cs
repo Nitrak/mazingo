@@ -94,6 +94,7 @@ public class BombController : MonoBehaviour
         {
             if (!music.isPlaying)
             {
+                player.gameObject.GetComponent<AudioSource>().Stop();
                 music.clip = pickupSound;
                 music.Play();
             }
